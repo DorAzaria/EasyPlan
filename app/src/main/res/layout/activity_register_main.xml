@@ -7,7 +7,7 @@
     tools:context=".RegisterMain">
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/imageView18"
         android:layout_width="113dp"
         android:layout_height="119dp"
         android:layout_marginTop="64dp"
@@ -18,20 +18,20 @@
         app:srcCompat="@drawable/fitness_logo" />
 
     <TextView
-        android:id="@+id/textView7"
+        android:id="@+id/textView17"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="EasyPlan"
         android:textSize="25sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/imageView3"
+        app:layout_constraintBottom_toTopOf="@+id/imageView18"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.776" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/editText111"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="492dp"
@@ -43,7 +43,7 @@
         tools:layout_editor_absoluteX="100dp" />
 
     <EditText
-        android:id="@+id/editTextTextPassword"
+        android:id="@+id/editText112"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -57,7 +57,7 @@
         app:layout_constraintVertical_bias="0.368" />
 
     <EditText
-        android:id="@+id/editTextTextPassword"
+        android:id="@+id/editText113"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -67,12 +67,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textView7"
+        app:layout_constraintTop_toTopOf="@+id/textView17"
         app:layout_constraintVertical_bias="0.436"
         tools:ignore="DuplicateIds" />
 
     <EditText
-        android:id="@+id/editTextTextEmailAddress3"
+        android:id="@+id/editText114"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="312dp"
@@ -94,7 +94,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.488"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/editTextTextEmailAddress3"
+        app:layout_constraintTop_toTopOf="@+id/editText114"
         app:layout_constraintVertical_bias="0.0" />
 
 
