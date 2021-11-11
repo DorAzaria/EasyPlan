@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "700280017199",
+    "project_id": "easyplan-13da1",
+    "storage_bucket": "easyplan-13da1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:700280017199:android:de3e36126782d6c2a9d1da",
+        "android_client_info": {
+          "package_name": "com.example.easyplan"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "700280017199-tb4r03jtfv7n5g3j9ueej2onpalgtont.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.easyplan",
+            "certificate_hash": "ec0840809475af02c87ff16d50415f30f9c3ee85"
+          }
+        },
+        {
+          "client_id": "700280017199-3ga8av5nhrjoltflaq1flp03e2l9frcn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA6_BNy_bRk8d8GrOYZCS2Fofz178DyDw8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "700280017199-3ga8av5nhrjoltflaq1flp03e2l9frcn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
