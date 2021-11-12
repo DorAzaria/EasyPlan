@@ -21,13 +21,13 @@ public class TrainersActivity extends AppCompatActivity {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(new TrainerAdapter(generateData()));
-        recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, 0));
     }
 
     private List<String> generateData() {
         List<String> data = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
-            data.add("Trainer #0" + String.valueOf(i));
+            data.add("Trainer " + String.valueOf(i));
         }
         return data;
     }

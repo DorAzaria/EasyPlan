@@ -26,7 +26,7 @@
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_marginLeft="180dp"
-            android:background="@color/purple_200"
+            android:background="@color/purple_500"
             app:srcCompat="@drawable/fitness_logo"
             tools:layout_editor_absoluteX="149dp" />
 
@@ -34,13 +34,15 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/trainers_recycler_view"
-        android:layout_width="406dp"
-        android:layout_height="598dp"
+        android:layout_width="414dp"
+        android:layout_height="698dp"
         android:layout_marginTop="1dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintVertical_bias="0.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
