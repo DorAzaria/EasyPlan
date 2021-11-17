@@ -20,7 +20,7 @@ public class TrainerListActivity extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.trainers_recycler_view);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new TrainerAdapter(generateData()));
+        recyclerView.setAdapter(new TrainerListAdapter(generateData()));
         recyclerView.addItemDecoration(new DividerItemDecoration(this, 0));
     }
 

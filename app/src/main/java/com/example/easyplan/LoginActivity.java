@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 public class LoginActivity extends AppCompatActivity {
     private Button btn_check_trainer;
-    private TextView textView;
+    private TextView login_to_register;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,7 +18,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         btn_check_trainer = (Button) findViewById(R.id.check_trainers);
-        textView = (TextView) findViewById(R.id.login_to_register);
+        login_to_register = (TextView) findViewById(R.id.login_to_register);
 
         btn_check_trainer.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -27,7 +27,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        textView.setOnClickListener(new View.OnClickListener() {
+        login_to_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(LoginActivity.this, RegisterActivity.class));

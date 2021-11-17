@@ -16,6 +16,33 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EasyPlan">
         <activity
+            android:name=".EndPlanActivity"
+            android:exported="false" />
+        <activity
+            android:name=".TraineeHomepageActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MakePlanActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ForgotPasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".TraineeListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RegisterTrainerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RegisterTraineeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RegisterByTargetActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RegisterByTypeActivity"
+            android:exported="false" />
+        <activity
             android:name=".TrainerHomepageActivity"
             android:exported="false" />
         <activity

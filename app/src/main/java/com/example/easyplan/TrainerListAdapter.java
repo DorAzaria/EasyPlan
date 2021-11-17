@@ -12,11 +12,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class TrainerAdapter extends RecyclerView.Adapter<TrainerAdapter.ViewHolder> {
+public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.ViewHolder> {
     private List<String> data;
     int[] logos;
 
-    public TrainerAdapter (List<String> data){
+    public TrainerListAdapter(List<String> data){
         this.data = data;
         logos = new int[4];
         logos[0] = R.drawable.trainer1_logo;
@@ -26,14 +26,14 @@ public class TrainerAdapter extends RecyclerView.Adapter<TrainerAdapter.ViewHold
     }
 
     @Override
-    public TrainerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public TrainerListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View rowItem = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_trainer_view, parent, false);
         return new ViewHolder(rowItem);
     }
 
 
     @Override
-    public void onBindViewHolder(TrainerAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(TrainerListAdapter.ViewHolder holder, int position) {
         holder.textView.setText(this.data.get(position));
         holder.imageView.setImageResource(logos[position % 4]);
 
