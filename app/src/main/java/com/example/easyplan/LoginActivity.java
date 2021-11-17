@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 public class LoginActivity extends AppCompatActivity {
     private Button btn_check_trainer;
-    private TextView login_to_register;
+    private TextView login_to_register, login_to_forgot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +19,7 @@ public class LoginActivity extends AppCompatActivity {
 
         btn_check_trainer = (Button) findViewById(R.id.check_trainers);
         login_to_register = (TextView) findViewById(R.id.login_to_register);
+        login_to_forgot = (TextView) findViewById(R.id.login_to_forgot);
 
         btn_check_trainer.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -31,6 +32,13 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+            }
+        });
+
+        login_to_forgot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LoginActivity.this, ForgotPasswordActivity.class));
             }
         });
 

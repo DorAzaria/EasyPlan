@@ -34,6 +34,7 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
 
     @Override
     public void onBindViewHolder(TrainerListAdapter.ViewHolder holder, int position) {
+
         holder.textView.setText(this.data.get(position));
         holder.imageView.setImageResource(logos[position % 4]);
 

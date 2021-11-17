@@ -31,6 +31,15 @@
             app:srcCompat="@drawable/fitness_logo"
             tools:layout_editor_absoluteX="149dp" />
 
+        <ImageView
+            android:id="@+id/trainer_list_menu"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginLeft="140dp"
+            android:background="@color/purple_500"
+            app:srcCompat="@drawable/menu_icon"
+            tools:layout_editor_absoluteX="149dp" />
+
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.cardview.widget.CardView
