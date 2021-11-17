@@ -79,7 +79,7 @@ public class TrainerAdapter extends RecyclerView.Adapter<TrainerAdapter.ViewHold
 
         @Override
         public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), ProfileActivity.class);
+            Intent intent = new Intent(view.getContext(), ProfileActivity.class);
             intent.putExtra("name", this.textView.getText());
             intent.putExtra("image", Integer.toString(logos[getLayoutPosition() % 4]));
             view.getContext().startActivity(intent);
