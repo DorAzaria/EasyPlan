@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class ProfileActivity extends AppCompatActivity {
+public class TrainerHomepageActivity extends AppCompatActivity {
 
     private ImageView imageView;
     private TextView textView;

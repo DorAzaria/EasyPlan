@@ -16,22 +16,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EasyPlan">
         <activity
-            android:name=".ProfileActivity"
+            android:name=".TrainerHomepageActivity"
             android:exported="false" />
         <activity
-            android:name=".TrainersActivity"
+            android:name=".TrainerListActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
-            android:exported="false" />
-        <activity
-            android:name=".RegisterMain"
+            android:name=".RegisterActivity"
             android:exported="false" />
         <activity
             android:name=".LoginActivity"
-            android:exported="false" />
-        <activity
-            android:name=".HomeActivity"
             android:exported="false" />
         <activity
             android:name=".SplashScreenActivity"

@@ -6,9 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -79,7 +77,7 @@ public class TrainerAdapter extends RecyclerView.Adapter<TrainerAdapter.ViewHold
 
         @Override
         public void onClick(View view) {
-            Intent intent = new Intent(view.getContext(), ProfileActivity.class);
+            Intent intent = new Intent(view.getContext(), TrainerHomepageActivity.class);
             intent.putExtra("name", this.textView.getText());
             intent.putExtra("image", Integer.toString(logos[getLayoutPosition() % 4]));
             view.getContext().startActivity(intent);

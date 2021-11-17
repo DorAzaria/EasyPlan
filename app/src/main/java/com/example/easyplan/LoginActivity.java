@@ -23,14 +23,14 @@ public class LoginActivity extends AppCompatActivity {
         btn_check_trainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this, TrainersActivity.class));
+                startActivity(new Intent(LoginActivity.this, TrainerListActivity.class));
             }
         });
 
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this, RegisterMain.class));
+                startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
             }
         });
 
