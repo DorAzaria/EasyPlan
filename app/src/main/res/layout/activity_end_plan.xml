@@ -107,7 +107,7 @@
         android:theme="@style/RatingBar"/>
 
     <Button
-        android:id="@+id/end_plan_toolbar_rate_btn"
+        android:id="@+id/end_plan_btn"
         android:layout_width="300dp"
         android:layout_height="50dp"
         android:text="Start Another Plan"

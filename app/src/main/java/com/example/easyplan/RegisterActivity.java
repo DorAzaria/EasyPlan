@@ -6,18 +6,23 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.EditText;
 
 public class RegisterActivity extends AppCompatActivity {
 
     private Button register_btn;
+    private EditText register_username, register_password, register_re_password, register_email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register_main);
+        setContentView(R.layout.activity_register);
 
         register_btn = (Button) findViewById(R.id.register_btn);
+        register_username = (EditText) findViewById(R.id.register_username);
+        register_password = (EditText) findViewById(R.id.register_password);
+        register_re_password = (EditText) findViewById(R.id.register_re_password);
+        register_email = (EditText) findViewById(R.id.register_email);
 
 
         register_btn.setOnClickListener(new View.OnClickListener() {

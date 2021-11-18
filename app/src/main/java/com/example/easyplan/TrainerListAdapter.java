@@ -35,17 +35,17 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
     @Override
     public void onBindViewHolder(TrainerListAdapter.ViewHolder holder, int position) {
 
-        holder.textView.setText(this.data.get(position));
-        holder.imageView.setImageResource(logos[position % 4]);
+        holder.trainer_list_name.setText(this.data.get(position));
+        holder.trainer_list_profile_image.setImageResource(logos[position % 4]);
 
         if(position == 0) {
-            holder.specialCard.setVisibility(View.VISIBLE);
-            holder.specialText.setVisibility(View.VISIBLE);
+            holder.trainer_list_rate.setText("5.0");
         }
         if(position == 1 || position == 2) {
-            holder.specialCard.setVisibility(View.VISIBLE);
-            holder.specialText.setVisibility(View.VISIBLE);
-            holder.specialText.setText("Recommended");
+            holder.trainer_list_rate.setText("4.0");
+        }
+        else {
+            holder.trainer_list_rate.setText("3.5");
         }
     }
 
@@ -55,20 +55,23 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private TextView textView, specialText;
-        private ImageView imageView;
+        private TextView trainer_list_name, trainer_list_rate;
+        private ImageView trainer_list_profile_image, trainer_list_menu, trainer_list_fitness,trainer_list_cardio,trainer_list_muscle;
         private CardView specialCard;
         int[] logos;
 
         public ViewHolder(View view) {
             super(view);
             view.setOnClickListener(this);
-            this.textView = view.findViewById(R.id.trainer_list_name);
-            this.specialText = view.findViewById(R.id.trainer_list_special_detail);
-            this.imageView = view.findViewById(R.id.profile_image);
+            this.trainer_list_name = view.findViewById(R.id.trainer_list_name);
+            this.trainer_list_rate = view.findViewById(R.id.trainer_list_rate);
+            this.trainer_list_profile_image = view.findViewById(R.id.trainer_list_profile_image);
             this.specialCard = view.findViewById(R.id.trainer_list_special_card);
-            this.specialCard.setVisibility(View.INVISIBLE);
-            this.specialText.setVisibility(View.INVISIBLE);
+            this.trainer_list_menu = view.findViewById(R.id.trainer_list_menu);
+            this.trainer_list_fitness = view.findViewById(R.id.trainer_list_fitness);
+            this.trainer_list_cardio = view.findViewById(R.id.trainer_list_cardio);
+            this.trainer_list_muscle = view.findViewById(R.id.trainer_list_muscle);
+
             logos = new int[4];
             logos[0] = R.drawable.trainer1_logo;
             logos[1] = R.drawable.trainer2_logo;
@@ -79,7 +82,7 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
         @Override
         public void onClick(View view) {
             Intent intent = new Intent(view.getContext(), TrainerHomepageActivity.class);
-            intent.putExtra("name", this.textView.getText());
+            intent.putExtra("name", this.trainer_list_name.getText());
             intent.putExtra("image", Integer.toString(logos[getLayoutPosition() % 4]));
             view.getContext().startActivity(intent);
         }

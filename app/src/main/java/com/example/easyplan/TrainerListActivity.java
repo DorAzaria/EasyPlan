@@ -16,9 +16,9 @@ public class TrainerListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_trainers);
+        setContentView(R.layout.activity_trainer_list);
 
-        RecyclerView recyclerView = findViewById(R.id.trainers_recycler_view);
+        RecyclerView recyclerView = findViewById(R.id.trainer_list_recyclerview);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(new TrainerListAdapter(generateData()));

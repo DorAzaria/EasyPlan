@@ -8,7 +8,6 @@
         android:layout_width="350dp"
         android:layout_height="500dp"
         app:cardBackgroundColor="#E6E5E5"
-
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,7 +19,7 @@
             android:background="@drawable/frame_background">
 
             <ImageView
-                android:id="@+id/new_plan_training_image"
+                android:id="@+id/plan_training_image"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:src="@drawable/muscle_logo"
@@ -31,14 +30,14 @@
                 app:layout_constraintVertical_bias="0.034" />
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cardView4"
+                android:id="@+id/cardView14"
                 android:layout_width="300dp"
                 android:layout_height="130dp"
                 app:cardCornerRadius="20dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/new_plan_training_image"
+                app:layout_constraintTop_toBottomOf="@+id/plan_training_image"
                 app:layout_constraintVertical_bias="0.063">
 
                 <LinearLayout
@@ -48,7 +47,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/make_plan_train_number"
+                        android:id="@+id/trainee_homepage_train_number"
                         android:layout_width="match_parent"
                         android:layout_height="25dp"
                         android:gravity="center"
@@ -56,40 +55,37 @@
                         android:textSize="20sp"
                         android:textStyle="bold" />
 
-                    <EditText
-                        android:id="@+id/make_plan_train_time"
+                    <TextView
+                        android:id="@+id/trainee_homepage_train_time"
                         android:layout_marginTop="10dp"
                         android:layout_width="250dp"
                         android:layout_height="35dp"
-                        android:textSize="15dp"
-                        android:background="@drawable/edit_text_background"
-                        android:hint="Time Of Train"
+                        android:textSize="18sp"
+                        android:text="Time Of Train"
                         />
 
-                    <EditText
-                        android:id="@+id/make_plan_train_exer"
+                    <TextView
+                        android:id="@+id/trainee_homepage_train_exer"
                         android:layout_marginTop="10dp"
                         android:layout_width="250dp"
                         android:layout_height="35dp"
-                        android:textSize="15dp"
-                        android:background="@drawable/edit_text_background"
-                        android:hint="Exercises"
+                        android:textSize="18sp"
+                        android:text="Exercises"
                         />
-
 
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cardView7"
+                android:id="@+id/cardView17"
                 android:layout_width="300dp"
                 android:layout_height="130dp"
                 app:cardCornerRadius="20dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardView4"
+                app:layout_constraintTop_toBottomOf="@+id/cardView14"
                 app:layout_constraintVertical_bias="0.063">
 
                 <LinearLayout
@@ -106,25 +102,21 @@
                         android:textSize="20sp"
                         android:textStyle="bold" />
 
-
-                    <EditText
+                    <TextView
                         android:layout_marginTop="10dp"
                         android:layout_width="250dp"
                         android:layout_height="35dp"
-                        android:textSize="15dp"
-                        android:background="@drawable/edit_text_background"
-                        android:hint="Time Of Train"
+                        android:textSize="18sp"
+                        android:text="Time Of Train"
                         />
 
-                    <EditText
+                    <TextView
                         android:layout_marginTop="10dp"
                         android:layout_width="250dp"
                         android:layout_height="35dp"
-                        android:textSize="15dp"
-                        android:background="@drawable/edit_text_background"
-                        android:hint="Exercises"
+                        android:textSize="18sp"
+                        android:text="Exercises"
                         />
-
 
                 </LinearLayout>
 
@@ -138,7 +130,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardView7"
+                app:layout_constraintTop_toBottomOf="@+id/cardView17"
                 app:layout_constraintVertical_bias="0.063">
 
                 <LinearLayout
@@ -155,25 +147,21 @@
                         android:textSize="20sp"
                         android:textStyle="bold" />
 
-
-                    <EditText
+                    <TextView
                         android:layout_marginTop="10dp"
                         android:layout_width="250dp"
                         android:layout_height="35dp"
-                        android:textSize="15dp"
-                        android:background="@drawable/edit_text_background"
-                        android:hint="Time Of Train"
+                        android:textSize="18sp"
+                        android:text="Time Of Train"
                         />
 
-                    <EditText
+                    <TextView
                         android:layout_marginTop="10dp"
                         android:layout_width="250dp"
                         android:layout_height="35dp"
-                        android:textSize="15dp"
-                        android:background="@drawable/edit_text_background"
-                        android:hint="Exercises"
+                        android:textSize="18sp"
+                        android:text="Exercises"
                         />
-
 
                 </LinearLayout>
 

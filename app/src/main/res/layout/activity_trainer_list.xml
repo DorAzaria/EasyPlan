@@ -33,7 +33,7 @@
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/trainers_recycler_view"
+        android:id="@+id/trainer_list_recyclerview"
         android:layout_width="414dp"
         android:layout_height="698dp"
         android:layout_marginTop="1dp"

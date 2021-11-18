@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -35,8 +36,8 @@ public class TraineeListAdapter extends RecyclerView.Adapter<TraineeListAdapter.
     @Override
     public void onBindViewHolder(TraineeListAdapter.ViewHolder holder, int position) {
 
-        holder.textView.setText(this.data.get(position));
-        holder.imageView.setImageResource(logos[position % 4]);
+        holder.trainee_list_name.setText(this.data.get(position));
+        holder.trainee_list_image.setImageResource(logos[position % 4]);
 
     }
 
@@ -46,15 +47,18 @@ public class TraineeListAdapter extends RecyclerView.Adapter<TraineeListAdapter.
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private TextView textView;
-        private ImageView imageView;
+        private TextView trainee_list_name;
+        private ImageView trainee_list_image, trainee_list_mail;
+        private CheckBox trainee_list_check;
         int[] logos;
 
         public ViewHolder(View view) {
             super(view);
             view.setOnClickListener(this);
-            this.textView = view.findViewById(R.id.list_trainee_view_profile_name);
-            this.imageView = view.findViewById(R.id.list_trainee_view_profile_image);
+            this.trainee_list_name = view.findViewById(R.id.trainee_list_name);
+            this.trainee_list_image = view.findViewById(R.id.trainee_list_image);
+            this.trainee_list_mail = view.findViewById(R.id.trainee_list_mail);
+            this.trainee_list_check = view.findViewById(R.id.trainee_list_check);
 
             logos = new int[4];
             logos[0] = R.drawable.trainer1_logo;

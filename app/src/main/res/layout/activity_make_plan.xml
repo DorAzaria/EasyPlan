@@ -41,7 +41,7 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-    <androidx.core.widget.NestedScrollView
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="680dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -49,21 +49,40 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/make_plan_toolbar">
 
-        <include layout="@layout/user_card" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <include layout="@layout/new_plan_training" />
+            <include
+                layout="@layout/user_card"
+                />
 
-        <include layout="@layout/new_plan_nutrition" />
+            <include
+                layout="@layout/new_plan_training"
+                />
 
-        <Button
-            android:id="@+id/make_plan_submit_btn"
-            android:layout_width="300dp"
-            android:layout_height="50dp"
-            android:text="SUBMIT PLAN"/>
+            <include
+                layout="@layout/new_plan_nutrition"
+                />
 
-    </androidx.core.widget.NestedScrollView>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:layout_height="100dp" >
+                <Button
+                    android:id="@+id/make_plan_submit_btn"
+                    android:layout_gravity="center"
+                    android:layout_width="300dp"
+                    android:layout_height="50dp"
+                    android:text="SUBMIT PLAN"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
 
 
+    </ScrollView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

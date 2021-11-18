@@ -6,4 +6,83 @@
     android:layout_height="match_parent"
     tools:context=".TraineeHomepageActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/make_plan_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <ImageView
+            android:id="@+id/make_plan_image"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginLeft="180dp"
+            android:background="@color/purple_500"
+            app:srcCompat="@drawable/fitness_logo"
+            tools:layout_editor_absoluteX="149dp" />
+
+        <ImageView
+            android:id="@+id/make_plan_menu"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginLeft="140dp"
+            android:background="@color/purple_500"
+            app:srcCompat="@drawable/menu_icon"
+            tools:layout_editor_absoluteX="149dp" />
+
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="680dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/make_plan_toolbar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include
+                layout="@layout/user_card"
+                />
+
+            <include
+                layout="@layout/plan_training"
+                />
+
+            <include
+                layout="@layout/plan_nutrition"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:layout_height="100dp" >
+                <Button
+                    android:id="@+id/trainee_homepage_btn"
+                    android:layout_gravity="center"
+                    android:layout_width="300dp"
+                    android:layout_height="50dp"
+                    android:text="CONTACT TRAINER"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
