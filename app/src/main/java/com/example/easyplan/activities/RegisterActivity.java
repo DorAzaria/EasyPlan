@@ -1,4 +1,4 @@
-package com.example.easyplan;
+package com.example.easyplan.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.example.easyplan.R;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -31,5 +33,13 @@ public class RegisterActivity extends AppCompatActivity {
                 startActivity(new Intent(RegisterActivity.this, RegisterByTypeActivity.class));
             }
         });
+    }
+
+    private void checkEmpty() {
+
+    }
+
+    private void checkInputs() {
+
     }
 }

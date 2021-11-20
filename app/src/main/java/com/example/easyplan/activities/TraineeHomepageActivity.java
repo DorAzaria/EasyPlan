@@ -1,4 +1,4 @@
-package com.example.easyplan;
+package com.example.easyplan.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.easyplan.R;
 
 public class TraineeHomepageActivity extends AppCompatActivity {
     private ImageView trainee_homepage_picture;
@@ -65,6 +67,10 @@ public class TraineeHomepageActivity extends AppCompatActivity {
                 startActivity(new Intent(TraineeHomepageActivity.this, RegisterByTargetActivity.class));
             }
         });
+
+    }
+
+    private void getTrainee() {
 
     }
 }

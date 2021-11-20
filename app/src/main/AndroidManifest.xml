@@ -16,46 +16,46 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EasyPlan">
         <activity
-            android:name=".EndPlanActivity"
+            android:name=".activities.EndPlanActivity"
             android:exported="false" />
         <activity
-            android:name=".TraineeHomepageActivity"
+            android:name=".activities.TraineeHomepageActivity"
             android:exported="false" />
         <activity
-            android:name=".MakePlanActivity"
+            android:name=".activities.MakePlanActivity"
             android:exported="false" />
         <activity
-            android:name=".ForgotPasswordActivity"
+            android:name=".activities.ForgotPasswordActivity"
             android:exported="false" />
         <activity
-            android:name=".TraineeListActivity"
+            android:name=".activities.TraineeListActivity"
             android:exported="false" />
         <activity
-            android:name=".RegisterTrainerActivity"
+            android:name=".activities.RegisterTrainerActivity"
             android:exported="false" />
         <activity
-            android:name=".RegisterTraineeActivity"
+            android:name=".activities.RegisterTraineeActivity"
             android:exported="false" />
         <activity
-            android:name=".RegisterByTargetActivity"
+            android:name=".activities.RegisterByTargetActivity"
             android:exported="false" />
         <activity
-            android:name=".RegisterByTypeActivity"
+            android:name=".activities.RegisterByTypeActivity"
             android:exported="false" />
         <activity
-            android:name=".TrainerHomepageActivity"
+            android:name=".activities.TrainerHomepageActivity"
             android:exported="false" />
         <activity
-            android:name=".TrainerListActivity"
+            android:name=".activities.TrainerListActivity"
             android:exported="false" />
         <activity
-            android:name=".RegisterActivity"
+            android:name=".activities.RegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".activities.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".SplashScreenActivity"
+            android:name=".activities.SplashScreenActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,4 +1,4 @@
-package com.example.easyplan;
+package com.example.easyplan.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+
+import com.example.easyplan.R;
 
 public class RegisterByTargetActivity extends AppCompatActivity {
 

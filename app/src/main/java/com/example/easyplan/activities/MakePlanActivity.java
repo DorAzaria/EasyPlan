@@ -1,4 +1,4 @@
-package com.example.easyplan;
+package com.example.easyplan.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.easyplan.R;
 
 public class MakePlanActivity extends AppCompatActivity {
     private ImageView trainee_homepage_picture;

@@ -1,4 +1,4 @@
-package com.example.easyplan;
+package com.example.easyplan.adapters;
 
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -8,8 +8,10 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.easyplan.R;
+import com.example.easyplan.activities.MakePlanActivity;
 
 import java.util.List;
 

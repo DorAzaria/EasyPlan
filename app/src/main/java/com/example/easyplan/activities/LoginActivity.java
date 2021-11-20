@@ -1,4 +1,4 @@
-package com.example.easyplan;
+package com.example.easyplan.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.easyplan.R;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.common.SignInButton;
 
@@ -47,6 +48,17 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(new Intent(LoginActivity.this, ForgotPasswordActivity.class));
             }
         });
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        /// for auth of firebase.
+    }
+
+
+    private void signIn() {
 
     }
 }

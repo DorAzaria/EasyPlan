@@ -1,4 +1,4 @@
-package com.example.easyplan;
+package com.example.easyplan.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+
+import com.example.easyplan.R;
 
 public class SplashScreenActivity extends AppCompatActivity {
     private final int SPLASH_DISPLAY_LENGTH = 1000;
