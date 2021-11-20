@@ -42,8 +42,9 @@ public class RegisterTraineeActivity extends AppCompatActivity {
         register_trainee_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent trainee_choose_target = new Intent(RegisterTraineeActivity.this, RegisterByTargetActivity.class);
-                startActivity(trainee_choose_target);
+                Intent trainee_to_homepage = new Intent(RegisterTraineeActivity.this, TraineeHomepageActivity.class);
+                trainee_to_homepage.putExtra("from_register","true");
+                startActivity(trainee_to_homepage);
             }
         });
     }
