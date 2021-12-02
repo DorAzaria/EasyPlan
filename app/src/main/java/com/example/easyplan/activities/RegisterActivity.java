@@ -62,31 +62,30 @@ public class RegisterActivity extends AppCompatActivity {
         register_btn = (Button) view;
 
 
+        if(register_email != null || register_password != null || register_re_password != null) {
 
-        if(register_password.getText().toString().equals(register_re_password.getText().toString())) {
+            if(register_password.getText().toString().equals(register_re_password.getText().toString())) {
 
-            mAuth.createUserWithEmailAndPassword(register_email.getText().toString(), register_password.getText().toString())
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                // Sign in success, update UI with the signed-in user's information
+                    mAuth.createUserWithEmailAndPassword(register_email.getText().toString(), register_password.getText().toString())
+                            .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+                                        // Sign in success, update UI with the signed-in user's information
 
-                                FirebaseUser user = mAuth.getCurrentUser();
-                            } else {
-                                // If sign in fails, display a message to the user.
-                                Toast.makeText(RegisterActivity.this, "Authentication failed.",
-                                        Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
-
-
-            startActivity(new Intent(RegisterActivity.this, RegisterByTypeActivity.class));
-
+                                        startActivity(new Intent(RegisterActivity.this, RegisterByTypeActivity.class));
+                                    } else {
+                                        // If sign in fails, display a message to the user.
+                                        Toast.makeText(RegisterActivity.this, "Authentication failed.",
+                                                Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+            }
+            else {
+                Toast.makeText(RegisterActivity.this, "Passwords doesn't matched", Toast.LENGTH_SHORT).show();
+            }
         }
-        else {
-            Toast.makeText(RegisterActivity.this, "Passwords doesn't matched", Toast.LENGTH_SHORT).show();
-        }
+
     }
 }
