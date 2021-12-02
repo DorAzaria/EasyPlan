@@ -50,8 +50,29 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
 
-    private void checkEmpty() {
+    private boolean checkEmpty() {
+        boolean flag = true;
+        String error = "Errors at: ";
+        if(register_email == null || register_email.getText().toString().equals("")) {
+            flag &= false;
+            error += " email, ";
+        }
 
+        if(register_password == null || register_password.getText().toString().equals("")) {
+            flag &= false;
+            error += " password, ";
+        }
+
+        if(register_re_password == null || register_re_password.getText().toString().equals("")) {
+            flag &= false;
+            error += " re-password .";
+        }
+
+        if(!flag) {
+            Toast.makeText(RegisterActivity.this, error, Toast.LENGTH_SHORT).show();
+        }
+
+        return flag;
     }
 
     private void checkInputs() {
@@ -61,10 +82,10 @@ public class RegisterActivity extends AppCompatActivity {
     public void register(View view) {
         register_btn = (Button) view;
 
+        if(checkEmpty()) {
 
-        if(register_email != null || register_password != null || register_re_password != null) {
 
-            if(register_password.getText().toString().equals(register_re_password.getText().toString())) {
+                if (register_password.getText().toString().equals(register_re_password.getText().toString())) {
 
                     mAuth.createUserWithEmailAndPassword(register_email.getText().toString(), register_password.getText().toString())
                             .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -81,11 +102,10 @@ public class RegisterActivity extends AppCompatActivity {
                                     }
                                 }
                             });
+                } else {
+                    Toast.makeText(RegisterActivity.this, "Passwords doesn't matched", Toast.LENGTH_SHORT).show();
+                }
             }
-            else {
-                Toast.makeText(RegisterActivity.this, "Passwords doesn't matched", Toast.LENGTH_SHORT).show();
-            }
-        }
 
     }
 }
