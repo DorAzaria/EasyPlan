@@ -1,5 +1,6 @@
 package com.example.easyplan.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
@@ -10,7 +11,14 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.easyplan.Data.FirebaseData;
 import com.example.easyplan.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class TraineeHomepageActivity extends AppCompatActivity {
     private ImageView trainee_homepage_picture;
@@ -21,12 +29,12 @@ public class TraineeHomepageActivity extends AppCompatActivity {
     private TextView trainee_homepage_day_5, trainee_homepage_day_6, trainee_homepage_cheat_day;
     private Button trainee_homepage_btn, trainee_homepage_plan_btn;
     private ConstraintLayout trainee_homepage_menu, trainee_homepage_trains;
-
+    private FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trainee_homepage);
-
+        mAuth = FirebaseAuth.getInstance();
         trainee_homepage_picture = (ImageView) findViewById(R.id.trainee_homepage_picture);
         trainee_homepage_name = (TextView) findViewById(R.id.trainee_homepage_name);
         trainee_homepage_address = (TextView) findViewById(R.id.trainee_homepage_address);
@@ -48,18 +56,30 @@ public class TraineeHomepageActivity extends AppCompatActivity {
         trainee_homepage_plan_btn = (Button) findViewById(R.id.trainee_homepage_plan_btn);
         trainee_homepage_menu = (ConstraintLayout) findViewById(R.id.trainee_homepage_menu);
         trainee_homepage_trains = (ConstraintLayout) findViewById(R.id.trainee_homepage_trains);
+        trainee_homepage_btn.setVisibility(View.GONE);
+        trainee_homepage_menu.setVisibility(View.GONE);
+        trainee_homepage_trains.setVisibility(View.GONE);
+        trainee_homepage_plan_btn.setVisibility(View.GONE);
 
+        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
+        rootRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                if (snapshot.hasChild("Plans/" + mAuth.getUid())) {
+                    trainee_homepage_btn.setVisibility(View.VISIBLE);
+                    trainee_homepage_menu.setVisibility(View.VISIBLE);
+                    trainee_homepage_trains.setVisibility(View.VISIBLE);
+                }
+                else {
+                    trainee_homepage_plan_btn.setVisibility(View.VISIBLE);
+                }
+            }
 
-        Intent intent = getIntent();
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
-        if(intent.hasExtra("from_register")) {
-            trainee_homepage_btn.setVisibility(View.GONE);
-            trainee_homepage_menu.setVisibility(View.GONE);
-            trainee_homepage_trains.setVisibility(View.GONE);
-        }
-        else {
-            trainee_homepage_plan_btn.setVisibility(View.GONE);
-        }
+            }
+        });
 
         trainee_homepage_plan_btn.setOnClickListener(new View.OnClickListener() {
             @Override
