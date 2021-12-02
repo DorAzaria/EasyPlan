@@ -10,7 +10,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.easyplan.R;
-import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.common.SignInButton;
 
 public class LoginActivity extends AppCompatActivity {
@@ -18,7 +17,6 @@ public class LoginActivity extends AppCompatActivity {
     private EditText login_username, login_password;
     private Button login_btn;
     private SignInButton sign_in_button_google;
-    private LoginButton sign_in_button_facebook;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +30,6 @@ public class LoginActivity extends AppCompatActivity {
         login_password = (EditText) findViewById(R.id.login_password);
         login_btn = (Button) findViewById(R.id.login_btn);
         sign_in_button_google = (SignInButton) findViewById(R.id.sign_in_button_google);
-        sign_in_button_facebook = (LoginButton) findViewById(R.id.sign_in_button_facebook);
         ///
 
         login_to_register.setOnClickListener(new View.OnClickListener() {
