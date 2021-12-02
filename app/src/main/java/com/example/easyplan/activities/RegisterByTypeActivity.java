@@ -13,7 +13,6 @@ public class RegisterByTypeActivity extends AppCompatActivity {
 
     private CardView register_by_type_trainee, register_by_type_trainer;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,14 +27,20 @@ public class RegisterByTypeActivity extends AppCompatActivity {
         register_by_type_trainee.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(RegisterByTypeActivity.this, RegisterTraineeActivity.class));
+                Intent move = new Intent(RegisterByTypeActivity.this, RegisterTraineeActivity.class);
+                move.putExtra("email", email_address);
+                move.putExtra("password",password);
+                startActivity(move);
             }
         });
 
         register_by_type_trainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(RegisterByTypeActivity.this, RegisterTrainerActivity.class));
+                Intent move = new Intent(RegisterByTypeActivity.this, RegisterTrainerActivity.class);
+                move.putExtra("email", email_address);
+                move.putExtra("password",password);
+                startActivity(move);
             }
         });
     }
