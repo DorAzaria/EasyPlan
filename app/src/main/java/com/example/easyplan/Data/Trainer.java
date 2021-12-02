@@ -5,11 +5,11 @@ import java.util.Vector;
 public class Trainer {
 
     private String name, address, gender, type, education, personal_page;
-    private int age, cost, days, duration;
+    private int age, cost, duration;
     private double rate;
     private Vector<String> targets, trainees;
 
-    public Trainer(String name, String address, String gender, String type, String education, String personal_page, int age, int cost, int days, int duration, double rate, Vector<String> targets) {
+    public Trainer(String name, String address, String gender, String education, String personal_page, int age, int cost, Vector<String> targets) {
         this.name = name;
         this.address = address;
         this.gender = gender;
@@ -17,9 +17,6 @@ public class Trainer {
         this.personal_page = personal_page;
         this.age = age;
         this.cost = cost;
-        this.days = days;
-        this.duration = duration;
-        this.rate = rate;
         this.targets = targets;
         this.trainees = new Vector<>();
         this.type = "Trainer";
@@ -87,14 +84,6 @@ public class Trainer {
 
     public void setCost(int cost) {
         this.cost = cost;
-    }
-
-    public int getDays() {
-        return days;
-    }
-
-    public void setDays(int days) {
-        this.days = days;
     }
 
     public int getDuration() {
