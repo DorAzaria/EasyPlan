@@ -12,10 +12,15 @@ import com.example.easyplan.R;
 public class RegisterByTypeActivity extends AppCompatActivity {
 
     private CardView register_by_type_trainee, register_by_type_trainer;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_by_type);
+
+        String email_address = getIntent().getStringExtra("email");
+        String password = getIntent().getStringExtra("password");
 
         register_by_type_trainee = (CardView) findViewById(R.id.register_by_type_trainee);
         register_by_type_trainer = (CardView) findViewById(R.id.register_by_type_trainer);

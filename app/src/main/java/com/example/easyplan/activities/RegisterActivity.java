@@ -17,6 +17,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.SignInMethodQueryResult;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -76,7 +77,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void checkInputs() {
-
+//        Patterns.EMAIL_ADDRESS.matcher(emailToText).matches(
     }
 
     public void register(View view) {
@@ -87,14 +88,17 @@ public class RegisterActivity extends AppCompatActivity {
 
                 if (register_password.getText().toString().equals(register_re_password.getText().toString())) {
 
-                    mAuth.createUserWithEmailAndPassword(register_email.getText().toString(), register_password.getText().toString())
-                            .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    mAuth.fetchSignInMethodsForEmail(register_email.getText().toString())
+                            .addOnCompleteListener (new OnCompleteListener<SignInMethodQueryResult>() {
                                 @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
-                                    if (task.isSuccessful()) {
+                                public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
+                                    boolean isNewUser = task.getResult().getSignInMethods().isEmpty();
+                                    if (isNewUser) {
                                         // Sign in success, update UI with the signed-in user's information
-
-                                        startActivity(new Intent(RegisterActivity.this, RegisterByTypeActivity.class));
+                                        Intent move = new Intent(RegisterActivity.this, RegisterByTypeActivity.class);
+                                        move.putExtra("email",register_email.getText().toString());
+                                        move.putExtra("password",register_password.getText().toString());
+                                        startActivity(move);
                                     } else {
                                         // If sign in fails, display a message to the user.
                                         Toast.makeText(RegisterActivity.this, "Authentication failed.",
