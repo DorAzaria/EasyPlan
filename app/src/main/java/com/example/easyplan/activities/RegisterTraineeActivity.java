@@ -74,6 +74,7 @@ public class RegisterTraineeActivity extends AppCompatActivity {
                             if (register_trainee_female_radio.isChecked()) {
                                 gender = "female";
                             } else gender = "male";
+
                             FirebaseDatabase database = FirebaseDatabase.getInstance();
                             DatabaseReference reference = database.getReference("Users/" + mAuth.getUid());
                             Trainee trainee =  new Trainee(name,address,height,weight,gender,Integer.parseInt(age));

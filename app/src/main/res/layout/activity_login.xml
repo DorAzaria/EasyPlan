@@ -8,13 +8,12 @@
 
 
     <EditText
-        android:id="@+id/login_username"
+        android:id="@+id/login_email"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Username"
+        android:hint="@string/email"
         android:background="@drawable/edit_text_background"
-        android:inputType="textPersonName"
         android:minHeight="48dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -35,14 +34,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_username"
+        app:layout_constraintTop_toBottomOf="@+id/login_email"
         app:layout_constraintVertical_bias="0.045" />
 
     <ImageView
         android:id="@+id/imageView3"
         android:layout_width="113dp"
         android:layout_height="119dp"
-        app:layout_constraintBottom_toTopOf="@+id/login_username"
+        app:layout_constraintBottom_toTopOf="@+id/login_email"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -66,6 +65,7 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:background="@color/purple_200"
+        android:onClick="login"
         android:text="LOGIN"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -102,17 +102,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Press Here"
+        android:onClick= "forgot_password"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView6"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0"
+        />
 
     <TextView
         android:id="@+id/login_to_register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Press Here"
+        android:onClick="register"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
