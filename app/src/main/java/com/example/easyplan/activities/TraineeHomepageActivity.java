@@ -55,12 +55,6 @@ public class TraineeHomepageActivity extends AppCompatActivity {
         exercise_1 = (TextView) findViewById(R.id.exercise_1);
         exercise_2 = (TextView) findViewById(R.id.exercise_2);
         exercise_3 = (TextView) findViewById(R.id.exercise_3);
-
-
-
-
-
-
         trainee_homepage_day_1 = (TextView) findViewById(R.id.trainee_homepage_day_1);
         trainee_homepage_day_2 = (TextView) findViewById(R.id.trainee_homepage_day_2);
         trainee_homepage_day_3 = (TextView) findViewById(R.id.trainee_homepage_day_3);
@@ -68,6 +62,7 @@ public class TraineeHomepageActivity extends AppCompatActivity {
         trainee_homepage_day_5 = (TextView) findViewById(R.id.trainee_homepage_day_5);
         trainee_homepage_day_6 = (TextView) findViewById(R.id.trainee_homepage_day_6);
         trainee_homepage_cheat_day = (TextView) findViewById(R.id.trainee_homepage_cheat_day);
+
         trainee_homepage_btn = (Button) findViewById(R.id.trainee_homepage_btn);
         trainee_homepage_plan_btn = (Button) findViewById(R.id.trainee_homepage_plan_btn);
         trainee_homepage_menu = (ConstraintLayout) findViewById(R.id.trainee_homepage_menu);
@@ -141,7 +136,13 @@ public class TraineeHomepageActivity extends AppCompatActivity {
                     exercise_2.setText(snapshot.child("trains").child("2").child("exercise").getValue(String.class));
                     time_of_train_3.setText(snapshot.child("trains").child("3").child("time").getValue(String.class));
                     exercise_3.setText(snapshot.child("trains").child("3").child("exercise").getValue(String.class));
-
+                    trainee_homepage_day_1.setText(snapshot.child("menu").child("0").getValue(String.class));
+                    trainee_homepage_day_2.setText(snapshot.child("menu").child("1").getValue(String.class));
+                    trainee_homepage_day_3.setText(snapshot.child("menu").child("2").getValue(String.class));
+                    trainee_homepage_day_4.setText(snapshot.child("menu").child("3").getValue(String.class));
+                    trainee_homepage_day_5.setText(snapshot.child("menu").child("4").getValue(String.class));
+                    trainee_homepage_day_6.setText(snapshot.child("menu").child("5").getValue(String.class));
+                    trainee_homepage_cheat_day.setText(snapshot.child("menu").child("6").getValue(String.class));
                 }
 
                 @Override
