@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="350dp"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:background="@drawable/edit_text_background"
+    >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Missing Data Alert!"
+        android:textStyle="bold"
+        android:textColor="@color/purple_500"
+        android:textSize="20sp"
+        android:gravity="center"
+        />
+
+    <TextView
+        android:id="@+id/dialog_make_plan_errors"
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:text="hi"
+        android:textSize="17sp"
+        android:layout_margin="10dp"
+        />
+
+    <Button
+        android:id="@+id/dialog_make_plan_ok"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:text="OK"
+        android:background="@color/purple_500"
+        android:textColor="@color/white"
+        />
+
+</LinearLayout>
