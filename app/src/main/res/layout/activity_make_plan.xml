@@ -74,6 +74,7 @@
                     android:id="@+id/make_plan_submit_btn"
                     android:layout_gravity="center"
                     android:layout_width="300dp"
+                    android:onClick="make_plan"
                     android:layout_height="50dp"
                     android:text="SUBMIT PLAN"/>
 

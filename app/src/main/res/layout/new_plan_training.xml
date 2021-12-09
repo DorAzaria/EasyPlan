@@ -57,7 +57,7 @@
                         android:textStyle="bold" />
 
                     <EditText
-                        android:id="@+id/make_plan_train_time"
+                        android:id="@+id/make_plan_train_time1"
                         android:layout_marginTop="10dp"
                         android:layout_width="250dp"
                         android:layout_height="35dp"
@@ -67,7 +67,7 @@
                         />
 
                     <EditText
-                        android:id="@+id/make_plan_train_exer"
+                        android:id="@+id/make_plan_train_exer1"
                         android:layout_marginTop="10dp"
                         android:layout_width="250dp"
                         android:layout_height="35dp"
@@ -108,6 +108,7 @@
 
 
                     <EditText
+                        android:id="@+id/make_plan_train_time2"
                         android:layout_marginTop="10dp"
                         android:layout_width="250dp"
                         android:layout_height="35dp"
@@ -117,6 +118,7 @@
                         />
 
                     <EditText
+                        android:id="@+id/make_plan_train_exer2"
                         android:layout_marginTop="10dp"
                         android:layout_width="250dp"
                         android:layout_height="35dp"
@@ -157,6 +159,7 @@
 
 
                     <EditText
+                        android:id="@+id/make_plan_train_time3"
                         android:layout_marginTop="10dp"
                         android:layout_width="250dp"
                         android:layout_height="35dp"
@@ -166,6 +169,7 @@
                         />
 
                     <EditText
+                        android:id="@+id/make_plan_train_exer3"
                         android:layout_marginTop="10dp"
                         android:layout_width="250dp"
                         android:layout_height="35dp"
