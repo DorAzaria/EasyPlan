@@ -168,12 +168,12 @@ public class RegisterTraineeActivity extends AppCompatActivity {
         }
 
         if(!TextUtils.isEmpty(height) && Integer.parseInt(height) > 250) {
-            register_trainee_age.setError("Height over 250 isn't allowed.");
+            register_trainee_height.setError("Height over 250 isn't allowed.");
             errors += "Height over 250 isn't allowed. \n";
         }
 
         if(!TextUtils.isEmpty(height) && Integer.parseInt(height) < 50) {
-            register_trainee_age.setError("Height under 50 isn't allowed.");
+            register_trainee_height.setError("Height under 50 isn't allowed.");
             errors += "Height under 50 isn't allowed. \n";
         }
 
@@ -183,12 +183,12 @@ public class RegisterTraineeActivity extends AppCompatActivity {
         }
 
         if(!TextUtils.isEmpty(weight) && Integer.parseInt(weight) > 250) {
-            register_trainee_age.setError("Weight over 250 isn't allowed.");
+            register_trainee_weight.setError("Weight over 250 isn't allowed.");
             errors += "Weight over 250 isn't allowed. \n";
         }
 
         if(!TextUtils.isEmpty(weight) && Integer.parseInt(weight) < 30) {
-            register_trainee_age.setError("Weight under 30 isn't allowed.");
+            register_trainee_weight.setError("Weight under 30 isn't allowed.");
             errors += "Weight under 30 isn't allowed. \n";
         }
 
