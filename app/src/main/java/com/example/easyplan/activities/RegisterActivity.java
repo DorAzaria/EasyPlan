@@ -62,8 +62,8 @@ public class RegisterActivity extends AppCompatActivity {
     public void register(View view) {
         register_btn = (Button) view;
         String check = checkInputs();
-        if(check.isEmpty()) {
 
+        if(check.isEmpty()) {
 
                 if (register_password.getText().toString().equals(register_re_password.getText().toString())) {
 
@@ -99,6 +99,7 @@ public class RegisterActivity extends AppCompatActivity {
             Button ok_btn = dialog.findViewById(R.id.dialog_ok);
 
             errors.setText(check);
+
             ok_btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
