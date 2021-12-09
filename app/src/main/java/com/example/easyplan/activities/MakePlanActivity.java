@@ -14,13 +14,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.easyplan.Data.Plan;
-import com.example.easyplan.Data.Trainer;
 import com.example.easyplan.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import org.w3c.dom.Text;
 
 import java.util.HashMap;
 import java.util.Vector;
@@ -137,10 +134,10 @@ public class MakePlanActivity extends AppCompatActivity {
             final Dialog dialog = new Dialog(MakePlanActivity.this);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             dialog.setCancelable(true);
-            dialog.setContentView(R.layout.dialog_make_plan_error);
+            dialog.setContentView(R.layout.dialog_error);
 
-            TextView errors = dialog.findViewById(R.id.dialog_make_plan_errors);
-            Button ok_btn = dialog.findViewById(R.id.dialog_make_plan_ok);
+            TextView errors = dialog.findViewById(R.id.dialog_error_text);
+            Button ok_btn = dialog.findViewById(R.id.dialog_ok);
 
             errors.setText(check);
             ok_btn.setOnClickListener(new View.OnClickListener() {
