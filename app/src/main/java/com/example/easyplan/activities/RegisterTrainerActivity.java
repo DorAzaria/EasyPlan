@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -108,5 +109,82 @@ public class RegisterTrainerActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+
+    private String checkInputs() {
+        String errors = "";
+
+        String name = register_trainer_full_name.getText().toString();
+        String address = register_trainer_address.getText().toString();
+        String age =  register_trainer_age.getText().toString();
+        String cost = register_trainer_cost.getText().toString();
+        String education = register_trainer_education.getText().toString();
+        String personal_page = register_trainer_personal_page.getText().toString();
+
+        if(TextUtils.isEmpty(name)) {
+            register_trainer_full_name.setError("Please insert your name.");
+            errors += "Insert your name \n";
+        }
+
+        if(TextUtils.isEmpty(address)) {
+            register_trainer_address.setError("Please insert your address.");
+            errors += "Insert your address \n";
+        }
+
+        if(TextUtils.isEmpty(age)) {
+            register_trainer_age.setError("Please insert your age.");
+            errors += "Insert your age \n";
+        }
+
+        if(TextUtils.isEmpty(cost)) {
+            register_trainer_age.setError("Please insert your cost.");
+            errors += "Insert your cost \n";
+        }
+
+        if(Integer.parseInt(age) > 120) {
+            register_trainer_age.setError("Age over 120 isn't allowed.");
+            errors += "Age over 120 isn't allowed. \n";
+        }
+
+        if(Integer.parseInt(cost) > 9000) {
+            register_trainer_age.setError("Cost over 9000 isn't allowed.");
+            errors += "Cost over 9000 isn't allowed. \n";
+        }
+
+        if(TextUtils.isEmpty(education)) {
+            register_trainer_education.setError("Please insert your education.");
+            errors += "Insert your education \n";
+        }
+
+        if(TextUtils.isEmpty(personal_page)) {
+            register_trainer_personal_page.setError("Please insert your personal page.");
+            errors += "Insert your personal page \n";
+        }
+
+        if(TextUtils.isEmpty(personal_page)) {
+            register_trainer_personal_page.setError("Please insert your personal page.");
+            errors += "Insert your personal page \n";
+        }
+
+        int check_multichecks = 0;
+        if(register_trainer_muscle.isChecked()){
+            check_multichecks++;
+        }
+        if(register_trainer_muscle.isChecked()){
+            check_multichecks++;
+        }
+        if(register_trainer_muscle.isChecked()){
+            check_multichecks++;
+        }
+        if(register_trainer_muscle.isChecked()){
+            check_multichecks++;
+        }
+
+        if(check_multichecks == 0) {
+            errors += "You must check at least one \n";
+        }
+
+        return errors;
     }
 }
