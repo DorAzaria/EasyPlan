@@ -57,7 +57,7 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/trainee_homepage_train_time"
+                        android:id="@+id/time_of_train_1"
                         android:layout_marginTop="10dp"
                         android:layout_width="250dp"
                         android:layout_height="35dp"
@@ -66,7 +66,7 @@
                         />
 
                     <TextView
-                        android:id="@+id/trainee_homepage_train_exer"
+                        android:id="@+id/exercise_1"
                         android:layout_marginTop="10dp"
                         android:layout_width="250dp"
                         android:layout_height="35dp"
@@ -104,20 +104,20 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:layout_marginTop="10dp"
+                        android:id="@+id/time_of_train_2"
                         android:layout_width="250dp"
                         android:layout_height="35dp"
-                        android:textSize="18sp"
+                        android:layout_marginTop="10dp"
                         android:text="Time Of Train"
-                        />
+                        android:textSize="18sp" />
 
                     <TextView
-                        android:layout_marginTop="10dp"
+                        android:id="@+id/exercise_2"
                         android:layout_width="250dp"
                         android:layout_height="35dp"
-                        android:textSize="18sp"
+                        android:layout_marginTop="10dp"
                         android:text="Exercises"
-                        />
+                        android:textSize="18sp" />
 
                 </LinearLayout>
 
@@ -149,20 +149,20 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:layout_marginTop="10dp"
+                        android:id="@+id/time_of_train_3"
                         android:layout_width="250dp"
                         android:layout_height="35dp"
-                        android:textSize="18sp"
+                        android:layout_marginTop="10dp"
                         android:text="Time Of Train"
-                        />
+                        android:textSize="18sp" />
 
                     <TextView
-                        android:layout_marginTop="10dp"
+                        android:id="@+id/exercise_3"
                         android:layout_width="250dp"
                         android:layout_height="35dp"
-                        android:textSize="18sp"
+                        android:layout_marginTop="10dp"
                         android:text="Exercises"
-                        />
+                        android:textSize="18sp" />
 
                 </LinearLayout>
 
