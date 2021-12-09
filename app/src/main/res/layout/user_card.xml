@@ -6,170 +6,159 @@
     android:layout_height="140dp"
     >
 
-    <androidx.cardview.widget.CardView
-        app:cardBackgroundColor="#E6E5E5"
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="350dp"
         android:layout_height="120dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        >
+        app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/edit_text_background">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/trainee_homepage_picture"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/trainee_homepage_picture"
-                android:layout_width="90dp"
-                android:layout_height="90dp"
+            android:src="@drawable/trainer1_logo"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.072"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-                android:src="@drawable/trainer1_logo"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.072"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/trainee_homepage_name"
-                android:layout_width="200dp"
-                android:layout_height="30dp"
-                android:text="Full Name"
-                android:textSize="20dp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.24"
-                app:layout_constraintStart_toEndOf="@+id/trainee_homepage_picture"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.066" />
+        <TextView
+            android:id="@+id/trainee_homepage_name"
+            android:layout_width="200dp"
+            android:layout_height="30dp"
+            android:text="Full Name"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.24"
+            app:layout_constraintStart_toEndOf="@+id/trainee_homepage_picture"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.066" />
 
 
-            <TextView
-                android:id="@+id/trainee_homepage_address"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:text="Address"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.187"
-                app:layout_constraintStart_toEndOf="@+id/trainee_homepage_picture"
-                app:layout_constraintTop_toBottomOf="@+id/trainee_homepage_name"
-                app:layout_constraintVertical_bias="0.0" />
+        <TextView
+            android:id="@+id/trainee_homepage_address"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="Address"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.187"
+            app:layout_constraintStart_toEndOf="@+id/trainee_homepage_picture"
+            app:layout_constraintTop_toBottomOf="@+id/trainee_homepage_name"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="3dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/trainee_homepage_picture"
+            app:layout_constraintTop_toBottomOf="@+id/trainee_homepage_address">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginRight="3dp"
-                app:layout_constraintStart_toEndOf="@+id/trainee_homepage_picture"
-                app:layout_constraintTop_toBottomOf="@+id/trainee_homepage_address">
+                android:orientation="vertical">
 
                 <LinearLayout
-                    android:layout_width="120dp"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
 
-                    <LinearLayout
+                    <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
+                        android:layout_height="20dp"
+                        android:text="Gender: " />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="20dp"
-                            android:text="Gender: " />
-
-                        <TextView
-                            android:id="@+id/trainee_homepage_gender"
-                            android:layout_width="wrap_content"
-                            android:layout_height="20dp"
-                            android:layout_marginRight="10dp"
-                            android:hint="Female" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
+                    <TextView
+                        android:id="@+id/trainee_homepage_gender"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="20dp"
-                            android:text="Height: " />
-
-                        <TextView
-                            android:id="@+id/trainee_homepage_height"
-                            android:layout_width="wrap_content"
-                            android:layout_height="20dp"
-                            android:hint="200" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="20dp"
-                            android:layout_marginRight="10dp"
-                            android:text="cm" />
-                    </LinearLayout>
+                        android:layout_height="20dp"
+                        android:layout_marginRight="10dp"
+                        android:hint="Female" />
 
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content">
 
-
-                    <LinearLayout
+                    <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
+                        android:layout_height="20dp"
+                        android:text="Height: " />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="20dp"
-                            android:text="Age: " />
-
-                        <TextView
-                            android:id="@+id/trainee_homepage_age"
-                            android:layout_width="wrap_content"
-                            android:layout_height="20dp"
-                            android:hint="100" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
+                    <TextView
+                        android:id="@+id/trainee_homepage_height"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
+                        android:layout_height="20dp"
+                        android:hint="200" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="20dp"
-                            android:text="Weight: " />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:layout_marginRight="10dp"
+                        android:text="cm" />
+                </LinearLayout>
 
-                        <TextView
-                            android:id="@+id/trainee_homepage_weight"
-                            android:layout_width="wrap_content"
-                            android:layout_height="20dp"
-                            android:hint="200" />
+            </LinearLayout>
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="20dp"
-                            android:text="kg" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-                    </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:text="@string/age" />
+
+                    <TextView
+                        android:id="@+id/trainee_homepage_age"
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:hint="100" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:text="Weight: " />
+
+                    <TextView
+                        android:id="@+id/trainee_homepage_weight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:hint="200" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:text="kg" />
 
                 </LinearLayout>
 
             </LinearLayout>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
 
-    </androidx.cardview.widget.CardView>
-
-
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

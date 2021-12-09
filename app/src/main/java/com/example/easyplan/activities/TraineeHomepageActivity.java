@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -30,6 +31,7 @@ public class TraineeHomepageActivity extends AppCompatActivity {
     private Button trainee_homepage_btn, trainee_homepage_plan_btn;
     private ConstraintLayout trainee_homepage_menu, trainee_homepage_trains;
     private FirebaseAuth mAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,8 +63,30 @@ public class TraineeHomepageActivity extends AppCompatActivity {
         trainee_homepage_trains.setVisibility(View.GONE);
         trainee_homepage_plan_btn.setVisibility(View.GONE);
 
-        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
-        rootRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference reference = database.getReference("Users/" + mAuth.getUid());
+
+        reference.addValueEventListener(new ValueEventListener() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                trainee_homepage_name.setText(snapshot.child("name").getValue(String.class));
+                trainee_homepage_age.setText(snapshot.child("age").getValue(Integer.class).toString());
+                trainee_homepage_address.setText(snapshot.child("address").getValue(String.class));
+                trainee_homepage_gender.setText(snapshot.child("gender").getValue(String.class));
+                trainee_homepage_height.setText(snapshot.child("height").getValue(String.class));
+                trainee_homepage_weight.setText(snapshot.child("weight").getValue(String.class));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 if (snapshot.hasChild("Plans/" + mAuth.getUid())) {
@@ -87,6 +111,10 @@ public class TraineeHomepageActivity extends AppCompatActivity {
                 startActivity(new Intent(TraineeHomepageActivity.this, RegisterByTargetActivity.class));
             }
         });
+
+
+
+
 
     }
 
