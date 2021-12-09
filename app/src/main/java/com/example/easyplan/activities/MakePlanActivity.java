@@ -11,8 +11,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.easyplan.Data.Plan;
+import com.example.easyplan.Data.Trainer;
 import com.example.easyplan.R;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
 import java.util.Vector;
@@ -66,8 +69,8 @@ public class MakePlanActivity extends AppCompatActivity {
     }
 
     public void make_plan(View view) {
-        String trainee_id = mAuth.getUid();
-        String trainer_id; /// need to get this id by intent putExtra from TraineeListActivity
+        String trainer_id = mAuth.getUid();
+        String trainee_id; /// need to get this id by intent putExtra from TraineeListActivity
 
         String train_time1 = make_plan_train_time1.getText().toString();
         String train_exer1 = make_plan_train_exer1.getText().toString();
@@ -110,7 +113,14 @@ public class MakePlanActivity extends AppCompatActivity {
         menu.add(day6);
         menu.add(cheat);
 
-        Plan plan = new Plan("", trainee_id, trains, menu);
+        Plan plan = new Plan(trainer_id, "Ok7J0x3grFYwqZBzJzGsYqmU1LI3", trains, menu);
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference reference = database.getReference("Plans/" + "Ok7J0x3grFYwqZBzJzGsYqmU1LI3");
+        reference.setValue(plan);
+
+        reference = database.getReference("Users/" + mAuth.getUid() + "/my_trainees"+"/Ok7J0x3grFYwqZBzJzGsYqmU1LI3");
+        reference.setValue("true");
 
         startActivity(new Intent(MakePlanActivity.this, TraineeHomepageActivity.class));
     }
