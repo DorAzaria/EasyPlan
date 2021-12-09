@@ -163,7 +163,7 @@ public class RegisterTrainerActivity extends AppCompatActivity {
         }
 
         if(address.length() > 25) {
-            register_trainer_full_name.setError("Your address is too long (max 25 letters)");
+            register_trainer_address.setError("Your address is too long (max 25 letters)");
             errors += "Your address is too long (max 25 letters) \n";
         }
 
