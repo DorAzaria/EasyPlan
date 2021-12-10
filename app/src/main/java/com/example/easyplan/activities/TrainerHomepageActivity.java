@@ -141,23 +141,23 @@ public class TrainerHomepageActivity extends AppCompatActivity {
         else {
             trainer_id = mAuth.getUid();
             trainer_start_plan.setVisibility(View.GONE);
-
-            reference = database.getReference("Users/" + trainer_id);
-            reference.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    notification_message = snapshot.child("notifications").getValue(String.class);
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
-
-            if(notification_message != null && !notification_message.isEmpty()) {
-                trainee_homepage_notification.setVisibility(View.VISIBLE);
-            }
+//
+//            reference = database.getReference("Users/" + trainer_id);
+//            reference.addListenerForSingleValueEvent(new ValueEventListener() {
+//                @Override
+//                public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                    notification_message = snapshot.child("notifications").getValue(String.class);
+//                }
+//
+//                @Override
+//                public void onCancelled(@NonNull DatabaseError error) {
+//
+//                }
+//            });
+//
+//            if(notification_message != null && !notification_message.isEmpty()) {
+//                trainee_homepage_notification.setVisibility(View.VISIBLE);
+//            }
 
         }
         reference = database.getReference("Users/" + trainer_id);
@@ -183,51 +183,51 @@ public class TrainerHomepageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                reference = database.getReference("Users/" + trainer_id);
-                reference.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        notification_message = snapshot.child("notifications").getValue(String.class);
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-
-                if(notification_message != null && !notification_message.isEmpty()) {
-
-                    final Dialog dialog = new Dialog(TrainerHomepageActivity.this);
-                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                    dialog.setCancelable(true);
-                    dialog.setContentView(R.layout.dialog_error);
-
-                    TextView errors = dialog.findViewById(R.id.dialog_error_text);
-                    Button ok_btn = dialog.findViewById(R.id.dialog_ok);
-                    TextView title = dialog.findViewById(R.id.dialog_title);
-
-                    errors.setText(notification_message);
-                    title.setText("Notifications");
-
-                    ok_btn.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-
-                            DatabaseReference reference2 = database.getReference("Users/" + mAuth.getUid() + "/notifications");
-                            reference2.setValue("");
-
-                            dialog.dismiss();
-                            Intent i = new Intent(TrainerHomepageActivity.this, TraineeListActivity.class);
-                            i.putExtra("myId",trainerId);
-                            startActivity(i);
-                        }
-                    });
-
-
-                    dialog.show();
-
-                }
+//                reference = database.getReference("Users/" + trainer_id);
+//                reference.addListenerForSingleValueEvent(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                        notification_message = snapshot.child("notifications").getValue(String.class);
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError error) {
+//
+//                    }
+//                });
+//
+//                if(notification_message != null && !notification_message.isEmpty()) {
+//
+//                    final Dialog dialog = new Dialog(TrainerHomepageActivity.this);
+//                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//                    dialog.setCancelable(true);
+//                    dialog.setContentView(R.layout.dialog_error);
+//
+//                    TextView errors = dialog.findViewById(R.id.dialog_error_text);
+//                    Button ok_btn = dialog.findViewById(R.id.dialog_ok);
+//                    TextView title = dialog.findViewById(R.id.dialog_title);
+//
+//                    errors.setText(notification_message);
+//                    title.setText("Notifications");
+//
+//                    ok_btn.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//
+//                            DatabaseReference reference2 = database.getReference("Users/" + mAuth.getUid() + "/notifications");
+//                            reference2.setValue("");
+//
+//                            dialog.dismiss();
+//                            Intent i = new Intent(TrainerHomepageActivity.this, TraineeListActivity.class);
+//                            i.putExtra("myId",trainerId);
+//                            startActivity(i);
+//                        }
+//                    });
+//
+//
+//                    dialog.show();
+//
+//                }
 
 
                 Intent i = new Intent(TrainerHomepageActivity.this, TraineeListActivity.class);
