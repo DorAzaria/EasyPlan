@@ -77,9 +77,11 @@ public class LoginActivity extends AppCompatActivity  {
                                     i.putExtra("myId", mAuth.getUid());
                                     startActivity(i);
                                 }
-                                else startActivity(new Intent(LoginActivity.this,TrainerHomepageActivity.class));
-
-
+                                else {
+                                    Intent i = new Intent(LoginActivity.this, TrainerHomepageActivity.class);
+                                    i.putExtra("myId", mAuth.getUid());
+                                    startActivity(i);
+                                }
 
                             }
 
