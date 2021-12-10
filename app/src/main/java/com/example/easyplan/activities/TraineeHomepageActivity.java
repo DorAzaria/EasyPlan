@@ -98,7 +98,7 @@ public class TraineeHomepageActivity extends AppCompatActivity {
 
                 notification = snapshot.child("notifications").getValue(String.class);
 
-                if(notification != null && !notification.equals("")) {
+                if(notification != null && !notification.isEmpty()) {
 
                     final Dialog dialog = new Dialog(TraineeHomepageActivity.this);
                     dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -155,13 +155,15 @@ public class TraineeHomepageActivity extends AppCompatActivity {
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             String status = snapshot.child("plan_status").getValue(String.class);
 
-                            if(status != null && !status.equals("active")) {
+                            if(status != null && !status.equals("active")  && !status.isEmpty()) {
 
                                 DatabaseReference ref3 = database.getReference("Users/"+status);
                                 ref3.addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                                         String trainer_name = snapshot.child("name").getValue(String.class);
+
+
                                         trainee_homepage_plan_btn.setText(trainer_name + " is working on your plan");
                                         trainee_homepage_plan_btn.setClickable(false);
 

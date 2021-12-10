@@ -154,7 +154,7 @@ public class TrainerHomepageActivity extends AppCompatActivity {
                 }
             });
 
-            if(notification_message != null && !notification_message.equals("")) {
+            if(notification_message != null && !notification_message.isEmpty()) {
                 trainee_homepage_notification.setVisibility(View.VISIBLE);
             }
 
@@ -195,7 +195,7 @@ public class TrainerHomepageActivity extends AppCompatActivity {
                     }
                 });
 
-                if(notification_message != null && !notification_message.equals("")) {
+                if(notification_message != null && !notification_message.isEmpty()) {
 
                     final Dialog dialog = new Dialog(TrainerHomepageActivity.this);
                     dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
