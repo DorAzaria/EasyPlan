@@ -4,11 +4,11 @@ import java.util.Vector;
 
 public class Trainee {
 
-    private String name, address, height, weight, gender, type;
+    private String name, address, height, weight, gender, type, notifications, plan_status;
     private int age;
     private Vector<String> targets;
 
-    public Trainee(String name, String address, String height, String weight, String gender, int age) {
+    public Trainee(String name, String address, String height, String weight, String gender, int age, String notifications, String plan_status) {
         this.name = name;
         this.address = address;
         this.height = height;
@@ -17,6 +17,8 @@ public class Trainee {
         this.age = age;
         this.type = "Trainee";
         this.targets = new Vector<>();
+        this.notifications = notifications;
+        this.plan_status = plan_status;
     }
 
     public String getName() {
@@ -82,4 +84,21 @@ public class Trainee {
     public void setTargets(Vector<String> targets) {
         this.targets = targets;
     }
+
+    public String getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(String notifications) {
+        this.notifications = notifications;
+    }
+
+    public String getPlan_status() {
+        return plan_status;
+    }
+
+    public void setPlan_status(String plan_status) {
+        this.plan_status = plan_status;
+    }
+
 }

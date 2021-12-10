@@ -5,11 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -34,6 +37,8 @@ public class TraineeHomepageActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseDatabase database;
     private DatabaseReference reference;
+    private FrameLayout trainee_homepage_notification;
+    private String notification;
 
     public TraineeHomepageActivity() {
     }
@@ -73,6 +78,10 @@ public class TraineeHomepageActivity extends AppCompatActivity {
         trainee_homepage_trains.setVisibility(View.GONE);
         trainee_homepage_plan_btn.setVisibility(View.GONE);
 
+        trainee_homepage_notification = (FrameLayout) findViewById(R.id.trainee_homepage_notification);
+        trainee_homepage_notification.setVisibility(View.GONE);
+        notification = "";
+
          database = FirebaseDatabase.getInstance();
          reference = database.getReference("Users/" + mAuth.getUid());
 
@@ -86,6 +95,38 @@ public class TraineeHomepageActivity extends AppCompatActivity {
                 trainee_homepage_gender.setText(snapshot.child("gender").getValue(String.class));
                 trainee_homepage_height.setText(snapshot.child("height").getValue(String.class));
                 trainee_homepage_weight.setText(snapshot.child("weight").getValue(String.class));
+
+                notification = snapshot.child("notifications").getValue(String.class);
+
+                if(notification != null && !notification.equals("")) {
+
+                    final Dialog dialog = new Dialog(TraineeHomepageActivity.this);
+                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    dialog.setCancelable(true);
+                    dialog.setContentView(R.layout.dialog_error);
+
+                    TextView errors = dialog.findViewById(R.id.dialog_error_text);
+                    Button ok_btn = dialog.findViewById(R.id.dialog_ok);
+                    TextView title = dialog.findViewById(R.id.dialog_title);
+
+                    errors.setText(notification);
+                    title.setText("Notifications");
+
+                    ok_btn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            DatabaseReference reference2 = database.getReference("Users/" + mAuth.getUid() + "/notifications");
+                            reference2.setValue("");
+                            dialog.dismiss();
+
+                        }
+                    });
+
+
+                    dialog.show();
+
+                }
             }
 
             @Override
@@ -93,7 +134,6 @@ public class TraineeHomepageActivity extends AppCompatActivity {
 
             }
         });
-
 
 
         reference = database.getReference("Plans/");

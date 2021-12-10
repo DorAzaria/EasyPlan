@@ -74,7 +74,10 @@ public class TraineeListActivity extends AppCompatActivity {
                         String weight = snapshot.child(traineesId.get(i)).child("weight").getValue(String.class);
                         String gender = snapshot.child(traineesId.get(i)).child("gender").getValue(String.class);
                         int age = snapshot.child(traineesId.get(i)).child("age").getValue(Integer.class);
-                        Trainee trainee = new Trainee(name , address,height, weight, gender, age);
+                        String notifications = snapshot.child(traineesId.get(i)).child("notifications").getValue(String.class);
+                        String plan_status = snapshot.child(traineesId.get(i)).child("plan_status").getValue(String.class);
+
+                        Trainee trainee = new Trainee(name , address,height, weight, gender, age, notifications, plan_status);
                         trainees.add(trainee);
                     }
 

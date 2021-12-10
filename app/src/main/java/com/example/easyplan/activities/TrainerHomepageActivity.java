@@ -112,6 +112,21 @@ public class TrainerHomepageActivity extends AppCompatActivity {
                                 }
                             });
 
+                            reference = database.getReference("Users/" + mAuth.getUid() + "/notifications");
+
+                            ref_trainer = database.getReference("Users/"+trainer_id);
+
+                            ref_trainer.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    reference.setValue("Your plan request just sent to " + snapshot.child("name").getValue(String.class));
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+                                }
+                            });
+
                             startActivity(new Intent(TrainerHomepageActivity.this, TraineeHomepageActivity.class));
                         }
                     });
@@ -197,6 +212,10 @@ public class TrainerHomepageActivity extends AppCompatActivity {
                     ok_btn.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+
+                            DatabaseReference reference2 = database.getReference("Users/" + mAuth.getUid() + "/notifications");
+                            reference2.setValue("");
+
                             dialog.dismiss();
                             Intent i = new Intent(TrainerHomepageActivity.this, TraineeListActivity.class);
                             i.putExtra("myId",trainerId);

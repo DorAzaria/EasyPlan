@@ -6,7 +6,7 @@ import java.util.Vector;
 
 public class Trainer {
 
-    private String name, address, gender, type, education, personal_page;
+    private String name, address, gender, type, education, personal_page, notifications;
     private int age, cost, duration;
     private double rate;
     private ArrayList<String> targets;
@@ -14,7 +14,7 @@ public class Trainer {
 
     public Trainer() {}
 
-    public Trainer(String name, String address, String gender, String education, String personal_page, int age, int cost, ArrayList<String> targets , HashMap<String, String> my_trainees) {
+    public Trainer(String name, String address, String gender, String education, String personal_page, int age, int cost, ArrayList<String> targets , HashMap<String, String> my_trainees, String notifications) {
         this.name = name;
         this.address = address;
         this.gender = gender;
@@ -25,6 +25,7 @@ public class Trainer {
         this.targets = targets;
         this.my_trainees = my_trainees;
         this.type = "Trainer";
+        this.notifications = notifications;
     }
 
     public String getName() {
@@ -121,6 +122,22 @@ public class Trainer {
 
     public void setTrainees(HashMap<String, String> trainees) {
         this.my_trainees = trainees;
+    }
+
+    public String getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(String notifications) {
+        this.notifications = notifications;
+    }
+
+    public HashMap<String, String> getMy_trainees() {
+        return my_trainees;
+    }
+
+    public void setMy_trainees(HashMap<String, String> my_trainees) {
+        this.my_trainees = my_trainees;
     }
 
     @Override
