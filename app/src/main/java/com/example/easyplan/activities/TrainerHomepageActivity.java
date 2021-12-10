@@ -81,12 +81,14 @@ public class TrainerHomepageActivity extends AppCompatActivity {
         });
 
 
+
         trainer_start_plan.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View v) {
                  startActivity(new Intent(TrainerHomepageActivity.this, TraineeHomepageActivity.class));
              }
          });
+
 
         trainer_list_menu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,6 +97,11 @@ public class TrainerHomepageActivity extends AppCompatActivity {
             }
         });
 
+    }
 
+    public void logout (View v) {
+        mAuth.signOut();
+        Intent move = new Intent(TrainerHomepageActivity.this , LoginActivity.class);
+        startActivity(move);
     }
 }

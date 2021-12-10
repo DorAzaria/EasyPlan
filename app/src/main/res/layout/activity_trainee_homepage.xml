@@ -82,5 +82,20 @@
 
     </ScrollView>
 
+    <Button
+        android:layout_width="105dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="7.5dp"
+
+        android:layout_marginBottom="23dp"
+        android:onClick="logout"
+        android:text="Logout"
+        app:layout_constraintBottom_toBottomOf="@+id/make_plan_toolbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.086"
+        app:layout_constraintStart_toStartOf="@+id/make_plan_toolbar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

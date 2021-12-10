@@ -21,6 +21,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0">
 
+
         <ImageView
             android:id="@+id/profile_imageView2"
             android:layout_width="35dp"
@@ -342,5 +343,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView"
         app:layout_constraintVertical_bias="0.165" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="108dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="7.5dp"
+        android:text="LOGOUT"
+        android:onClick="logout"
+        app:layout_constraintBottom_toBottomOf="@+id/profile_toolbar"
+        app:layout_constraintEnd_toEndOf="@+id/profile_toolbar"
+        app:layout_constraintHorizontal_bias="0.053"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.304" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

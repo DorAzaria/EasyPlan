@@ -7,6 +7,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -123,6 +124,12 @@ public class TraineeHomepageActivity extends AppCompatActivity {
                 startActivity(new Intent(TraineeHomepageActivity.this, RegisterByTargetActivity.class));
             }
         });
+    }
+
+    public void logout (View v) {
+        mAuth.signOut();
+        Intent move = new Intent(TraineeHomepageActivity.this , LoginActivity.class);
+        startActivity(move);
     }
 
     private void show_plan ( ) {
