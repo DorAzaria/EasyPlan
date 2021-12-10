@@ -10,11 +10,11 @@ public class Trainer {
     private int age, cost, duration;
     private double rate;
     private ArrayList<String> targets;
-    private HashMap<String, String> my_trainees;
+    private HashMap<String, Boolean> my_trainees;
 
     public Trainer() {}
 
-    public Trainer(String name, String address, String gender, String education, String personal_page, int age, int cost, ArrayList<String> targets , HashMap<String, String> my_trainees, String notifications) {
+    public Trainer(String name, String address, String gender, String education, String personal_page, int age, int cost, ArrayList<String> targets , HashMap<String, Boolean> my_trainees, String notifications) {
         this.name = name;
         this.address = address;
         this.gender = gender;
@@ -116,13 +116,6 @@ public class Trainer {
         this.targets = targets;
     }
 
-    public HashMap<String, String> getTrainees() {
-        return my_trainees;
-    }
-
-    public void setTrainees(HashMap<String, String> trainees) {
-        this.my_trainees = trainees;
-    }
 
     public String getNotifications() {
         return notifications;
@@ -132,13 +125,6 @@ public class Trainer {
         this.notifications = notifications;
     }
 
-    public HashMap<String, String> getMy_trainees() {
-        return my_trainees;
-    }
-
-    public void setMy_trainees(HashMap<String, String> my_trainees) {
-        this.my_trainees = my_trainees;
-    }
 
     @Override
     public String toString() {
