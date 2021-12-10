@@ -68,10 +68,14 @@ public class LoginActivity extends AppCompatActivity  {
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 String username_type = snapshot.child("type").getValue(String.class);
                                 if(username_type.equals("Trainee")) {
-                                    System.out.println(username_type);
-                                    startActivity(new Intent(LoginActivity.this, TraineeHomepageActivity.class));
+                                    Intent i = new Intent(LoginActivity.this, TraineeHomepageActivity.class);
+                                    i.putExtra("myId", mAuth.getUid());
+                                    startActivity(i);
                                 }
                                 else startActivity(new Intent(LoginActivity.this,TrainerHomepageActivity.class));
+
+
+
                             }
 
                             @Override

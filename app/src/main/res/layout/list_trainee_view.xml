@@ -39,7 +39,7 @@
                 android:id="@+id/trainee_list_name"
                 android:layout_width="145dp"
                 android:layout_height="23dp"
-                android:text="Trainer "
+                android:text="Trainee"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"

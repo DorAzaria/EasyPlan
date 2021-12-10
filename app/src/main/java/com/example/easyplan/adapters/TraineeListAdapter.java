@@ -10,17 +10,19 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.easyplan.Data.Trainee;
 import com.example.easyplan.R;
 import com.example.easyplan.activities.MakePlanActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class TraineeListAdapter extends RecyclerView.Adapter<TraineeListAdapter.ViewHolder> {
-    private List<String> data;
+public class TraineeListAdapter extends RecyclerView.Adapter<TraineeListAdapter.TraineeViewHolder> {
+    private ArrayList<Trainee> trainees;
     int[] logos;
 
-    public TraineeListAdapter(List<String> data){
-        this.data = data;
+    public TraineeListAdapter(ArrayList<Trainee> trainees){
+        this.trainees = trainees;
         logos = new int[4];
         logos[0] = R.drawable.trainer1_logo;
         logos[1] = R.drawable.trainer2_logo;
@@ -29,32 +31,32 @@ public class TraineeListAdapter extends RecyclerView.Adapter<TraineeListAdapter.
     }
 
     @Override
-    public TraineeListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public TraineeListAdapter.TraineeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View rowItem = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_trainee_view, parent, false);
-        return new ViewHolder(rowItem);
+        return new TraineeViewHolder(rowItem);
     }
 
 
     @Override
-    public void onBindViewHolder(TraineeListAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(TraineeListAdapter.TraineeViewHolder holder, int position) {
 
-        holder.trainee_list_name.setText(this.data.get(position));
+        holder.trainee_list_name.setText(this.trainees.get(position).getName());
         holder.trainee_list_image.setImageResource(logos[position % 4]);
 
     }
 
     @Override
     public int getItemCount() {
-        return this.data.size();
+        return this.trainees.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public static class TraineeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView trainee_list_name;
         private ImageView trainee_list_image, trainee_list_mail;
         private CheckBox trainee_list_check;
         int[] logos;
 
-        public ViewHolder(View view) {
+        public TraineeViewHolder(View view) {
             super(view);
             view.setOnClickListener(this);
             this.trainee_list_name = view.findViewById(R.id.trainee_list_name);

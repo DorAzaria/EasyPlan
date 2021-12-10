@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -18,11 +19,17 @@ public class TrainerHomepageActivity extends AppCompatActivity {
     private TextView trainer_homepage_cost, trainer_homepage_days,trainer_homepage_duration;
     private ImageView trainer_homepage_fitness, trainer_homepage_muscle, trainer_homepage_cardio, trainer_homepage_menu;
     private Button trainer_homepage_btn;
+    private String trainerId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trainer_homepage);
+        Bundle extras = getIntent().getExtras();
+
+        if (extras != null) {
+             trainerId = extras.getString("myId");
+        }
         trainer_homepage_name = (TextView) findViewById(R.id.trainer_homepage_name);
         trainer_homepage_picture = (ImageView) findViewById(R.id.trainer_homepage_picture);
         trainer_list_menu = (ImageView) findViewById(R.id.trainer_list_menu);
@@ -59,7 +66,9 @@ public class TrainerHomepageActivity extends AppCompatActivity {
         trainer_list_menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(TrainerHomepageActivity.this, TraineeListActivity.class));
+                Intent i = new Intent(TrainerHomepageActivity.this, TraineeListActivity.class);
+                i.putExtra("myId",trainerId);
+                startActivity(i);
             }
         });
 
