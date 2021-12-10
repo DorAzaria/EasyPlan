@@ -72,7 +72,7 @@
                     android:id="@+id/trainee_homepage_plan_btn"
                     android:layout_gravity="center"
                     android:layout_width="300dp"
-                    android:layout_height="50dp"
+                    android:layout_height="wrap_content"
                     android:text="START PLAN"/>
 
             </LinearLayout>

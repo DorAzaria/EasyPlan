@@ -135,7 +135,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         TextView errors = dialog.findViewById(R.id.dialog_error_text);
         Button ok_btn = dialog.findViewById(R.id.dialog_ok);
 
-        errors.setText("Ops, something went wrong! \nThis email isn't exists in our system :(");
+        errors.setText("Ops, something went wrong! \n   This email isn't exists in our system :(");
 
         ok_btn.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -1,6 +1,7 @@
 package com.example.easyplan.Data;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Vector;
 
 public class Trainer {
@@ -8,11 +9,12 @@ public class Trainer {
     private String name, address, gender, type, education, personal_page;
     private int age, cost, duration;
     private double rate;
-    private ArrayList<String> targets, my_trainees;
+    private ArrayList<String> targets;
+    private HashMap<String, String> my_trainees;
 
     public Trainer() {}
 
-    public Trainer(String name, String address, String gender, String education, String personal_page, int age, int cost, ArrayList<String> targets , ArrayList<String> my_trainees) {
+    public Trainer(String name, String address, String gender, String education, String personal_page, int age, int cost, ArrayList<String> targets , HashMap<String, String> my_trainees) {
         this.name = name;
         this.address = address;
         this.gender = gender;
@@ -113,11 +115,11 @@ public class Trainer {
         this.targets = targets;
     }
 
-    public ArrayList<String> getTrainees() {
+    public HashMap<String, String> getTrainees() {
         return my_trainees;
     }
 
-    public void setTrainees(ArrayList<String> trainees) {
+    public void setTrainees(HashMap<String, String> trainees) {
         this.my_trainees = trainees;
     }
 

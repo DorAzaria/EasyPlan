@@ -107,8 +107,40 @@ public class TraineeHomepageActivity extends AppCompatActivity {
                     show_plan();
                 }
                 else {
-                    System.out.println("ASDASD");
                     trainee_homepage_plan_btn.setVisibility(View.VISIBLE);
+
+                    DatabaseReference ref2 = database.getReference("Users/"+mAuth.getUid());
+                    ref2.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            String status = snapshot.child("plan_status").getValue(String.class);
+
+                            if(status != null && !status.equals("active")) {
+
+                                DatabaseReference ref3 = database.getReference("Users/"+status);
+                                ref3.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        String trainer_name = snapshot.child("name").getValue(String.class);
+                                        trainee_homepage_plan_btn.setText(trainer_name + " is working on your plan");
+                                        trainee_homepage_plan_btn.setClickable(false);
+
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+                                });
+
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
                 }
             }
 

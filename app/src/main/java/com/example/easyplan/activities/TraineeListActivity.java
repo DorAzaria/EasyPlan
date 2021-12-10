@@ -43,8 +43,6 @@ public class TraineeListActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new DividerItemDecoration(this, 0));
 
-
-
         FirebaseDatabase dataBase = FirebaseDatabase.getInstance();
         DatabaseReference myRef = dataBase.getReference("Users/"+trainerId+"/trainees");
         myRef.addValueEventListener(new ValueEventListener() {

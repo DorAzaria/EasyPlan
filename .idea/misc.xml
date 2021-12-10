@@ -15,32 +15,29 @@
         <entry key="..\:/Users/dazao/AndroidStudioProjects/EasyPlan/app/src/main/res/layout/activity_main.xml" value="0.264" />
         <entry key="..\:/Users/dazao/AndroidStudioProjects/EasyPlan/app/src/main/res/layout/activity_make_plan.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/dazao/AndroidStudioProjects/EasyPlan/app/src/main/res/layout/activity_profile.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/dazao/AndroidStudioProjects/EasyPlan/app/src/main/res/layout/activity_register.xml" value="0.264" />
         <entry key="..\:/Users/dazao/AndroidStudioProjects/EasyPlan/app/src/main/res/layout/activity_register_by_target.xml" value="0.264" />
         <entry key="..\:/Users/dazao/AndroidStudioProjects/EasyPlan/app/src/main/res/layout/activity_register_by_type.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/dazao/AndroidStudioProjects/EasyPlan/app/src/main/res/layout/activity_register_main.xml" value="0.2" />
         <entry key="..\:/Users/dazao/AndroidStudioProjects/EasyPlan/app/src/main/res/layout/activity_register_trainee.xml" value="0.2" />
         <entry key="..\:/Users/dazao/AndroidStudioProjects/EasyPlan/app/src/main/res/layout/activity_register_trainer.xml" value="0.4" />
         <entry key="..\:/Users/dazao/AndroidStudioProjects/EasyPlan/app/src/main/res/layout/activity_splash_screen.xml" value="0.2" />
+        <entry key="..\:/Users/dazao/AndroidStudioProjects/EasyPlan/app/src/main/res/layout/activity_trainee_homepage.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/dazao/AndroidStudioProjects/EasyPlan/app/src/main/res/layout/activity_trainee_list.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/dazao/AndroidStudioProjects/EasyPlan/app/src/main/res/layout/activity_trainer_homepage.xml" value="0.2" />
+        <entry key="..\:/Users/dazao/AndroidStudioProjects/EasyPlan/app/src/main/res/layout/activity_trainer_homepage.xml" value="0.4" />
         <entry key="..\:/Users/dazao/AndroidStudioProjects/EasyPlan/app/src/main/res/layout/activity_trainers.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/dazao/AndroidStudioProjects/EasyPlan/app/src/main/res/layout/dialog_error.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/dazao/AndroidStudioProjects/EasyPlan/app/src/main/res/layout/dialog_make_plan_error.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/dazao/AndroidStudioProjects/EasyPlan/app/src/main/res/layout/gradient_1.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/dazao/AndroidStudioProjects/EasyPlan/app/src/main/res/layout/list_trainee_view.xml" value="0.536" />
         <entry key="..\:/Users/dazao/AndroidStudioProjects/EasyPlan/app/src/main/res/layout/list_trainer_view.xml" value="0.4" />
         <entry key="..\:/Users/dazao/AndroidStudioProjects/EasyPlan/app/src/main/res/layout/new_plan_nutrition.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/dazao/AndroidStudioProjects/EasyPlan/app/src/main/res/layout/new_plan_training.xml" value="0.264" />
-        <entry key="..\:/Users/dazao/AndroidStudioProjects/EasyPlan/app/src/main/res/layout/user_card.xml" value="0.176" />
+        <entry key="..\:/Users/dazao/AndroidStudioProjects/EasyPlan/app/src/main/res/layout/user_card.xml" value="0.536" />
         <entry key="..\:/Users/dolev/StudioProjects/EasyPlan/app/src/main/res/layout/activity_login.xml" value="0.1" />
         <entry key="..\:/Users/dolev/StudioProjects/EasyPlan/app/src/main/res/layout/activity_register.xml" value="0.1796875" />
         <entry key="..\:/Users/dolev/StudioProjects/EasyPlan/app/src/main/res/layout/activity_register_by_target.xml" value="0.1796875" />
         <entry key="..\:/Users/dolev/StudioProjects/EasyPlan/app/src/main/res/layout/activity_register_trainee.xml" value="0.3333333333333333" />
-        <entry key="..\:/Users/dolev/StudioProjects/EasyPlan/app/src/main/res/layout/activity_trainee_homepage.xml" value="0.1" />
-        <entry key="..\:/Users/dolev/StudioProjects/EasyPlan/app/src/main/res/layout/activity_trainee_list.xml" value="0.5" />
-        <entry key="..\:/Users/dolev/StudioProjects/EasyPlan/app/src/main/res/layout/activity_trainer_homepage.xml" value="0.4466666666666667" />
-        <entry key="..\:/Users/dolev/StudioProjects/EasyPlan/app/src/main/res/layout/activity_trainer_list.xml" value="0.1" />
-        <entry key="..\:/Users/dolev/StudioProjects/EasyPlan/app/src/main/res/layout/list_trainer_view.xml" value="0.22" />
-        <entry key="..\:/Users/dolev/StudioProjects/EasyPlan/app/src/main/res/layout/plan_nutrition.xml" value="0.1" />
-        <entry key="..\:/Users/dolev/StudioProjects/EasyPlan/app/src/main/res/layout/user_card.xml" value="0.22" />
       </map>
     </option>
   </component>

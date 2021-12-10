@@ -3,10 +3,12 @@ package com.example.easyplan.activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -31,7 +33,8 @@ public class TrainerHomepageActivity extends AppCompatActivity {
     private DatabaseReference reference;
     private FirebaseDatabase database;
     private Button trainer_homepage_btn;
-    private String trainerId;
+    private String trainerId,  trainer_id, notification_message;
+    private ImageView trainee_homepage_notification;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,21 +57,92 @@ public class TrainerHomepageActivity extends AppCompatActivity {
         trainer_homepage_cost = (TextView) findViewById(R.id.trainer_homepage_cost);
         trainer_homepage_days = (TextView) findViewById(R.id.trainer_homepage_days);
         trainer_homepage_duration = (TextView) findViewById(R.id.trainer_homepage_duration);
+        trainee_homepage_notification = (ImageView) findViewById(R.id.trainee_homepage_notification);
+        trainee_homepage_notification.setVisibility(View.GONE);
+        notification_message = "";
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
 
         Intent move = getIntent();
-        String trainer_id = "";
+        trainer_id = "";
 
         // trainer want to see my homepage - he choose me
         if (move.hasExtra("trainer id from firebase")) {
             trainer_id = move.getStringExtra("trainer id from firebase");
             trainer_list_menu.setVisibility(View.GONE);
 
+            trainer_start_plan.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final Dialog dialog = new Dialog(TrainerHomepageActivity.this);
+                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    dialog.setCancelable(true);
+                    dialog.setContentView(R.layout.dialog_error);
+
+                    TextView errors = dialog.findViewById(R.id.dialog_error_text);
+                    TextView title = dialog.findViewById(R.id.dialog_title);
+                    Button ok_btn = dialog.findViewById(R.id.dialog_ok);
+
+                    title.setText("New plan is on the way!");
+                    errors.setText("Your trainer just received your request.\nIt could take a while, please be patient.\nWe'll let you know when your plan is ready.");
+                    ok_btn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+
+                            FirebaseDatabase database = FirebaseDatabase.getInstance();
+                            reference = database.getReference("Users/" + trainer_id + "/my_trainees" + mAuth.getUid());
+                            reference.setValue("false");
+
+                            reference = database.getReference("Users/" + mAuth.getUid() + "/plan_status");
+                            reference.setValue(trainer_id);
+
+                            reference = database.getReference("Users/" + trainer_id + "/notifications");
+
+                            DatabaseReference ref_trainer = database.getReference("Users/"+mAuth.getUid());
+
+                            ref_trainer.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    reference.setValue("You've got a new plan request from " + snapshot.child("name").getValue(String.class));
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+                                }
+                            });
+
+                            startActivity(new Intent(TrainerHomepageActivity.this, TraineeHomepageActivity.class));
+                        }
+                    });
+
+
+                    dialog.show();
+
+                }
+            });
         }
         else {
             trainer_id = mAuth.getUid();
             trainer_start_plan.setVisibility(View.GONE);
+
+            reference = database.getReference("Users/" + trainer_id);
+            reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    notification_message = snapshot.child("notifications").getValue(String.class);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
+            if(notification_message != null && !notification_message.equals("")) {
+                trainee_homepage_notification.setVisibility(View.VISIBLE);
+            }
+
         }
         reference = database.getReference("Users/" + trainer_id);
         reference.addValueEventListener(new ValueEventListener() {
@@ -89,18 +163,53 @@ public class TrainerHomepageActivity extends AppCompatActivity {
         });
 
 
-
-        trainer_start_plan.setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View v) {
-                 startActivity(new Intent(TrainerHomepageActivity.this, TraineeHomepageActivity.class));
-             }
-         });
-
-
         trainer_list_menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                reference = database.getReference("Users/" + trainer_id);
+                reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        notification_message = snapshot.child("notifications").getValue(String.class);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+                if(notification_message != null && !notification_message.equals("")) {
+
+                    final Dialog dialog = new Dialog(TrainerHomepageActivity.this);
+                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    dialog.setCancelable(true);
+                    dialog.setContentView(R.layout.dialog_error);
+
+                    TextView errors = dialog.findViewById(R.id.dialog_error_text);
+                    Button ok_btn = dialog.findViewById(R.id.dialog_ok);
+                    TextView title = dialog.findViewById(R.id.dialog_title);
+
+                    errors.setText(notification_message);
+                    title.setText("Notifications");
+
+                    ok_btn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                            Intent i = new Intent(TrainerHomepageActivity.this, TraineeListActivity.class);
+                            i.putExtra("myId",trainerId);
+                            startActivity(i);
+                        }
+                    });
+
+
+                    dialog.show();
+
+                }
+
+
                 Intent i = new Intent(TrainerHomepageActivity.this, TraineeListActivity.class);
                 i.putExtra("myId",trainerId);
                 startActivity(i);

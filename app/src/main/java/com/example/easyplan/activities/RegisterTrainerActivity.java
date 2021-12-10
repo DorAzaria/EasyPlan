@@ -28,6 +28,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Vector;
 
 public class RegisterTrainerActivity extends AppCompatActivity {
@@ -103,7 +104,7 @@ public class RegisterTrainerActivity extends AppCompatActivity {
 
                                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                                 DatabaseReference reference = database.getReference("Users/" + mAuth.getUid());
-                                Trainer trainer = new Trainer(name, address, gender, education, personal_page, age, cost, targets, new ArrayList<String>());
+                                Trainer trainer = new Trainer(name, address, gender, education, personal_page, age, cost, targets, new HashMap<String, String>());
                                 reference.setValue(trainer);
                                 Intent move = new Intent(RegisterTrainerActivity.this, TrainerHomepageActivity.class);
                                 startActivity(move);
