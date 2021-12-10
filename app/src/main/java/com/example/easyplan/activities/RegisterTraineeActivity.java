@@ -26,6 +26,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
+
 public class RegisterTraineeActivity extends AppCompatActivity {
 
     private Button register_trainee_btn;
@@ -82,7 +84,7 @@ public class RegisterTraineeActivity extends AppCompatActivity {
 
                                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                                 DatabaseReference reference = database.getReference("Users/" + mAuth.getUid());
-                                Trainee trainee = new Trainee(name, address, height, weight, gender, Integer.parseInt(age), "", "");
+                                Trainee trainee = new Trainee(name, address, height, weight, gender, Integer.parseInt(age),"", "");
                                 reference.setValue(trainee);
                                 Intent move = new Intent(RegisterTraineeActivity.this, TraineeHomepageActivity.class);
                                 startActivity(move);

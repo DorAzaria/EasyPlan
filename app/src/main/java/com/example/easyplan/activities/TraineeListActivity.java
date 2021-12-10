@@ -20,12 +20,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 
 public class TraineeListActivity extends AppCompatActivity {
     private String trainerId;
-    private Vector<String> traineesId;
+    private ArrayList<String> traineesId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,24 +35,28 @@ public class TraineeListActivity extends AppCompatActivity {
         if (extras != null) {
             trainerId = extras.getString("myId");
         }
-        traineesId = new Vector<>();
+        traineesId = new ArrayList<>();
         RecyclerView recyclerView = findViewById(R.id.trainee_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        final ArrayList<Trainee> trainees = new ArrayList<>();
-        final TraineeListAdapter adapter = new TraineeListAdapter(trainees);
+        ArrayList<Trainee> trainees = new ArrayList<>();
+        TraineeListAdapter adapter = new TraineeListAdapter(trainees);
 
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new DividerItemDecoration(this, 0));
 
         FirebaseDatabase dataBase = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = dataBase.getReference("Users/"+trainerId+"/trainees");
+        DatabaseReference myRef = dataBase.getReference("Users/"+trainerId+"/my_trainees");
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot id : snapshot.getChildren()){
-                    String traineeId = id.getValue(String.class);
-                    traineesId.add(traineeId);
+                HashMap<String,Boolean> Id = (HashMap<String, Boolean>) snapshot.getValue();
+                if(Id != null){
+                    for(String runner : Id.keySet() ){
+                        Log.d("Id", runner);
+                        traineesId.add(runner);
+                    }
                 }
+
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
@@ -73,11 +78,10 @@ public class TraineeListActivity extends AppCompatActivity {
                         String height = snapshot.child(traineesId.get(i)).child("height").getValue(String.class);
                         String weight = snapshot.child(traineesId.get(i)).child("weight").getValue(String.class);
                         String gender = snapshot.child(traineesId.get(i)).child("gender").getValue(String.class);
-                        int age = snapshot.child(traineesId.get(i)).child("age").getValue(Integer.class);
                         String notifications = snapshot.child(traineesId.get(i)).child("notifications").getValue(String.class);
                         String plan_status = snapshot.child(traineesId.get(i)).child("plan_status").getValue(String.class);
-
-                        Trainee trainee = new Trainee(name , address,height, weight, gender, age, notifications, plan_status);
+                        int age = snapshot.child(traineesId.get(i)).child("age").getValue(Integer.class);
+                        Trainee trainee = new Trainee(name,address,height,weight,gender,age,notifications,plan_status);
                         trainees.add(trainee);
                     }
 
