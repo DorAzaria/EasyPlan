@@ -6,11 +6,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -18,7 +21,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.easyplan.R;
-import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -28,6 +30,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.regex.Pattern;
 
 public class LoginActivity extends AppCompatActivity  {
 
@@ -56,7 +60,8 @@ public class LoginActivity extends AppCompatActivity  {
         String email = login_username.getText().toString().trim();
         String password = login_password.getText().toString().trim();
 
-        if (checkValidation(login_username , login_password)) {
+        String check = checkInputs();
+        if(check.isEmpty()) {
             mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
@@ -86,34 +91,69 @@ public class LoginActivity extends AppCompatActivity  {
 
                     }
                     else {
-                        Toast.makeText(LoginActivity.this,"Failed to login!",Toast.LENGTH_LONG).show();;
+                        final Dialog dialog = new Dialog(LoginActivity.this);
+                        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                        dialog.setCancelable(true);
+                        dialog.setContentView(R.layout.dialog_error);
+
+                        TextView errors = dialog.findViewById(R.id.dialog_error_text);
+                        Button ok_btn = dialog.findViewById(R.id.dialog_ok);
+
+                        errors.setText("Failed to login!");
+                        ok_btn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dialog.dismiss();
+                            }
+                        });
+
+                        dialog.show();
                     }
                 }
             });
         }
+        else {
+            final Dialog dialog = new Dialog(LoginActivity.this);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setCancelable(true);
+            dialog.setContentView(R.layout.dialog_error);
 
+            TextView errors = dialog.findViewById(R.id.dialog_error_text);
+            Button ok_btn = dialog.findViewById(R.id.dialog_ok);
+
+            errors.setText(check);
+            ok_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+
+            dialog.show();
+        }
     }
 
-    private boolean checkValidation (EditText email , EditText password) {
-            String email_input = email.getText().toString();
-            String password_input = password.getText().toString();
 
-            if(password_input.isEmpty()) {
-                login_password.setError("Password is required!");
-                login_password.requestFocus();
-                return false;
-            }
-            if (email_input.isEmpty()) {
-                login_username.setError("Email is required!");
-                login_username.requestFocus();
-                return false;
-            }
-            if(!Patterns.EMAIL_ADDRESS.matcher(email_input).matches()) {
-                email.setError("Please enter a valid email!");
-                email.requestFocus();
-                return false;
-            }
-            return true;
+    public String checkInputs() {
+        String errors = "";
+        String email_input = login_username.getText().toString().trim();
+        String password_input = login_password.getText().toString().trim();
+
+        if(TextUtils.isEmpty(email_input)) {
+            login_username.setError("Email is required!");
+            errors += "Email is required! \n";
+        }
+
+        if(!TextUtils.isEmpty(email_input) && !Patterns.EMAIL_ADDRESS.matcher(email_input).matches()) {
+            login_username.setError("Valid email is required!");
+            errors += "Valid email is required! \n";
+        }
+
+        if(TextUtils.isEmpty(password_input)) {
+            login_password.setError("Password is required!");
+            errors += "Password is required! \n";
+        }
+        return errors;
     }
 
     public void forgot_password(View v) {

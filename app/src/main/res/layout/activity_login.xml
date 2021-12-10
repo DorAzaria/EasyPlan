@@ -11,16 +11,16 @@
         android:id="@+id/login_email"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
+        android:background="@drawable/edit_text_background"
         android:ems="10"
         android:hint="@string/email"
-        android:background="@drawable/edit_text_background"
         android:minHeight="48dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.362" />
+        app:layout_constraintVertical_bias="0.424" />
 
     <EditText
         android:id="@+id/login_password"
@@ -74,17 +74,6 @@
         app:layout_constraintTop_toBottomOf="@+id/login_password"
         app:layout_constraintVertical_bias="0.073" />
 
-    <com.google.android.gms.common.SignInButton
-        android:id="@+id/sign_in_button_google"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.504"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_btn"
-        app:layout_constraintVertical_bias="0.056" />
-
 
     <TextView
         android:id="@+id/textView6"
@@ -95,13 +84,15 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sign_in_button_google" />
+        app:layout_constraintTop_toBottomOf="@+id/login_btn"
+        app:layout_constraintVertical_bias="0.914" />
 
     <TextView
         android:id="@+id/login_to_forgot"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Press Here"
+        android:textStyle="bold"
         android:onClick= "forgot_password"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -115,6 +106,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Press Here"
+        android:textStyle="bold"
         android:onClick="register"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

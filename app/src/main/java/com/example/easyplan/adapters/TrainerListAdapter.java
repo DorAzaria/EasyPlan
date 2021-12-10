@@ -10,22 +10,22 @@ import android.widget.TextView;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.easyplan.Data.Trainer;
 import com.example.easyplan.R;
 import com.example.easyplan.activities.TrainerHomepageActivity;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.ViewHolder> {
-    private List<String> data;
-    int[] logos;
+    private List<Trainer> data;
+    private List <String> trainers_ids;
 
-    public TrainerListAdapter(List<String> data){
-        this.data = data;
-        logos = new int[4];
-        logos[0] = R.drawable.trainer1_logo;
-        logos[1] = R.drawable.trainer2_logo;
-        logos[2] = R.drawable.trainer3_logo;
-        logos[3] = R.drawable.trainer4_logo;
+    public TrainerListAdapter(List<Trainer> data , List <String> ids){
+       this.data = data;
+       this.trainers_ids = ids;
     }
 
     @Override
@@ -37,19 +37,14 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
 
     @Override
     public void onBindViewHolder(TrainerListAdapter.ViewHolder holder, int position) {
-
-        holder.trainer_list_name.setText(this.data.get(position));
-        holder.trainer_list_profile_image.setImageResource(logos[position % 4]);
-
-        if(position == 0) {
-            holder.trainer_list_rate.setText("5.0");
-        }
-        if(position == 1 || position == 2) {
-            holder.trainer_list_rate.setText("4.0");
-        }
-        else {
-            holder.trainer_list_rate.setText("3.5");
-        }
+        Trainer trainer = data.get(position);
+        holder.trainer_id = trainers_ids.get(position);
+        ArrayList<String> targets_to_show = trainer.getTargets();
+        if(targets_to_show.contains("Fitness")) holder.trainer_list_fitness.setVisibility(View.VISIBLE);
+        if(targets_to_show.contains("Cardio")) holder.trainer_list_cardio.setVisibility(View.VISIBLE);
+        if(targets_to_show.contains("Menu Nutrition")) holder.trainer_list_menu.setVisibility(View.VISIBLE);
+        if(targets_to_show.contains("Muscle")) holder.trainer_list_muscle.setVisibility(View.VISIBLE);
+        holder.trainer_list_name.setText(trainer.getName());
     }
 
     @Override
@@ -61,7 +56,8 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
         private TextView trainer_list_name, trainer_list_rate;
         private ImageView trainer_list_profile_image, trainer_list_menu, trainer_list_fitness,trainer_list_cardio,trainer_list_muscle;
         private CardView specialCard;
-        int[] logos;
+        private String trainer_id;
+
 
         public ViewHolder(View view) {
             super(view);
@@ -74,20 +70,19 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
             this.trainer_list_fitness = view.findViewById(R.id.trainer_list_fitness);
             this.trainer_list_cardio = view.findViewById(R.id.trainer_list_cardio);
             this.trainer_list_muscle = view.findViewById(R.id.trainer_list_muscle);
-
-            logos = new int[4];
-            logos[0] = R.drawable.trainer1_logo;
-            logos[1] = R.drawable.trainer2_logo;
-            logos[2] = R.drawable.trainer3_logo;
-            logos[3] = R.drawable.trainer4_logo;
+            trainer_list_menu.setVisibility(View.GONE);
+            trainer_list_fitness.setVisibility(View.GONE);
+            trainer_list_cardio.setVisibility(View.GONE);
+            trainer_list_muscle.setVisibility(View.GONE);
+            trainer_id = "";
         }
 
         @Override
         public void onClick(View view) {
-            Intent intent = new Intent(view.getContext(), TrainerHomepageActivity.class);
-            intent.putExtra("name", this.trainer_list_name.getText());
-            intent.putExtra("image", Integer.toString(logos[getLayoutPosition() % 4]));
-            view.getContext().startActivity(intent);
+            Intent move = new Intent(view.getContext(), TrainerHomepageActivity.class);
+            move.putExtra("trainer id from firebase" , trainer_id);
+            view.getContext().startActivity(move);
+
         }
     }
 }

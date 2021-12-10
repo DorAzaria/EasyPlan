@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.easyplan.Data.FirebaseData;
 import com.example.easyplan.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -25,12 +24,18 @@ public class TraineeHomepageActivity extends AppCompatActivity {
     private ImageView trainee_homepage_picture;
     private TextView trainee_homepage_name, trainee_homepage_address, trainee_homepage_gender;
     private TextView trainee_homepage_age, trainee_homepage_height, trainee_homepage_weight;
-    private TextView trainee_homepage_train_number, trainee_homepage_train_time, trainee_homepage_train_exer;
+    private TextView time_of_train_1 , time_of_train_2 , time_of_train_3;
+    private TextView exercise_1 , exercise_2 , exercise_3;
     private TextView trainee_homepage_day_1, trainee_homepage_day_2, trainee_homepage_day_3, trainee_homepage_day_4;
     private TextView trainee_homepage_day_5, trainee_homepage_day_6, trainee_homepage_cheat_day;
     private Button trainee_homepage_btn, trainee_homepage_plan_btn;
     private ConstraintLayout trainee_homepage_menu, trainee_homepage_trains;
     private FirebaseAuth mAuth;
+    private FirebaseDatabase database;
+    private DatabaseReference reference;
+
+    public TraineeHomepageActivity() {
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +49,12 @@ public class TraineeHomepageActivity extends AppCompatActivity {
         trainee_homepage_age = (TextView) findViewById(R.id.trainee_homepage_age);
         trainee_homepage_height = (TextView) findViewById(R.id.trainee_homepage_height);
         trainee_homepage_weight = (TextView) findViewById(R.id.trainee_homepage_weight);
-        trainee_homepage_train_number = (TextView) findViewById(R.id.trainee_homepage_train_number);
-        trainee_homepage_train_time = (TextView) findViewById(R.id.trainee_homepage_train_time);
-        trainee_homepage_train_exer = (TextView) findViewById(R.id.trainee_homepage_train_exer);
+        time_of_train_1 = (TextView) findViewById(R.id.time_of_train_1);
+        time_of_train_2 = (TextView) findViewById(R.id.time_of_train_2);
+        time_of_train_3 = (TextView) findViewById(R.id.time_of_train_3);
+        exercise_1 = (TextView) findViewById(R.id.exercise_1);
+        exercise_2 = (TextView) findViewById(R.id.exercise_2);
+        exercise_3 = (TextView) findViewById(R.id.exercise_3);
         trainee_homepage_day_1 = (TextView) findViewById(R.id.trainee_homepage_day_1);
         trainee_homepage_day_2 = (TextView) findViewById(R.id.trainee_homepage_day_2);
         trainee_homepage_day_3 = (TextView) findViewById(R.id.trainee_homepage_day_3);
@@ -54,6 +62,7 @@ public class TraineeHomepageActivity extends AppCompatActivity {
         trainee_homepage_day_5 = (TextView) findViewById(R.id.trainee_homepage_day_5);
         trainee_homepage_day_6 = (TextView) findViewById(R.id.trainee_homepage_day_6);
         trainee_homepage_cheat_day = (TextView) findViewById(R.id.trainee_homepage_cheat_day);
+
         trainee_homepage_btn = (Button) findViewById(R.id.trainee_homepage_btn);
         trainee_homepage_plan_btn = (Button) findViewById(R.id.trainee_homepage_plan_btn);
         trainee_homepage_menu = (ConstraintLayout) findViewById(R.id.trainee_homepage_menu);
@@ -63,8 +72,8 @@ public class TraineeHomepageActivity extends AppCompatActivity {
         trainee_homepage_trains.setVisibility(View.GONE);
         trainee_homepage_plan_btn.setVisibility(View.GONE);
 
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference reference = database.getReference("Users/" + mAuth.getUid());
+         database = FirebaseDatabase.getInstance();
+         reference = database.getReference("Users/" + mAuth.getUid());
 
         reference.addValueEventListener(new ValueEventListener() {
             @SuppressLint("SetTextI18n")
@@ -86,15 +95,18 @@ public class TraineeHomepageActivity extends AppCompatActivity {
 
 
 
+        reference = database.getReference("Plans/");
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                if (snapshot.hasChild("Plans/" + mAuth.getUid())) {
+                if (snapshot.hasChild(mAuth.getUid())) {
                     trainee_homepage_btn.setVisibility(View.VISIBLE);
                     trainee_homepage_menu.setVisibility(View.VISIBLE);
                     trainee_homepage_trains.setVisibility(View.VISIBLE);
+                    show_plan();
                 }
                 else {
+                    System.out.println("ASDASD");
                     trainee_homepage_plan_btn.setVisibility(View.VISIBLE);
                 }
             }
@@ -111,14 +123,34 @@ public class TraineeHomepageActivity extends AppCompatActivity {
                 startActivity(new Intent(TraineeHomepageActivity.this, RegisterByTargetActivity.class));
             }
         });
+    }
 
+    private void show_plan ( ) {
+            reference = database.getReference("Plans/" + mAuth.getUid());
+            reference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    time_of_train_1.setText(snapshot.child("trains").child("1").child("time").getValue(String.class));
+                    exercise_1.setText(snapshot.child("trains").child("1").child("exercise").getValue(String.class));
+                    time_of_train_2.setText(snapshot.child("trains").child("2").child("time").getValue(String.class));
+                    exercise_2.setText(snapshot.child("trains").child("2").child("exercise").getValue(String.class));
+                    time_of_train_3.setText(snapshot.child("trains").child("3").child("time").getValue(String.class));
+                    exercise_3.setText(snapshot.child("trains").child("3").child("exercise").getValue(String.class));
+                    trainee_homepage_day_1.setText(snapshot.child("menu").child("0").getValue(String.class));
+                    trainee_homepage_day_2.setText(snapshot.child("menu").child("1").getValue(String.class));
+                    trainee_homepage_day_3.setText(snapshot.child("menu").child("2").getValue(String.class));
+                    trainee_homepage_day_4.setText(snapshot.child("menu").child("3").getValue(String.class));
+                    trainee_homepage_day_5.setText(snapshot.child("menu").child("4").getValue(String.class));
+                    trainee_homepage_day_6.setText(snapshot.child("menu").child("5").getValue(String.class));
+                    trainee_homepage_cheat_day.setText(snapshot.child("menu").child("6").getValue(String.class));
+                }
 
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-
+                }
+            });
 
     }
 
-    private void getTrainee() {
-
-    }
 }

@@ -27,6 +27,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
 import java.util.Vector;
 
 public class RegisterTrainerActivity extends AppCompatActivity {
@@ -82,7 +83,7 @@ public class RegisterTrainerActivity extends AppCompatActivity {
                                 int cost = Integer.parseInt(register_trainer_cost.getText().toString());
                                 String education = register_trainer_education.getText().toString();
                                 String personal_page = register_trainer_personal_page.getText().toString();
-                                Vector<String> targets = new Vector<>();
+                                ArrayList<String> targets = new ArrayList<>();
                                 if (register_trainer_cardio.isChecked()) {
                                     targets.add("Cardio");
                                 }
@@ -99,9 +100,10 @@ public class RegisterTrainerActivity extends AppCompatActivity {
                                 if (register_trainer_female_radio.isChecked()) {
                                     gender = "female";
                                 } else gender = "male";
+
                                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                                 DatabaseReference reference = database.getReference("Users/" + mAuth.getUid());
-                                Trainer trainer = new Trainer(name, address, gender, education, personal_page, age, cost, targets);
+                                Trainer trainer = new Trainer(name, address, gender, education, personal_page, age, cost, targets, new ArrayList<String>());
                                 reference.setValue(trainer);
                                 Intent move = new Intent(RegisterTrainerActivity.this, TrainerHomepageActivity.class);
                                 startActivity(move);

@@ -8,8 +8,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.example.easyplan.R;
+
+import java.util.ArrayList;
+import java.util.Vector;
 
 public class RegisterByTargetActivity extends AppCompatActivity {
 
@@ -34,12 +38,22 @@ public class RegisterByTargetActivity extends AppCompatActivity {
         register_by_target_cardio_linear = (LinearLayout) findViewById(R.id.register_by_target_cardio_linear);
         register_by_target_muscles_linear = (LinearLayout) findViewById(R.id.register_by_target_muscles_linear);
         register_by_target_menu_nutrition_linear = (LinearLayout) findViewById(R.id.register_by_target_menu_nutrition_linear);
-
+        ArrayList <String> targets = new ArrayList<>();
 
         register_by_target_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(RegisterByTargetActivity.this, TrainerListActivity.class ));
+                if(targets.isEmpty()) {
+                    Toast.makeText(RegisterByTargetActivity.this,"Please choose at least one Target!",Toast.LENGTH_LONG).show();
+                }
+                else {
+                    Intent move = new Intent(RegisterByTargetActivity.this, TrainerListActivity.class);
+                    move.putStringArrayListExtra("query types", targets);
+                    startActivity(move);
+                }
+
+
+
             }
         });
 
@@ -50,10 +64,13 @@ public class RegisterByTargetActivity extends AppCompatActivity {
 
                 if(fitness_press % 2 == 0) {
                     register_by_target_fitness_linear.setBackground(getDrawable(R.drawable.edit_text_background));
+                    if (targets.contains("Fitness")) targets.remove("Fitness");
+
+
                 }
                 else {
                     register_by_target_fitness_linear.setBackground(getDrawable(R.drawable.frame_background));
-
+                    targets.add("Fitness");
                 }
 
             }
@@ -66,10 +83,12 @@ public class RegisterByTargetActivity extends AppCompatActivity {
 
                 if(cardio_press % 2 == 0) {
                     register_by_target_cardio_linear.setBackground(getDrawable(R.drawable.edit_text_background));
+                    if (targets.contains("Cardio")) targets.remove("Cardio");
+
                 }
                 else {
                     register_by_target_cardio_linear.setBackground(getDrawable(R.drawable.frame_background));
-
+                    targets.add("Cardio");
                 }
             }
         });
@@ -81,10 +100,12 @@ public class RegisterByTargetActivity extends AppCompatActivity {
 
                 if(muscles_press % 2 == 0) {
                     register_by_target_muscles_linear.setBackground(getDrawable(R.drawable.edit_text_background));
+                    if (targets.contains("Muscle")) targets.remove("Muscle");
+
                 }
                 else {
                     register_by_target_muscles_linear.setBackground(getDrawable(R.drawable.frame_background));
-
+                    targets.add("Muscle");
                 }
             }
         });
@@ -96,10 +117,11 @@ public class RegisterByTargetActivity extends AppCompatActivity {
 
                 if(nutrition_press % 2 == 0) {
                     register_by_target_menu_nutrition_linear.setBackground(getDrawable(R.drawable.edit_text_background));
+                    if (targets.contains("Menu Nutrition")) targets.remove("Menu Nutrition");
                 }
                 else {
                     register_by_target_menu_nutrition_linear.setBackground(getDrawable(R.drawable.frame_background));
-
+                    targets.add("Menu Nutrition");
                 }
             }
         });

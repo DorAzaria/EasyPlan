@@ -6,7 +6,10 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.example.easyplan.Data.Trainer;
@@ -31,21 +34,36 @@ public class TrainerListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trainer_list);
         mAuth = FirebaseAuth.getInstance();
-
         RecyclerView recyclerView = findViewById(R.id.trainer_list_recyclerview);
+        Intent move = getIntent();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
 
         List<Trainer> trainers = new ArrayList<>();
+        List<String> trainers_ids = new ArrayList<>();
 
-        rootRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        TrainerListAdapter tla = new TrainerListAdapter(trainers , trainers_ids);
+        recyclerView.setAdapter(tla);
+
+        ArrayList<String> type_request = move.getStringArrayListExtra("query types");
+        reference = database.getReference("Users/");
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                if(snapshot.hasChild("Users/" + mAuth.getUid())) {
 
+                for (DataSnapshot runner : snapshot.getChildren()) {
+                    String type = runner.child("type").getValue(String.class);
+                    if (type.equals("Trainer")) {
+                        Trainer trainer = runner.getValue(Trainer.class);
+                        if (trainer.getTargets().containsAll(type_request)) {
+                                trainers.add(trainer);
+                                trainers_ids.add(runner.getKey());
+                        }
+                    }
                 }
-                else {
-                }
+                tla.notifyDataSetChanged();
             }
 
             @Override
@@ -54,15 +72,6 @@ public class TrainerListActivity extends AppCompatActivity {
             }
         });
 
-        recyclerView.setAdapter(new TrainerListAdapter(generateData()));
-        recyclerView.addItemDecoration(new DividerItemDecoration(this, 0));
-    }
 
-    private List<String> generateData() {
-        List<String> data = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            data.add("Trainer " + String.valueOf(i));
-        }
-        return data;
     }
 }
