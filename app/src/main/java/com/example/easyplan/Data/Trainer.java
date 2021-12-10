@@ -1,5 +1,6 @@
 package com.example.easyplan.Data;
 
+import java.util.ArrayList;
 import java.util.Vector;
 
 public class Trainer {
@@ -7,9 +8,11 @@ public class Trainer {
     private String name, address, gender, type, education, personal_page;
     private int age, cost, duration;
     private double rate;
-    private Vector<String> targets, trainees;
+    private ArrayList<String> targets, my_trainees;
 
-    public Trainer(String name, String address, String gender, String education, String personal_page, int age, int cost, Vector<String> targets) {
+    public Trainer() {}
+
+    public Trainer(String name, String address, String gender, String education, String personal_page, int age, int cost, ArrayList<String> targets , ArrayList<String> my_trainees) {
         this.name = name;
         this.address = address;
         this.gender = gender;
@@ -18,7 +21,7 @@ public class Trainer {
         this.age = age;
         this.cost = cost;
         this.targets = targets;
-        this.trainees = new Vector<>();
+        this.my_trainees = my_trainees;
         this.type = "Trainer";
     }
 
@@ -102,21 +105,37 @@ public class Trainer {
         this.rate = rate;
     }
 
-    public Vector<String> getTargets() {
+    public ArrayList<String> getTargets() {
         return targets;
     }
 
-    public void setTargets(Vector<String> targets) {
+    public void setTargets(ArrayList<String> targets) {
         this.targets = targets;
     }
 
-    public Vector<String> getTrainees() {
-        return trainees;
+    public ArrayList<String> getTrainees() {
+        return my_trainees;
     }
 
-    public void setTrainees(Vector<String> trainees) {
-        this.trainees = trainees;
+    public void setTrainees(ArrayList<String> trainees) {
+        this.my_trainees = trainees;
     }
 
-
+    @Override
+    public String toString() {
+        return "Trainer{" +
+                "name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                ", gender='" + gender + '\'' +
+                ", type='" + type + '\'' +
+                ", education='" + education + '\'' +
+                ", personal_page='" + personal_page + '\'' +
+                ", age=" + age +
+                ", cost=" + cost +
+                ", duration=" + duration +
+                ", rate=" + rate +
+                ", targets=" + targets +
+                ", my_trainees=" + my_trainees +
+                '}';
+    }
 }

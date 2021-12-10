@@ -64,13 +64,13 @@ public class RegisterByTargetActivity extends AppCompatActivity {
 
                 if(fitness_press % 2 == 0) {
                     register_by_target_fitness_linear.setBackground(getDrawable(R.drawable.edit_text_background));
-                    if (targets.contains("fitness")) targets.remove("fitness");
+                    if (targets.contains("Fitness")) targets.remove("Fitness");
 
 
                 }
                 else {
                     register_by_target_fitness_linear.setBackground(getDrawable(R.drawable.frame_background));
-                    targets.add("fitness");
+                    targets.add("Fitness");
                 }
 
             }
@@ -83,12 +83,12 @@ public class RegisterByTargetActivity extends AppCompatActivity {
 
                 if(cardio_press % 2 == 0) {
                     register_by_target_cardio_linear.setBackground(getDrawable(R.drawable.edit_text_background));
-                    if (targets.contains("cardio")) targets.remove("cardio");
+                    if (targets.contains("Cardio")) targets.remove("Cardio");
 
                 }
                 else {
                     register_by_target_cardio_linear.setBackground(getDrawable(R.drawable.frame_background));
-                    targets.add("cardio");
+                    targets.add("Cardio");
                 }
             }
         });
@@ -100,12 +100,12 @@ public class RegisterByTargetActivity extends AppCompatActivity {
 
                 if(muscles_press % 2 == 0) {
                     register_by_target_muscles_linear.setBackground(getDrawable(R.drawable.edit_text_background));
-                    if (targets.contains("muscles")) targets.remove("muscles");
+                    if (targets.contains("Muscle")) targets.remove("Muscle");
 
                 }
                 else {
                     register_by_target_muscles_linear.setBackground(getDrawable(R.drawable.frame_background));
-                    targets.add("muscles");
+                    targets.add("Muscle");
                 }
             }
         });
@@ -117,11 +117,11 @@ public class RegisterByTargetActivity extends AppCompatActivity {
 
                 if(nutrition_press % 2 == 0) {
                     register_by_target_menu_nutrition_linear.setBackground(getDrawable(R.drawable.edit_text_background));
-                    if (targets.contains("nutrition")) targets.remove("nutrition");
+                    if (targets.contains("Menu Nutrition")) targets.remove("Menu Nutrition");
                 }
                 else {
                     register_by_target_menu_nutrition_linear.setBackground(getDrawable(R.drawable.frame_background));
-                    targets.add("nutrition");
+                    targets.add("Menu Nutrition");
                 }
             }
         });
