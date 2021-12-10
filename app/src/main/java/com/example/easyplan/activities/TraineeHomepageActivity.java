@@ -86,7 +86,6 @@ public class TraineeHomepageActivity extends AppCompatActivity {
          reference = database.getReference("Users/" + mAuth.getUid());
 
         reference.addValueEventListener(new ValueEventListener() {
-            @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 trainee_homepage_name.setText(snapshot.child("name").getValue(String.class));
@@ -95,9 +94,24 @@ public class TraineeHomepageActivity extends AppCompatActivity {
                 trainee_homepage_gender.setText(snapshot.child("gender").getValue(String.class));
                 trainee_homepage_height.setText(snapshot.child("height").getValue(String.class));
                 trainee_homepage_weight.setText(snapshot.child("weight").getValue(String.class));
-
                 notification = snapshot.child("notifications").getValue(String.class);
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        System.out.println("HII" + notification);
+        if(notification.length() > 0) {
+            trainee_homepage_notification.setVisibility(View.VISIBLE);
+        }
+
+
+        trainee_homepage_notification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 if(notification != null && !notification.isEmpty()) {
 
                     final Dialog dialog = new Dialog(TraineeHomepageActivity.this);
@@ -128,13 +142,7 @@ public class TraineeHomepageActivity extends AppCompatActivity {
 
                 }
             }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
         });
-
 
         reference = database.getReference("Plans/");
         reference.addListenerForSingleValueEvent(new ValueEventListener() {

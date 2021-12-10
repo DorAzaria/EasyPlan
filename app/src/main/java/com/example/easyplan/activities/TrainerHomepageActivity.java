@@ -71,71 +71,72 @@ public class TrainerHomepageActivity extends AppCompatActivity {
             trainer_id = move.getStringExtra("trainer id from firebase");
             trainer_list_menu.setVisibility(View.GONE);
 
-            trainer_start_plan.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    final Dialog dialog = new Dialog(TrainerHomepageActivity.this);
-                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                    dialog.setCancelable(true);
-                    dialog.setContentView(R.layout.dialog_error);
-
-                    TextView errors = dialog.findViewById(R.id.dialog_error_text);
-                    TextView title = dialog.findViewById(R.id.dialog_title);
-                    Button ok_btn = dialog.findViewById(R.id.dialog_ok);
-
-                    title.setText("New plan is on the way!");
-                    errors.setText("Your trainer just received your request.\nIt could take a while, please be patient.\nWe'll let you know when your plan is ready.");
-                    ok_btn.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            dialog.dismiss();
-
-                            FirebaseDatabase database = FirebaseDatabase.getInstance();
-                            reference = database.getReference("Users/" + trainer_id + "/my_trainees/" + mAuth.getUid());
-                            reference.setValue("false");
-
-                            reference = database.getReference("Users/" + mAuth.getUid() + "/plan_status");
-                            reference.setValue(trainer_id);
-
-                            reference = database.getReference("Users/" + trainer_id + "/notifications");
-
-                            DatabaseReference ref_trainer = database.getReference("Users/"+mAuth.getUid());
-
-                            ref_trainer.addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                    reference.setValue("You've got a new plan request from " + snapshot.child("name").getValue(String.class));
-                                }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError error) {
-                                }
-                            });
-
-                            reference = database.getReference("Users/" + mAuth.getUid() + "/notifications");
-
-                            ref_trainer = database.getReference("Users/"+trainer_id);
-
-                            ref_trainer.addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                    reference.setValue("Your plan request just sent to " + snapshot.child("name").getValue(String.class));
-                                }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError error) {
-                                }
-                            });
-
-                            startActivity(new Intent(TrainerHomepageActivity.this, TraineeHomepageActivity.class));
-                        }
-                    });
-
-
-                    dialog.show();
-
-                }
-            });
+//            trainer_start_plan.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    final Dialog dialog = new Dialog(TrainerHomepageActivity.this);
+//                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//                    dialog.setCancelable(true);
+//                    dialog.setContentView(R.layout.dialog_error);
+//
+//                    TextView errors = dialog.findViewById(R.id.dialog_error_text);
+//                    TextView title = dialog.findViewById(R.id.dialog_title);
+//                    Button ok_btn = dialog.findViewById(R.id.dialog_ok);
+//
+//                    title.setText("New plan is on the way!");
+//                    errors.setText("Your trainer just received your request.\nIt could take a while, please be patient.\nWe'll let you know when your plan is ready.");
+//
+//                    ok_btn.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            dialog.dismiss();
+//
+//                            FirebaseDatabase database = FirebaseDatabase.getInstance();
+//                            reference = database.getReference("Users/" + trainer_id + "/my_trainees/" + mAuth.getUid());
+//                            reference.setValue("false");
+//
+//                            reference = database.getReference("Users/" + mAuth.getUid() + "/plan_status");
+//                            reference.setValue(trainer_id);
+//
+//                            reference = database.getReference("Users/" + trainer_id + "/notifications");
+//
+//                            DatabaseReference ref_trainer = database.getReference("Users/"+mAuth.getUid());
+//
+//                            ref_trainer.addListenerForSingleValueEvent(new ValueEventListener() {
+//                                @Override
+//                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                                    reference.setValue("You've got a new plan request from " + snapshot.child("name").getValue(String.class));
+//                                }
+//
+//                                @Override
+//                                public void onCancelled(@NonNull DatabaseError error) {
+//                                }
+//                            });
+//
+//                            reference = database.getReference("Users/" + mAuth.getUid() + "/notifications");
+//
+//                            ref_trainer = database.getReference("Users/"+trainer_id);
+//
+//                            ref_trainer.addListenerForSingleValueEvent(new ValueEventListener() {
+//                                @Override
+//                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                                    reference.setValue("Your plan request just sent to " + snapshot.child("name").getValue(String.class));
+//                                }
+//
+//                                @Override
+//                                public void onCancelled(@NonNull DatabaseError error) {
+//                                }
+//                            });
+//
+//                            startActivity(new Intent(TrainerHomepageActivity.this, TraineeHomepageActivity.class));
+//                        }
+//                    });
+//
+//
+//                    dialog.show();
+//
+//                }
+//            });
         }
         else {
             trainer_id = mAuth.getUid();
