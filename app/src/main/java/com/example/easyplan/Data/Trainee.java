@@ -1,14 +1,15 @@
 package com.example.easyplan.Data;
 
+import java.util.ArrayList;
 import java.util.Vector;
 
 public class Trainee {
 
     private String name, address, height, weight, gender, type;
     private int age;
-    private Vector<String> targets;
+    private ArrayList<String> targets;
 
-    public Trainee(String name, String address, String height, String weight, String gender, int age) {
+    public Trainee(String name, String address, String height, String weight, String gender, int age,ArrayList<String> targets) {
         this.name = name;
         this.address = address;
         this.height = height;
@@ -16,8 +17,9 @@ public class Trainee {
         this.gender = gender;
         this.age = age;
         this.type = "Trainee";
-        this.targets = new Vector<>();
+        this.targets = targets;
     }
+
 
     public String getName() {
         return name;
@@ -75,11 +77,11 @@ public class Trainee {
         this.age = age;
     }
 
-    public Vector<String> getTargets() {
+    public ArrayList<String> getTargets() {
         return targets;
     }
 
-    public void setTargets(Vector<String> targets) {
+    public void setTargets(ArrayList<String> targets) {
         this.targets = targets;
     }
 }
