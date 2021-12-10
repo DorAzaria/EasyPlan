@@ -91,7 +91,7 @@ public class TrainerHomepageActivity extends AppCompatActivity {
                             dialog.dismiss();
 
                             FirebaseDatabase database = FirebaseDatabase.getInstance();
-                            reference = database.getReference("Users/" + trainer_id + "/my_trainees" + mAuth.getUid());
+                            reference = database.getReference("Users/" + trainer_id + "/my_trainees/" + mAuth.getUid());
                             reference.setValue("false");
 
                             reference = database.getReference("Users/" + mAuth.getUid() + "/plan_status");
