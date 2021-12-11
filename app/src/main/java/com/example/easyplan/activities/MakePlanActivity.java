@@ -14,10 +14,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.easyplan.Data.FirebaseData;
-import com.example.easyplan.Data.Plan;
-import com.example.easyplan.Data.Trainee;
-import com.example.easyplan.Data.Trainer;
+import com.example.easyplan.data.FirebaseData;
+import com.example.easyplan.data.Plan;
+import com.example.easyplan.data.Trainee;
 import com.example.easyplan.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -27,7 +26,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Vector;
 
 public class MakePlanActivity extends AppCompatActivity {

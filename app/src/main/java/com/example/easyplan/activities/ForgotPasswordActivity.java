@@ -52,38 +52,21 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if(task.isSuccessful()) {
-                                        emailSent();
+                                        errorDialog("Email Sent.");
                                     }
                                     else {
-                                        emailFailed();
+                                        errorDialog("Ops, something went wrong! \n   This email isn't exists in our system :(");
                                     }
                                 }
                             });
                 }
                 else {
-                    final Dialog dialog = new Dialog(ForgotPasswordActivity.this);
-                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                    dialog.setCancelable(true);
-                    dialog.setContentView(R.layout.dialog_error);
-
-                    TextView errors = dialog.findViewById(R.id.dialog_error_text);
-                    Button ok_btn = dialog.findViewById(R.id.dialog_ok);
-
-                    errors.setText(check);
-
-                    ok_btn.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            dialog.dismiss();
-                        }
-                    });
-
-
-                    dialog.show();
+                    errorDialog(check);
                 }
             }
         });
     }
+
 
     private String checkInputs() {
         String errors = "";
@@ -103,7 +86,10 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         return errors;
     }
 
-    private void emailSent() {
+//////**********************************************////////////
+////// Dialog pattern, gets a string and prints it. usually to print errors.
+//////**********************************************////////////
+    private void errorDialog(String error) {
         final Dialog dialog = new Dialog(ForgotPasswordActivity.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(true);
@@ -112,38 +98,13 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         TextView errors = dialog.findViewById(R.id.dialog_error_text);
         Button ok_btn = dialog.findViewById(R.id.dialog_ok);
 
-        errors.setText("Email Sent.");
-
-        ok_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-                startActivity(new Intent(ForgotPasswordActivity.this, LoginActivity.class));
-            }
-        });
-
-
-        dialog.show();
-    }
-
-    private void emailFailed() {
-        final Dialog dialog = new Dialog(ForgotPasswordActivity.this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setCancelable(true);
-        dialog.setContentView(R.layout.dialog_error);
-
-        TextView errors = dialog.findViewById(R.id.dialog_error_text);
-        Button ok_btn = dialog.findViewById(R.id.dialog_ok);
-
-        errors.setText("Ops, something went wrong! \n   This email isn't exists in our system :(");
-
+        errors.setText(error);
         ok_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
             }
         });
-
 
         dialog.show();
     }

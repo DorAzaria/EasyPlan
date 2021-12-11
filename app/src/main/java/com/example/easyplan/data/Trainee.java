@@ -1,7 +1,4 @@
-package com.example.easyplan.Data;
-
-import java.util.ArrayList;
-import java.util.Vector;
+package com.example.easyplan.data;
 
 public class Trainee {
 

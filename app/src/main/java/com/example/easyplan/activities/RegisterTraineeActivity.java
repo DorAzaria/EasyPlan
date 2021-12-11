@@ -16,18 +16,23 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.easyplan.Data.Trainee;
+import com.example.easyplan.data.FirebaseData;
+import com.example.easyplan.data.Trainee;
 import com.example.easyplan.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.ArrayList;
-
+//////**********************************************////////////
+////// This activity manages the trainee registration.
+///// Once presses this button, the process begins:
+///// Checks for errors - prints with dialogs if any,
+///// else, create the user (Auth) and register (save personal data).
+///// then move to the homepage.
+//////**********************************************////////////
 public class RegisterTraineeActivity extends AppCompatActivity {
 
     private Button register_trainee_btn;
@@ -45,8 +50,12 @@ public class RegisterTraineeActivity extends AppCompatActivity {
         //get email and password from register by type activity
         this.email = getIntent().getStringExtra("email");
         this.password = getIntent().getStringExtra("password");
-
         mAuth = FirebaseAuth.getInstance();
+        initFields();
+    }
+
+
+    private void initFields() {
         register_trainee_btn = (Button) findViewById(R.id.register_trainee_btn);
         register_trainee_image = (ImageView) findViewById(R.id.register_trainee_image);
         register_trainee_upload = (ImageView) findViewById(R.id.register_trainee_upload);
@@ -57,68 +66,68 @@ public class RegisterTraineeActivity extends AppCompatActivity {
         register_trainee_weight = (EditText) findViewById(R.id.register_trainee_weight);
         register_trainee_male_radio = (RadioButton) findViewById(R.id.register_trainee_male_radio);
         register_trainee_female_radio = (RadioButton) findViewById(R.id.register_trainee_female_radio);
-
-
     }
 
 
-
+//////**********************************************////////////
+///// Once presses this button, the process begins:
+///// Checks for errors - prints with dialogs if any,
+///// else, create the user (Auth) and register (save personal data).
+///// then move to the homepage.
+//////**********************************************////////////
     public void register_trainee(View view) {
-        String check = checkInputs();
-        if(check.isEmpty()) {
-            mAuth.createUserWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                // Sign in success, update UI with the signed-in user's information
-                                String name = register_trainee_full_name.getText().toString();
-                                String address = register_trainee_address.getText().toString();
-                                String age = register_trainee_age.getText().toString();
-                                String height = register_trainee_height.getText().toString();
-                                String weight = register_trainee_weight.getText().toString();
-                                String gender;
-                                if (register_trainee_female_radio.isChecked()) {
-                                    gender = "female";
-                                } else gender = "male";
-
-                                FirebaseDatabase database = FirebaseDatabase.getInstance();
-                                DatabaseReference reference = database.getReference("Users/" + mAuth.getUid());
-                                Trainee trainee = new Trainee(name, address, height, weight, gender, "Trainee", "", "",  Integer.parseInt(age));
-                                reference.setValue(trainee);
-                                Intent move = new Intent(RegisterTraineeActivity.this, TraineeHomepageActivity.class);
-                                startActivity(move);
-                            } else {
-                                // If sign in fails, display a message to the user.
-                                Toast.makeText(RegisterTraineeActivity.this, "Authentication failed.",
-                                        Toast.LENGTH_SHORT).show();
-
-                            }
-                        }
-                    });
+        String error_information = checkInputs();
+        if(error_information.isEmpty()) {
+            createUser();
         }
         else {
-            final Dialog dialog = new Dialog(RegisterTraineeActivity.this);
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            dialog.setCancelable(true);
-            dialog.setContentView(R.layout.dialog_error);
-
-            TextView errors = dialog.findViewById(R.id.dialog_error_text);
-            Button ok_btn = dialog.findViewById(R.id.dialog_ok);
-
-            errors.setText(check);
-            ok_btn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dialog.dismiss();
-                }
-            });
-
-
-            dialog.show();
+            errorDialog(error_information);
         }
     }
 
+
+//////**********************************************////////////
+    private void createUser() {
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            registerUser();
+                            Intent move = new Intent(RegisterTraineeActivity.this, TraineeHomepageActivity.class);
+                            startActivity(move);
+                        }
+                        else {
+                           errorDialog("Authentication failed.");
+                        }
+                    }
+                });
+    }
+
+
+//////**********************************************////////////
+    private void registerUser() {
+        String name = register_trainee_full_name.getText().toString();
+        String address = register_trainee_address.getText().toString();
+        String age = register_trainee_age.getText().toString();
+        String height = register_trainee_height.getText().toString();
+        String weight = register_trainee_weight.getText().toString();
+        String gender;
+        if (register_trainee_female_radio.isChecked()) {
+            gender = "female";
+        } else gender = "male";
+
+        FirebaseData firebaseData = new FirebaseData();
+        Trainee trainee = new Trainee(name, address, height, weight, gender, "Trainee", "", "",  Integer.parseInt(age));
+        firebaseData.createTrainee(trainee);
+    }
+
+
+//////**********************************************////////////
+////// checkInputs collects all errors as String and returns the errors.
+////// Checks empty cases and more...
+//////**********************************************////////////
     public String checkInputs() {
         String errors = "";
 
@@ -200,4 +209,29 @@ public class RegisterTraineeActivity extends AppCompatActivity {
 
         return errors;
     }
+
+
+//////**********************************************////////////
+////// Dialog pattern, gets a string and prints it. usually to print errors.
+//////**********************************************////////////
+    private void errorDialog(String error) {
+        final Dialog dialog = new Dialog(RegisterTraineeActivity.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(true);
+        dialog.setContentView(R.layout.dialog_error);
+
+        TextView errors = dialog.findViewById(R.id.dialog_error_text);
+        Button ok_btn = dialog.findViewById(R.id.dialog_ok);
+
+        errors.setText(error);
+        ok_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+    }
+
 }

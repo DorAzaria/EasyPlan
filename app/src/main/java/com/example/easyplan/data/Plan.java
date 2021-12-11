@@ -1,4 +1,4 @@
-package com.example.easyplan.Data;
+package com.example.easyplan.data;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

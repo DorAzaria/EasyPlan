@@ -10,13 +10,10 @@ import android.widget.TextView;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.easyplan.Data.Trainer;
+import com.example.easyplan.data.Trainer;
 import com.example.easyplan.R;
 import com.example.easyplan.activities.TrainerHomepageActivity;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.ViewHolder> {

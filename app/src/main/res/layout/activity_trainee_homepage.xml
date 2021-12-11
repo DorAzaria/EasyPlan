@@ -33,6 +33,7 @@
             android:id="@+id/trainee_homepage_notification"
             android:layout_width="35dp"
             android:layout_height="35dp"
+            android:onClick="clickNotification"
             android:layout_marginLeft="130dp">
 
             <ImageView
@@ -95,6 +96,7 @@
                     android:text="CONTACT TRAINER"/>
                 <Button
                     android:id="@+id/trainee_homepage_plan_btn"
+                    android:onClick="startPlanButton"
                     android:layout_gravity="center"
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"

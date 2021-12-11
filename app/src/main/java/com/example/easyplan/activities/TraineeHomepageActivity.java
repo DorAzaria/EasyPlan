@@ -4,11 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -17,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.easyplan.R;
+import com.example.easyplan.data.FirebaseData;
+import com.example.easyplan.data.Trainee;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -24,6 +24,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+//////**********************************************////////////
+////// This activity manages the trainee homepage
+//////**********************************************////////////
 public class TraineeHomepageActivity extends AppCompatActivity {
     private ImageView trainee_homepage_picture;
     private TextView trainee_homepage_name, trainee_homepage_address, trainee_homepage_gender;
@@ -39,15 +42,25 @@ public class TraineeHomepageActivity extends AppCompatActivity {
     private DatabaseReference reference;
     private FrameLayout trainee_homepage_notification;
     private String notification;
+    private FirebaseData firebaseData;
 
-    public TraineeHomepageActivity() {
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trainee_homepage);
+        firebaseData = new FirebaseData();
         mAuth = FirebaseAuth.getInstance();
+        notification = "";
+        initFields();
+        showProfileHeader();
+        checkForNotifications();
+        checkForPlan();
+    }
+
+
+//////**********************************************////////////
+    private void initFields() {
         trainee_homepage_picture = (ImageView) findViewById(R.id.trainee_homepage_picture);
         trainee_homepage_name = (TextView) findViewById(R.id.trainee_homepage_name);
         trainee_homepage_address = (TextView) findViewById(R.id.trainee_homepage_address);
@@ -80,21 +93,23 @@ public class TraineeHomepageActivity extends AppCompatActivity {
 
         trainee_homepage_notification = (FrameLayout) findViewById(R.id.trainee_homepage_notification);
         trainee_homepage_notification.setVisibility(View.GONE);
-        notification = "";
+    }
 
-         database = FirebaseDatabase.getInstance();
-         reference = database.getReference("Users/" + mAuth.getUid());
 
+//////**********************************************////////////
+    private void showProfileHeader() {
+        database = FirebaseDatabase.getInstance();
+        reference = database.getReference("Users/" + mAuth.getUid());
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                trainee_homepage_name.setText(snapshot.child("name").getValue(String.class));
-                trainee_homepage_age.setText(snapshot.child("age").getValue(Integer.class).toString());
-                trainee_homepage_address.setText(snapshot.child("address").getValue(String.class));
-                trainee_homepage_gender.setText(snapshot.child("gender").getValue(String.class));
-                trainee_homepage_height.setText(snapshot.child("height").getValue(String.class));
-                trainee_homepage_weight.setText(snapshot.child("weight").getValue(String.class));
-                notification = snapshot.child("notifications").getValue(String.class);
+                Trainee trainee = snapshot.getValue(Trainee.class);
+                trainee_homepage_name.setText(trainee.getName());
+                trainee_homepage_age.setText(String.valueOf(trainee.getAge()));
+                trainee_homepage_address.setText(trainee.getAddress());
+                trainee_homepage_gender.setText(trainee.getGender());
+                trainee_homepage_height.setText(trainee.getHeight());
+                trainee_homepage_weight.setText(trainee.getWeight());
             }
 
             @Override
@@ -102,88 +117,93 @@ public class TraineeHomepageActivity extends AppCompatActivity {
 
             }
         });
+    }
 
-        System.out.println("HII" + notification);
-        if(notification.length() > 0) {
+
+//////**********************************************////////////
+    private void checkForNotifications() {
+        notification = firebaseData.getNotification();
+        if(firebaseData.checkForNewNotifications(notification)) {
             trainee_homepage_notification.setVisibility(View.VISIBLE);
         }
+    }
 
 
-        trainee_homepage_notification.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(notification != null && !notification.isEmpty()) {
-
-                    final Dialog dialog = new Dialog(TraineeHomepageActivity.this);
-                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                    dialog.setCancelable(true);
-                    dialog.setContentView(R.layout.dialog_error);
-
-                    TextView errors = dialog.findViewById(R.id.dialog_error_text);
-                    Button ok_btn = dialog.findViewById(R.id.dialog_ok);
-                    TextView title = dialog.findViewById(R.id.dialog_title);
-
-                    errors.setText(notification);
-                    title.setText("Notifications");
-
-                    ok_btn.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-
-                            DatabaseReference reference2 = database.getReference("Users/" + mAuth.getUid() + "/notifications");
-                            reference2.setValue("");
-                            dialog.dismiss();
-
-                        }
-                    });
-
-
-                    dialog.show();
-
-                }
-            }
-        });
-
+//////**********************************************////////////
+    private void checkForPlan() {
         reference = database.getReference("Plans/");
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 if (snapshot.hasChild(mAuth.getUid())) {
-                    trainee_homepage_btn.setVisibility(View.VISIBLE);
-                    trainee_homepage_menu.setVisibility(View.VISIBLE);
-                    trainee_homepage_trains.setVisibility(View.VISIBLE);
-                    show_plan();
+                    showPlan();
                 }
                 else {
-                    trainee_homepage_plan_btn.setVisibility(View.VISIBLE);
+                    traineeWithoutPlan();
+                }
+            }
 
-                    DatabaseReference ref2 = database.getReference("Users/"+mAuth.getUid());
-                    ref2.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+
+//////**********************************************////////////
+    private void showPlan() {
+        trainee_homepage_btn.setVisibility(View.VISIBLE);
+        trainee_homepage_menu.setVisibility(View.VISIBLE);
+        trainee_homepage_trains.setVisibility(View.VISIBLE);
+
+        reference = database.getReference("Plans/" + mAuth.getUid());
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                time_of_train_1.setText(snapshot.child("trains").child("1").child("time").getValue(String.class));
+                exercise_1.setText(snapshot.child("trains").child("1").child("exercise").getValue(String.class));
+                time_of_train_2.setText(snapshot.child("trains").child("2").child("time").getValue(String.class));
+                exercise_2.setText(snapshot.child("trains").child("2").child("exercise").getValue(String.class));
+                time_of_train_3.setText(snapshot.child("trains").child("3").child("time").getValue(String.class));
+                exercise_3.setText(snapshot.child("trains").child("3").child("exercise").getValue(String.class));
+                trainee_homepage_day_1.setText(snapshot.child("menu").child("0").getValue(String.class));
+                trainee_homepage_day_2.setText(snapshot.child("menu").child("1").getValue(String.class));
+                trainee_homepage_day_3.setText(snapshot.child("menu").child("2").getValue(String.class));
+                trainee_homepage_day_4.setText(snapshot.child("menu").child("3").getValue(String.class));
+                trainee_homepage_day_5.setText(snapshot.child("menu").child("4").getValue(String.class));
+                trainee_homepage_day_6.setText(snapshot.child("menu").child("5").getValue(String.class));
+                trainee_homepage_cheat_day.setText(snapshot.child("menu").child("6").getValue(String.class));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+
+//////**********************************************////////////
+    private void traineeWithoutPlan() {
+        trainee_homepage_plan_btn.setVisibility(View.VISIBLE);
+
+        DatabaseReference ref2 = database.getReference("Users/"+mAuth.getUid());
+        ref2.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String status = snapshot.child("plan_status").getValue(String.class);
+
+                if(status != null && !status.equals("active") && !status.isEmpty()) {
+
+                    // status is the id of the trainer.
+                    DatabaseReference ref3 = database.getReference("Users/"+status);
+                    ref3.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            String status = snapshot.child("plan_status").getValue(String.class);
-
-                            if(status != null && !status.equals("active")  && !status.isEmpty()) {
-
-                                DatabaseReference ref3 = database.getReference("Users/"+status);
-                                ref3.addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                        String trainer_name = snapshot.child("name").getValue(String.class);
-
-
-                                        trainee_homepage_plan_btn.setText(trainer_name + " is working on your plan");
-                                        trainee_homepage_plan_btn.setClickable(false);
-
-                                    }
-
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError error) {
-
-                                    }
-                                });
-
-                            }
+                            String trainer_name = snapshot.child("name").getValue(String.class);
+                            trainee_homepage_plan_btn.setText(trainer_name + " is working on your plan");
+                            trainee_homepage_plan_btn.setClickable(false);
                         }
 
                         @Override
@@ -191,6 +211,7 @@ public class TraineeHomepageActivity extends AppCompatActivity {
 
                         }
                     });
+
                 }
             }
 
@@ -199,47 +220,50 @@ public class TraineeHomepageActivity extends AppCompatActivity {
 
             }
         });
-
-        trainee_homepage_plan_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(TraineeHomepageActivity.this, RegisterByTargetActivity.class));
-            }
-        });
     }
 
-    public void logout (View v) {
-        mAuth.signOut();
-        Intent move = new Intent(TraineeHomepageActivity.this , LoginActivity.class);
-        startActivity(move);
-    }
 
-    private void show_plan ( ) {
-            reference = database.getReference("Plans/" + mAuth.getUid());
-            reference.addValueEventListener(new ValueEventListener() {
+//////**********************************************////////////
+    public void clickNotification(View view) {
+        if(notification != null && !notification.isEmpty()) {
+
+            final Dialog dialog = new Dialog(TraineeHomepageActivity.this);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setCancelable(true);
+            dialog.setContentView(R.layout.dialog_error);
+
+            TextView errors = dialog.findViewById(R.id.dialog_error_text);
+            Button ok_btn = dialog.findViewById(R.id.dialog_ok);
+            TextView title = dialog.findViewById(R.id.dialog_title);
+
+            errors.setText(notification);
+            title.setText("Notifications");
+
+            ok_btn.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    time_of_train_1.setText(snapshot.child("trains").child("1").child("time").getValue(String.class));
-                    exercise_1.setText(snapshot.child("trains").child("1").child("exercise").getValue(String.class));
-                    time_of_train_2.setText(snapshot.child("trains").child("2").child("time").getValue(String.class));
-                    exercise_2.setText(snapshot.child("trains").child("2").child("exercise").getValue(String.class));
-                    time_of_train_3.setText(snapshot.child("trains").child("3").child("time").getValue(String.class));
-                    exercise_3.setText(snapshot.child("trains").child("3").child("exercise").getValue(String.class));
-                    trainee_homepage_day_1.setText(snapshot.child("menu").child("0").getValue(String.class));
-                    trainee_homepage_day_2.setText(snapshot.child("menu").child("1").getValue(String.class));
-                    trainee_homepage_day_3.setText(snapshot.child("menu").child("2").getValue(String.class));
-                    trainee_homepage_day_4.setText(snapshot.child("menu").child("3").getValue(String.class));
-                    trainee_homepage_day_5.setText(snapshot.child("menu").child("4").getValue(String.class));
-                    trainee_homepage_day_6.setText(snapshot.child("menu").child("5").getValue(String.class));
-                    trainee_homepage_cheat_day.setText(snapshot.child("menu").child("6").getValue(String.class));
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
+                public void onClick(View v) {
+                    firebaseData.clearNotification();
+                    dialog.dismiss();
                 }
             });
 
+            dialog.show();
+
+        }
+    }
+
+
+//////**********************************************////////////
+    public void startPlanButton(View view) {
+        startActivity(new Intent(TraineeHomepageActivity.this, SelectTargetActivity.class));
+    }
+
+
+//////**********************************************////////////
+    public void logout(View v) {
+        mAuth.signOut();
+        Intent move = new Intent(TraineeHomepageActivity.this , LoginActivity.class);
+        startActivity(move);
     }
 
 }

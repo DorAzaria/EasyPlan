@@ -1,26 +1,14 @@
-package com.example.easyplan.Data;
+package com.example.easyplan.data;
 
-
-import android.app.Activity;
-import android.content.Context;
-import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import com.example.easyplan.activities.RegisterTraineeActivity;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.util.Vector;
 
 public class FirebaseData {
 
@@ -29,14 +17,31 @@ public class FirebaseData {
     private DatabaseReference reference;
     private String notification_message;
 
+
     public FirebaseData() {
         this.mAuth = FirebaseAuth.getInstance();
         this.database = FirebaseDatabase.getInstance();
     }
 
+
     public String getID() {
         return mAuth.getUid();
     }
+
+
+    public void createTrainer(Trainer trainer) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference reference = database.getReference("Users/" + mAuth.getUid());
+        reference.setValue(trainer);
+    }
+
+
+    public void createTrainee(Trainee trainee) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference reference = database.getReference("Users/" + mAuth.getUid());
+        reference.setValue(trainee);
+    }
+
 
     public String getNotification() {
         reference = database.getReference("Users/" + mAuth.getUid());
@@ -54,6 +59,7 @@ public class FirebaseData {
         return notification_message;
     }
 
+
     public boolean checkForNewNotifications(String notification) {
         return notification != null && !notification.isEmpty();
     }
@@ -64,7 +70,8 @@ public class FirebaseData {
         reference.setValue("");
     }
 
-    public void addPlanRequest(String trainee_id, String trainer_id) {
+
+    public void sendPlanRequest(String trainee_id, String trainer_id) {
 
         reference = database.getReference("Users/" + trainer_id + "/my_trainees/" + trainee_id);
         reference.setValue("false");
@@ -87,7 +94,8 @@ public class FirebaseData {
 
     }
 
-//    public void setPlan(Plan plan, String trainer_id, String trainee_id) {
+
+//    public void createPlan(Plan plan, String trainer_id, String trainee_id) {
 //        reference = database.getReference("Plans/" + trainee_id);
 //        reference.setValue(plan);
 //        reference = database.getReference("Users/" + trainer_id + "/my_trainees/" + trainee_id);

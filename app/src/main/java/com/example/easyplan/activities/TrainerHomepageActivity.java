@@ -6,15 +6,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.easyplan.Data.FirebaseData;
-import com.example.easyplan.Data.Trainer;
+import com.example.easyplan.data.FirebaseData;
+import com.example.easyplan.data.Trainer;
 import com.example.easyplan.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -23,9 +22,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
 import java.util.List;
 
+//////**********************************************////////////
+////// This activity manages the trainer homepage
+//////**********************************************////////////
 public class TrainerHomepageActivity extends AppCompatActivity {
 
     private ImageView trainer_homepage_picture, trainer_list_menu;
@@ -68,6 +69,7 @@ public class TrainerHomepageActivity extends AppCompatActivity {
 
     }
 
+
     private void initFields() {
         trainer_homepage_name = (TextView) findViewById(R.id.trainer_homepage_name);
         trainer_homepage_picture = (ImageView) findViewById(R.id.trainer_homepage_picture);
@@ -87,6 +89,7 @@ public class TrainerHomepageActivity extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         firebaseData = new FirebaseData();
     }
+
 
     private void getProfileData() {
         reference = database.getReference("Users/" + trainer_id);
@@ -165,6 +168,7 @@ public class TrainerHomepageActivity extends AppCompatActivity {
         dialog.show();
     }
 
+
     private void newPlanDialog() {
         final Dialog dialog = new Dialog(TrainerHomepageActivity.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -185,7 +189,7 @@ public class TrainerHomepageActivity extends AppCompatActivity {
                 String trainee_id = firebaseData.getID();
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
 
-                firebaseData.addPlanRequest(trainee_id, trainer_id);
+                firebaseData.sendPlanRequest(trainee_id, trainer_id);
                 startActivity(new Intent(TrainerHomepageActivity.this, TraineeHomepageActivity.class));
             }
         });

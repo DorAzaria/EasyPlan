@@ -26,9 +26,16 @@ import com.google.firebase.auth.SignInMethodQueryResult;
 
 import java.util.regex.Pattern;
 
+//////**********************************************////////////
+////// This activity manages the Authentication register system.
+////// 1. Inputs email, password and re-password
+////// 2. Checks if the user already exists in the system - prints dialog if there is.
+////// 3. Checks if the passwords match - prints dialog if it's not matched.
+////// 4. Checks for input errors and prints dialog if there's any.
+//////**********************************************////////////
+
 public class RegisterActivity extends AppCompatActivity {
 
-    private Button register_btn;
     private EditText register_password, register_re_password, register_email;
     private FirebaseAuth mAuth;
 
@@ -37,82 +44,51 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         mAuth = FirebaseAuth.getInstance();
-
-        register_btn = (Button) findViewById(R.id.register_btn);
         register_password = (EditText) findViewById(R.id.register_password);
         register_re_password = (EditText) findViewById(R.id.register_re_password);
         register_email = (EditText) findViewById(R.id.register_email);
-
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-//        updateUI(currentUser);
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser != null){
-
-        }
     }
 
 
-
-
+//////**********************************************////////////
+////// register method: manages everything (same details as the class details).
+//////**********************************************////////////
     public void register(View view) {
-        register_btn = (Button) view;
-        String check = checkInputs();
+        String errors_details = checkInputs();
 
-        if(check.isEmpty()) {
+        // if it's empty then there's no errors, else, use dialog to show the errors.
+        if(errors_details.isEmpty()) {
 
-                if (register_password.getText().toString().equals(register_re_password.getText().toString())) {
+            mAuth.fetchSignInMethodsForEmail(register_email.getText().toString())
+                    .addOnCompleteListener (new OnCompleteListener<SignInMethodQueryResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
+                            boolean isNewUser = task.getResult().getSignInMethods().isEmpty();
+                            if(isNewUser){
+                                // Sign in success, update UI with the signed-in user's information
+                                Intent move = new Intent(RegisterActivity.this, RegisterByTypeActivity.class);
+                                move.putExtra("email",register_email.getText().toString());
+                                move.putExtra("password",register_password.getText().toString());
+                                startActivity(move);
+                            }
+                            else {
+                                errorDialog("This user is already in our system.");
+                            }
+                        }
+                    });
 
-                    mAuth.fetchSignInMethodsForEmail(register_email.getText().toString())
-                            .addOnCompleteListener (new OnCompleteListener<SignInMethodQueryResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
-                                    boolean isNewUser = task.getResult().getSignInMethods().isEmpty();
-                                    if (isNewUser) {
-                                        // Sign in success, update UI with the signed-in user's information
-                                        Intent move = new Intent(RegisterActivity.this, RegisterByTypeActivity.class);
-                                        move.putExtra("email",register_email.getText().toString());
-                                        move.putExtra("password",register_password.getText().toString());
-                                        startActivity(move);
-                                    } else {
-                                        // If sign in fails, display a message to the user.
-                                        Toast.makeText(RegisterActivity.this, "Authentication failed.",
-                                                Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            });
-                } else {
-                    Toast.makeText(RegisterActivity.this, "Passwords doesn't matched", Toast.LENGTH_SHORT).show();
-                }
         }
         else {
-            final Dialog dialog = new Dialog(RegisterActivity.this);
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            dialog.setCancelable(true);
-            dialog.setContentView(R.layout.dialog_error);
-
-            TextView errors = dialog.findViewById(R.id.dialog_error_text);
-            Button ok_btn = dialog.findViewById(R.id.dialog_ok);
-
-            errors.setText(check);
-
-            ok_btn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dialog.dismiss();
-                }
-            });
-
-
-            dialog.show();
+            errorDialog(errors_details);
         }
 
     }
 
+
+//////**********************************************////////////
+////// checkInputs collects all errors as String and returns the errors.
+////// Checks empty cases, password matching, valid email and password.
+//////**********************************************////////////
     public String checkInputs() {
         String errors = "";
         String email = register_email.getText().toString();
@@ -153,4 +129,31 @@ public class RegisterActivity extends AppCompatActivity {
 
         return errors;
     }
+
+
+//////**********************************************////////////
+////// Dialog pattern, gets a string and prints it. usually to print errors.
+//////**********************************************////////////
+    private void errorDialog(String error) {
+        final Dialog dialog = new Dialog(RegisterActivity.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(true);
+        dialog.setContentView(R.layout.dialog_error);
+
+        TextView errors = dialog.findViewById(R.id.dialog_error_text);
+        Button ok_btn = dialog.findViewById(R.id.dialog_ok);
+
+        errors.setText(error);
+
+        ok_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+
+        dialog.show();
+    }
+
 }

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.RegisterByTargetActivity">
+    tools:context=".activities.SelectTargetActivity">
 
     <TextView
         android:id="@+id/register_by_target_title"
@@ -60,6 +60,7 @@
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_marginRight="25dp"
+            android:onClick="pressFitness"
             >
 
             <LinearLayout
@@ -88,7 +89,7 @@
             android:id="@+id/register_by_target_cardio"
             android:layout_width="150dp"
             android:layout_height="150dp"
-            android:onClick="handle_button"
+            android:onClick="pressCardio"
             >
 
             <LinearLayout
@@ -134,6 +135,7 @@
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_marginRight="25dp"
+            android:onClick="pressMuscle"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.111"
@@ -169,6 +171,7 @@
             android:id="@+id/register_by_target_menu_nutrition"
             android:layout_width="150dp"
             android:layout_height="150dp"
+            android:onClick="pressMenuNutrition"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.904"
@@ -209,6 +212,7 @@
         android:layout_height="50dp"
         android:text="Next"
         android:textStyle="bold"
+        android:onClick="goToTrainersList"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"

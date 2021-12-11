@@ -10,12 +10,11 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.easyplan.Data.Trainee;
+import com.example.easyplan.data.Trainee;
 import com.example.easyplan.R;
 import com.example.easyplan.activities.MakePlanActivity;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class TraineeListAdapter extends RecyclerView.Adapter<TraineeListAdapter.TraineeViewHolder> {
     private ArrayList<Trainee> trainees;

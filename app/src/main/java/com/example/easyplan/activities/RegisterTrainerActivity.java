@@ -17,8 +17,8 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.easyplan.Data.Trainee;
-import com.example.easyplan.Data.Trainer;
+import com.example.easyplan.data.FirebaseData;
+import com.example.easyplan.data.Trainer;
 import com.example.easyplan.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -29,7 +29,6 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Vector;
 
 public class RegisterTrainerActivity extends AppCompatActivity {
 
@@ -51,6 +50,12 @@ public class RegisterTrainerActivity extends AppCompatActivity {
         this.password = getIntent().getStringExtra("password");
 
         mAuth = FirebaseAuth.getInstance();
+        initFields();
+    }
+
+
+//////**********************************************////////////
+    public void initFields() {
         register_trainer_btn = (Button) findViewById(R.id.register_trainer_btn);
         register_trainer_image = (ImageView) findViewById(R.id.register_trainer_image);
         register_trainer_upload = (ImageView) findViewById(R.id.register_trainer_upload);
@@ -66,80 +71,80 @@ public class RegisterTrainerActivity extends AppCompatActivity {
         register_trainer_fitness = (CheckBox) findViewById(R.id.register_trainer_fitness);
         register_trainer_muscle = (CheckBox) findViewById(R.id.register_trainer_muscle);
         register_trainer_menu = (CheckBox) findViewById(R.id.register_trainer_menu);
-
     }
 
+//////**********************************************////////////
+///// Once presses this button, the process begins:
+///// Checks for errors - prints with dialogs if any,
+///// else, create the user (Auth) and register (save personal data).
+///// then move to the homepage.
+//////**********************************************////////////
     public void register_trainer(View view) {
-        String check = checkInputs();
-        if(check.isEmpty()) {
-            mAuth.createUserWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                // Sign in success, update UI with the signed-in user's information
-                                String name = register_trainer_full_name.getText().toString();
-                                String address = register_trainer_address.getText().toString();
-                                int age = Integer.parseInt(register_trainer_age.getText().toString());
-                                int cost = Integer.parseInt(register_trainer_cost.getText().toString());
-                                String education = register_trainer_education.getText().toString();
-                                String personal_page = register_trainer_personal_page.getText().toString();
-                                ArrayList<String> targets = new ArrayList<>();
-                                if (register_trainer_cardio.isChecked()) {
-                                    targets.add("Cardio");
-                                }
-                                if (register_trainer_fitness.isChecked()) {
-                                    targets.add("Fitness");
-                                }
-                                if (register_trainer_muscle.isChecked()) {
-                                    targets.add("Muscle");
-                                }
-                                if (register_trainer_menu.isChecked()) {
-                                    targets.add("Menu Nutrition");
-                                }
-                                String gender;
-                                if (register_trainer_female_radio.isChecked()) {
-                                    gender = "female";
-                                } else gender = "male";
-
-                                FirebaseDatabase database = FirebaseDatabase.getInstance();
-                                DatabaseReference reference = database.getReference("Users/" + mAuth.getUid());
-                                Trainer trainer = new Trainer(name, address, gender, "Trainer", education, personal_page, "",  age, cost, 3, 0, targets, new HashMap<String, String>());
-                                reference.setValue(trainer);
-                                Intent move = new Intent(RegisterTrainerActivity.this, TrainerHomepageActivity.class);
-                                startActivity(move);
-                            } else {
-                                // If sign in fails, display a message to the user.
-                                Toast.makeText(RegisterTrainerActivity.this, "Authentication failed.",
-                                        Toast.LENGTH_SHORT).show();
-
-                            }
-                        }
-                    });
+        String error_information = checkInputs();
+        if(error_information.isEmpty()) {
+            createUser();
         }
         else {
-            final Dialog dialog = new Dialog(RegisterTrainerActivity.this);
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            dialog.setCancelable(true);
-            dialog.setContentView(R.layout.dialog_error);
-
-            TextView errors = dialog.findViewById(R.id.dialog_error_text);
-            Button ok_btn = dialog.findViewById(R.id.dialog_ok);
-
-            errors.setText(check);
-            ok_btn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dialog.dismiss();
-                }
-            });
-
-
-            dialog.show();
+            errorDialog(error_information);
         }
     }
 
 
+//////**********************************************////////////
+    private void createUser() {
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            registerUser();
+                            Intent move = new Intent(RegisterTrainerActivity.this, TrainerHomepageActivity.class);
+                            startActivity(move);
+                        } else {
+                            errorDialog("Authentication failed.");
+                        }
+                    }
+                });
+    }
+
+
+//////**********************************************////////////
+    private void registerUser() {
+        String name = register_trainer_full_name.getText().toString();
+        String address = register_trainer_address.getText().toString();
+        int age = Integer.parseInt(register_trainer_age.getText().toString());
+        int cost = Integer.parseInt(register_trainer_cost.getText().toString());
+        String education = register_trainer_education.getText().toString();
+        String personal_page = register_trainer_personal_page.getText().toString();
+        ArrayList<String> targets = new ArrayList<>();
+        if (register_trainer_cardio.isChecked()) {
+            targets.add("Cardio");
+        }
+        if (register_trainer_fitness.isChecked()) {
+            targets.add("Fitness");
+        }
+        if (register_trainer_muscle.isChecked()) {
+            targets.add("Muscle");
+        }
+        if (register_trainer_menu.isChecked()) {
+            targets.add("Menu Nutrition");
+        }
+        String gender;
+        if (register_trainer_female_radio.isChecked()) {
+            gender = "female";
+        } else gender = "male";
+
+        FirebaseData firebaseData = new FirebaseData();
+        Trainer trainer = new Trainer(name, address, gender, "Trainer", education, personal_page, "",  age, cost, 3, 0, targets, new HashMap<String, String>());
+        firebaseData.createTrainer(trainer);
+    }
+
+
+//////**********************************************////////////
+////// checkInputs collects all errors as String and returns the errors.
+////// Checks empty cases and more...
+//////**********************************************////////////
     public String checkInputs() {
         String errors = "";
 
@@ -219,5 +224,29 @@ public class RegisterTrainerActivity extends AppCompatActivity {
         }
 
         return errors;
+    }
+
+
+//////**********************************************////////////
+////// Dialog pattern, gets a string and prints it. usually to print errors.
+//////**********************************************////////////
+    private void errorDialog(String error) {
+        final Dialog dialog = new Dialog(RegisterTrainerActivity.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(true);
+        dialog.setContentView(R.layout.dialog_error);
+
+        TextView errors = dialog.findViewById(R.id.dialog_error_text);
+        Button ok_btn = dialog.findViewById(R.id.dialog_ok);
+
+        errors.setText(error);
+        ok_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
     }
 }

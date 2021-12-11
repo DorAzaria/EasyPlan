@@ -102,9 +102,9 @@
 
 
             <LinearLayout
-                android:layout_width="200dp"
+                android:layout_width="220dp"
                 android:layout_height="25dp"
-                android:gravity="center"
+                android:gravity="left"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.25"
@@ -112,33 +112,28 @@
                 app:layout_constraintTop_toBottomOf="@+id/trainer_homepage_name"
                 app:layout_constraintVertical_bias="0.524">
 
-
                 <ImageView
                     android:id="@+id/trainer_homepage_menu"
-                    android:layout_width="wrap_content"
+                    android:layout_width="40dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     app:srcCompat="@drawable/checklist_logo" />
 
                 <ImageView
                     android:id="@+id/trainer_homepage_fitness"
-                    android:layout_width="wrap_content"
+                    android:layout_width="40dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     app:srcCompat="@drawable/slim_logo" />
 
                 <ImageView
                     android:id="@+id/trainer_homepage_cardio"
-                    android:layout_width="wrap_content"
+                    android:layout_width="40dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     app:srcCompat="@drawable/pulse_logo" />
 
                 <ImageView
                     android:id="@+id/trainer_homepage_muscle"
-                    android:layout_width="wrap_content"
+                    android:layout_width="40dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     app:srcCompat="@drawable/muscle_logo" />
             </LinearLayout>
 

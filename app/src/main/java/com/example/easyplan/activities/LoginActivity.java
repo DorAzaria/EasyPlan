@@ -30,112 +30,51 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import java.util.regex.Pattern;
 
+
+//////**********************************************////////////
+////// This activity manages the login system.
+////// It checks if the user exists and prints errors using dialog class.
+////// It also offers "Forgot Password" and "Register" pages.
+//////**********************************************////////////
 public class LoginActivity extends AppCompatActivity  {
 
-    private TextView login_to_register, login_to_forgot;
     private EditText login_username, login_password;
     private FirebaseAuth mAuth;
-    private ProgressBar progressBar;
-    private Button login_btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         mAuth = FirebaseAuth.getInstance();
-
         login_username = findViewById(R.id.login_email);
         login_password =  findViewById(R.id.login_password);
-        login_btn = findViewById(R.id.login_btn);
-
-        login_to_register = findViewById(R.id.login_to_register);
-        login_to_forgot =  findViewById(R.id.login_to_forgot);
-
     }
 
+
+//////**********************************************////////////
+////// This activity manages the login system.
+////// It checks if the user exists and prints errors using dialog class.
+//////**********************************************////////////
     public void login (View v) {
         String email = login_username.getText().toString().trim();
         String password = login_password.getText().toString().trim();
 
-        String check = checkInputs();
-        if(check.isEmpty()) {
-            mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if(task.isSuccessful()) {
-                        FirebaseDatabase database = FirebaseDatabase.getInstance();
-                        DatabaseReference reference = database.getReference("Users/" + mAuth.getUid());
-                        reference.addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                String username_type = snapshot.child("type").getValue(String.class);
-                                if(username_type.equals("Trainee")) {
-                                    Intent i = new Intent(LoginActivity.this, TraineeHomepageActivity.class);
-                                    i.putExtra("myId", mAuth.getUid());
-                                    startActivity(i);
-                                }
-                                else {
-                                    Intent i = new Intent(LoginActivity.this, TrainerHomepageActivity.class);
-                                    i.putExtra("myId", mAuth.getUid());
-                                    startActivity(i);
-                                }
-
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
-                        });
-
-                    }
-                    else {
-                        final Dialog dialog = new Dialog(LoginActivity.this);
-                        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                        dialog.setCancelable(true);
-                        dialog.setContentView(R.layout.dialog_error);
-
-                        TextView errors = dialog.findViewById(R.id.dialog_error_text);
-                        Button ok_btn = dialog.findViewById(R.id.dialog_ok);
-
-                        errors.setText("Failed to login!");
-                        ok_btn.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                dialog.dismiss();
-                            }
-                        });
-
-                        dialog.show();
-                    }
-                }
-            });
+        String errors_details = checkInputs();
+        if(errors_details.isEmpty()) {
+            signIn(email, password);
         }
         else {
-            final Dialog dialog = new Dialog(LoginActivity.this);
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            dialog.setCancelable(true);
-            dialog.setContentView(R.layout.dialog_error);
-
-            TextView errors = dialog.findViewById(R.id.dialog_error_text);
-            Button ok_btn = dialog.findViewById(R.id.dialog_ok);
-
-            errors.setText(check);
-            ok_btn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dialog.dismiss();
-                }
-            });
-
-            dialog.show();
+            errorDialog(errors_details);
         }
     }
 
 
+//////**********************************************////////////
+////// checkInputs collects all errors as String and returns the errors.
+////// Checks empty cases.
+//////**********************************************////////////
     public String checkInputs() {
         String errors = "";
         String email_input = login_username.getText().toString().trim();
@@ -158,12 +97,83 @@ public class LoginActivity extends AppCompatActivity  {
         return errors;
     }
 
+
+//////**********************************************////////////
+////// signIn method checks if the user exists or not and pass to the system
+//////**********************************************////////////
+    public void signIn(String email, String password) {
+        mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(task.isSuccessful()) {
+                    moveToHomepage();
+                }
+                else {
+                    errorDialog("Failed to login!");
+                }
+            }
+        });
+    }
+
+
+//////**********************************************////////////
+////// moveToHomepage method takes the user to its homepage - depends by its type (Trainer or Trainee).
+//////**********************************************////////////
+    private void moveToHomepage() {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference reference = database.getReference("Users/" + mAuth.getUid());
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String username_type = snapshot.child("type").getValue(String.class);
+                if(username_type.equals("Trainee")) {
+                    startActivity(new Intent(LoginActivity.this, TraineeHomepageActivity.class));
+                }
+                else {
+                    startActivity(new Intent(LoginActivity.this, TrainerHomepageActivity.class));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                errorDialog("Ops! something went wrong.");
+            }
+        });
+    }
+
+//////**********************************************////////////
+////// Dialog pattern, gets a string and prints it. usually to print errors.
+//////**********************************************////////////
+    private void errorDialog(String error) {
+        final Dialog dialog = new Dialog(LoginActivity.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(true);
+        dialog.setContentView(R.layout.dialog_error);
+
+        TextView errors = dialog.findViewById(R.id.dialog_error_text);
+        Button ok_btn = dialog.findViewById(R.id.dialog_ok);
+
+        errors.setText(error);
+        ok_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+    }
+
+
+//////**********************************************////////////
     public void forgot_password(View v) {
         startActivity(new Intent(LoginActivity.this , ForgotPasswordActivity.class));
     }
+
+
+//////**********************************************////////////
     public void register(View v) {
         startActivity(new Intent(LoginActivity.this , RegisterActivity.class));
     }
-
 
 }

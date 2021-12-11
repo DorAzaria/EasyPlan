@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 
-import com.example.easyplan.Data.Trainee;
+import com.example.easyplan.data.Trainee;
 import com.example.easyplan.R;
 import com.example.easyplan.adapters.TraineeListAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -19,12 +19,20 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.List;
 
+//////**********************************************////////////
+////// This activity manages the trainees list.
+////// It loads all the trainees uses RecyclerView to present the data.
+//////**********************************************////////////
 public class TraineeListActivity extends AppCompatActivity {
-    private String trainerId;
-    private ArrayList<String> traineesIdTemp, traineesId;
     private FirebaseAuth mAuth;
+    private FirebaseDatabase dataBase;
+    private DatabaseReference reference;
+    private TraineeListAdapter adapter;
+    private String trainerId;
+    private ArrayList<Trainee> trainees_adapter;
+    private ArrayList<String> trainees_id_adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,28 +41,32 @@ public class TraineeListActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         trainerId = mAuth.getUid();
 
-        ArrayList<Trainee> trainees = new ArrayList<>();
-        List<String> trainees_ids = new ArrayList<>();
+        trainees_adapter = new ArrayList<>();
+        trainees_id_adapter = new ArrayList<>();
 
-        traineesIdTemp = new ArrayList<>();
-        traineesId = new ArrayList<>();
         RecyclerView recyclerView = findViewById(R.id.trainee_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        TraineeListAdapter adapter = new TraineeListAdapter(trainees, traineesId);
-
+        adapter = new TraineeListAdapter(trainees_adapter, trainees_id_adapter);
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new DividerItemDecoration(this, 0));
 
+        ArrayList<String> trainees_uid = getAllTraineesUID();
+        showAllTrainees(trainees_uid);
+    }
 
 
-        FirebaseDatabase dataBase = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = dataBase.getReference("Users/"+trainerId+"/my_trainees");
-
-        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+//////**********************************************////////////
+////// Returns all trainees ID signed to the specific trainer in ArrayList
+//////**********************************************////////////
+    private ArrayList<String> getAllTraineesUID() {
+        ArrayList<String> trainees_temp_id = new ArrayList<>();
+        dataBase = FirebaseDatabase.getInstance();
+        reference = dataBase.getReference("Users/"+trainerId+"/my_trainees");
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot runner : snapshot.getChildren()) {
-                    trainees_ids.add(runner.getKey());
+                    trainees_temp_id.add(runner.getKey());
                 }
                 adapter.notifyDataSetChanged();
             }
@@ -65,17 +77,24 @@ public class TraineeListActivity extends AppCompatActivity {
             }
         });
 
+        return trainees_temp_id;
+    }
 
-        myRef = dataBase.getReference("Users/");
-        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+
+//////**********************************************////////////
+////// Gets all trainees id and fill the Trainees Objects with its ID for the adapter.
+//////**********************************************////////////
+    private void showAllTrainees(ArrayList<String> trainees_id) {
+        reference = dataBase.getReference("Users/");
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot runner : snapshot.getChildren()) {
                     String id = runner.getKey();
-                    if (trainees_ids.contains(id)) {
+                    if(trainees_id.contains(id)) {
                         Trainee trainee = runner.getValue(Trainee.class);
-                        trainees.add(trainee);
-                        traineesId.add(id);
+                        trainees_adapter.add(trainee);
+                        trainees_id_adapter.add(id);
                     }
                 }
                 adapter.notifyDataSetChanged();
@@ -86,60 +105,5 @@ public class TraineeListActivity extends AppCompatActivity {
 
             }
         });
-//        myRef.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                HashMap<String,Boolean> Id = (HashMap<String, Boolean>) snapshot.getValue();
-//                if(Id != null){
-//                    for(String runner : Id.keySet() ){
-//                        Log.d("Id", runner);
-//                        traineesId.add(runner);
-//                    }
-//                }
-//
-//            }
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//            }
-//        });
-//
-//
-//
-//
-//            myRef = dataBase.getReference("Users");
-//            myRef.addValueEventListener(new ValueEventListener() {
-//                @Override
-//                public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                    trainees.clear();
-//
-//                    for(int i=0; i<traineesId.size();i++){
-//                        String name = snapshot.child(traineesId.get(i)).child("name").getValue(String.class);
-//                        String address = snapshot.child(traineesId.get(i)).child("address").getValue(String.class);
-//                        String height = snapshot.child(traineesId.get(i)).child("height").getValue(String.class);
-//                        String weight = snapshot.child(traineesId.get(i)).child("weight").getValue(String.class);
-//                        String gender = snapshot.child(traineesId.get(i)).child("gender").getValue(String.class);
-//                        String notifications = snapshot.child(traineesId.get(i)).child("notifications").getValue(String.class);
-//                        String plan_status = snapshot.child(traineesId.get(i)).child("plan_status").getValue(String.class);
-//                        int age = snapshot.child(traineesId.get(i)).child("age").getValue(Integer.class);
-//                        Trainee trainee = new Trainee(name,address,height,weight,gender,age,notifications,plan_status);
-//                        trainees.add(trainee);
-//                    }
-//
-//
-//                    adapter.notifyDataSetChanged();
-//                }
-//
-//                @Override
-//                public void onCancelled(@NonNull DatabaseError error) {
-//
-//                }
-//            });
-//
-//
-//
-//
-//
-
     }
-
 }

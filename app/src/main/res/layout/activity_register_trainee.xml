@@ -26,10 +26,9 @@
             android:background="@drawable/frame_background"
             >
 
-
             <TextView
                 android:id="@+id/textView_register_trainee"
-                android:layout_width="100dp"
+                android:layout_width="110dp"
                 android:layout_height="50dp"
                 android:gravity="center"
                 android:text="Trainee"
