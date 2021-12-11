@@ -19,10 +19,12 @@ import java.util.List;
 
 public class TraineeListAdapter extends RecyclerView.Adapter<TraineeListAdapter.TraineeViewHolder> {
     private ArrayList<Trainee> trainees;
+    private ArrayList<String> traineesID;
     int[] logos;
 
-    public TraineeListAdapter(ArrayList<Trainee> trainees){
+    public TraineeListAdapter(ArrayList<Trainee> trainees, ArrayList<String> traineesID){
         this.trainees = trainees;
+        this.traineesID = traineesID;
         logos = new int[4];
         logos[0] = R.drawable.trainer1_logo;
         logos[1] = R.drawable.trainer2_logo;
@@ -42,6 +44,7 @@ public class TraineeListAdapter extends RecyclerView.Adapter<TraineeListAdapter.
 
         holder.trainee_list_name.setText(this.trainees.get(position).getName());
         holder.trainee_list_image.setImageResource(logos[position % 4]);
+        holder.id = this.traineesID.get(position);
 
     }
 
@@ -55,6 +58,7 @@ public class TraineeListAdapter extends RecyclerView.Adapter<TraineeListAdapter.
         private ImageView trainee_list_image, trainee_list_mail;
         private CheckBox trainee_list_check;
         int[] logos;
+        private String id;
 
         public TraineeViewHolder(View view) {
             super(view);
@@ -63,6 +67,7 @@ public class TraineeListAdapter extends RecyclerView.Adapter<TraineeListAdapter.
             this.trainee_list_image = view.findViewById(R.id.trainee_list_image);
             this.trainee_list_mail = view.findViewById(R.id.trainee_list_mail);
             this.trainee_list_check = view.findViewById(R.id.trainee_list_check);
+            this.id = "";
 
             logos = new int[4];
             logos[0] = R.drawable.trainer1_logo;
@@ -74,8 +79,7 @@ public class TraineeListAdapter extends RecyclerView.Adapter<TraineeListAdapter.
         @Override
         public void onClick(View view) {
             Intent intent = new Intent(view.getContext(), MakePlanActivity.class);
-//            intent.putExtra("name", this.textView.getText());
-//            intent.putExtra("image", Integer.toString(logos[getLayoutPosition() % 4]));
+            intent.putExtra("trainee id from firebase", id);
             view.getContext().startActivity(intent);
         }
     }

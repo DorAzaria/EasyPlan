@@ -104,7 +104,7 @@ public class RegisterTrainerActivity extends AppCompatActivity {
 
                                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                                 DatabaseReference reference = database.getReference("Users/" + mAuth.getUid());
-                                Trainer trainer = new Trainer(name, address, gender, education, personal_page, age, cost, targets, new HashMap<String, Boolean>(), "");
+                                Trainer trainer = new Trainer(name, address, gender, "Trainer", education, personal_page, "",  age, cost, 3, 0, targets, new HashMap<String, String>());
                                 reference.setValue(trainer);
                                 Intent move = new Intent(RegisterTrainerActivity.this, TrainerHomepageActivity.class);
                                 startActivity(move);

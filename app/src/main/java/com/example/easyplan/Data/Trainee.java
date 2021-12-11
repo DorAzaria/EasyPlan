@@ -8,19 +8,19 @@ public class Trainee {
     private String name, address, height, weight, gender, type, notifications, plan_status;
     private int age;
 
+    public Trainee() {}
 
-    public Trainee(String name, String address, String height, String weight, String gender, int age,String notifications, String plan_status) {
+    public Trainee(String name, String address, String height, String weight, String gender, String type, String notifications, String plan_status, int age) {
         this.name = name;
         this.address = address;
         this.height = height;
         this.weight = weight;
         this.gender = gender;
-        this.age = age;
-        this.type = "Trainee";
+        this.type = type;
         this.notifications = notifications;
         this.plan_status = plan_status;
+        this.age = age;
     }
-
 
     public String getName() {
         return name;

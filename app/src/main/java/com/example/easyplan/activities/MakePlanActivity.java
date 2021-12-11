@@ -1,5 +1,6 @@
 package com.example.easyplan.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
@@ -13,13 +14,20 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.easyplan.Data.FirebaseData;
 import com.example.easyplan.Data.Plan;
+import com.example.easyplan.Data.Trainee;
+import com.example.easyplan.Data.Trainer;
 import com.example.easyplan.R;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Vector;
 
 public class MakePlanActivity extends AppCompatActivity {
@@ -35,12 +43,22 @@ public class MakePlanActivity extends AppCompatActivity {
 
     private Button make_plan_submit_btn;
     private FirebaseAuth mAuth;
-
+    private DatabaseReference reference;
+    private FirebaseDatabase database;
+    private String trainee_id;
+    private FirebaseData firebaseData;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_make_plan);
         mAuth = FirebaseAuth.getInstance();
+        Intent move = getIntent();
+        trainee_id = "";
+
+        if(move.hasExtra("trainee id from firebase")) {
+            trainee_id = move.getStringExtra("trainee id from firebase");
+        }
+
 
         trainee_homepage_picture = (ImageView) findViewById(R.id.trainee_homepage_picture);
         trainee_homepage_name = (TextView) findViewById(R.id.trainee_homepage_name);
@@ -68,6 +86,31 @@ public class MakePlanActivity extends AppCompatActivity {
 
         make_plan_submit_btn = (Button) findViewById(R.id.make_plan_submit_btn);
 
+        setTraineeInfo();
+
+    }
+
+    private void setTraineeInfo() {
+        database = FirebaseDatabase.getInstance();
+        reference = database.getReference("Users/" + trainee_id);
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Trainee trainee = snapshot.getValue(Trainee.class);
+                trainee_homepage_name.setText(trainee.getName());
+                trainee_homepage_address.setText(trainee.getAddress());
+                trainee_homepage_gender.setText(trainee.getGender());
+                trainee_homepage_age.setText(String.valueOf(trainee.getAge()));
+                trainee_homepage_height.setText(trainee.getHeight());
+                trainee_homepage_weight.setText(trainee.getWeight());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
     }
 
     public void make_plan(View view) {
@@ -75,7 +118,6 @@ public class MakePlanActivity extends AppCompatActivity {
         String check = checkInputs();
         if(check.isEmpty()) {
             String trainer_id = mAuth.getUid();
-            String trainee_id; /// need to get this id by intent putExtra from TraineeListActivity
 
             String train_time1 = make_plan_train_time1.getText().toString();
             String train_exer1 = make_plan_train_exer1.getText().toString();
@@ -119,13 +161,13 @@ public class MakePlanActivity extends AppCompatActivity {
             menu.add(day6);
             menu.add(cheat);
 
-            Plan plan = new Plan(trainer_id, "Ok7J0x3grFYwqZBzJzGsYqmU1LI3", trains, menu);
+            Plan plan = new Plan(trainer_id, trainee_id, trains, menu);
 
             FirebaseDatabase database = FirebaseDatabase.getInstance();
-            DatabaseReference reference = database.getReference("Plans/" + "Ok7J0x3grFYwqZBzJzGsYqmU1LI3");
+            DatabaseReference reference = database.getReference("Plans/" + trainee_id);
             reference.setValue(plan);
 
-            reference = database.getReference("Users/" + mAuth.getUid() + "/my_trainees" + "/Ok7J0x3grFYwqZBzJzGsYqmU1LI3");
+            reference = database.getReference("Users/" + mAuth.getUid() + "/my_trainees/" + trainee_id);
             reference.setValue("true");
 
             startActivity(new Intent(MakePlanActivity.this, TraineeHomepageActivity.class));

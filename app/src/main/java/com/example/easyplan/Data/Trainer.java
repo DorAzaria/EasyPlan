@@ -2,6 +2,8 @@ package com.example.easyplan.Data;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 
 public class Trainer {
@@ -9,23 +11,25 @@ public class Trainer {
     private String name, address, gender, type, education, personal_page, notifications;
     private int age, cost, duration;
     private double rate;
-    private ArrayList<String> targets;
-    private HashMap<String, Boolean> my_trainees;
+    private List<String> targets;
+    private Map<String, String> my_trainees;
 
     public Trainer() {}
 
-    public Trainer(String name, String address, String gender, String education, String personal_page, int age, int cost, ArrayList<String> targets , HashMap<String, Boolean> my_trainees, String notifications) {
+    public Trainer(String name, String address, String gender, String type, String education, String personal_page, String notifications, int age, int cost, int duration, double rate, List<String> targets, Map<String, String> my_trainees) {
         this.name = name;
         this.address = address;
         this.gender = gender;
+        this.type = type;
         this.education = education;
         this.personal_page = personal_page;
+        this.notifications = notifications;
         this.age = age;
         this.cost = cost;
+        this.duration = duration;
+        this.rate = rate;
         this.targets = targets;
         this.my_trainees = my_trainees;
-        this.type = "Trainer";
-        this.notifications = notifications;
     }
 
     public String getName() {
@@ -76,6 +80,14 @@ public class Trainer {
         this.personal_page = personal_page;
     }
 
+    public String getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(String notifications) {
+        this.notifications = notifications;
+    }
+
     public int getAge() {
         return age;
     }
@@ -108,39 +120,19 @@ public class Trainer {
         this.rate = rate;
     }
 
-    public ArrayList<String> getTargets() {
+    public List<String> getTargets() {
         return targets;
     }
 
-    public void setTargets(ArrayList<String> targets) {
+    public void setTargets(List<String> targets) {
         this.targets = targets;
     }
 
-
-    public String getNotifications() {
-        return notifications;
+    public Map<String, String> getMy_trainees() {
+        return my_trainees;
     }
 
-    public void setNotifications(String notifications) {
-        this.notifications = notifications;
-    }
-
-
-    @Override
-    public String toString() {
-        return "Trainer{" +
-                "name='" + name + '\'' +
-                ", address='" + address + '\'' +
-                ", gender='" + gender + '\'' +
-                ", type='" + type + '\'' +
-                ", education='" + education + '\'' +
-                ", personal_page='" + personal_page + '\'' +
-                ", age=" + age +
-                ", cost=" + cost +
-                ", duration=" + duration +
-                ", rate=" + rate +
-                ", targets=" + targets +
-                ", my_trainees=" + my_trainees +
-                '}';
+    public void setMy_trainees(Map<String, String> my_trainees) {
+        this.my_trainees = my_trainees;
     }
 }

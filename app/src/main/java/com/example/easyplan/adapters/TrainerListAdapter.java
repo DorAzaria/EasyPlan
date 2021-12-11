@@ -39,7 +39,7 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
     public void onBindViewHolder(TrainerListAdapter.ViewHolder holder, int position) {
         Trainer trainer = data.get(position);
         holder.trainer_id = trainers_ids.get(position);
-        ArrayList<String> targets_to_show = trainer.getTargets();
+        List<String> targets_to_show = trainer.getTargets();
         if(targets_to_show.contains("Fitness")) holder.trainer_list_fitness.setVisibility(View.VISIBLE);
         if(targets_to_show.contains("Cardio")) holder.trainer_list_cardio.setVisibility(View.VISIBLE);
         if(targets_to_show.contains("Menu Nutrition")) holder.trainer_list_menu.setVisibility(View.VISIBLE);

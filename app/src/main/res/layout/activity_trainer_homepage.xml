@@ -39,6 +39,7 @@
 
             <ImageView
                 android:id="@+id/trainer_list_menu"
+                android:onClick="trainee_list"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:background="@color/purple_500"
@@ -351,6 +352,7 @@
         android:layout_gravity="center"
         android:layout_marginBottom="36dp"
         android:text="Start Plan"
+        android:onClick="start_plan"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
