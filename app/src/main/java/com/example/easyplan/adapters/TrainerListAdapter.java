@@ -17,11 +17,11 @@ import com.example.easyplan.activities.TrainerHomepageActivity;
 import java.util.List;
 
 public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.ViewHolder> {
-    private List<Trainer> data;
+    private List<Trainer> trainers;
     private List <String> trainers_ids;
 
     public TrainerListAdapter(List<Trainer> data , List <String> ids){
-       this.data = data;
+       this.trainers = data;
        this.trainers_ids = ids;
     }
 
@@ -34,7 +34,7 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
 
     @Override
     public void onBindViewHolder(TrainerListAdapter.ViewHolder holder, int position) {
-        Trainer trainer = data.get(position);
+        Trainer trainer = trainers.get(position);
         holder.trainer_id = trainers_ids.get(position);
         List<String> targets_to_show = trainer.getTargets();
         if(targets_to_show.contains("Fitness")) holder.trainer_list_fitness.setVisibility(View.VISIBLE);
@@ -46,7 +46,7 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
 
     @Override
     public int getItemCount() {
-        return this.data.size();
+        return this.trainers.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -79,7 +79,6 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
             Intent move = new Intent(view.getContext(), TrainerHomepageActivity.class);
             move.putExtra("trainer id from firebase" , trainer_id);
             view.getContext().startActivity(move);
-
         }
     }
 }

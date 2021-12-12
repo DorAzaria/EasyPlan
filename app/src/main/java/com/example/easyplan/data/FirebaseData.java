@@ -10,25 +10,44 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+//////**********************************************////////////
+//////
+//////**********************************************////////////
+
 public class FirebaseData {
 
+    // The entry point of the Firebase Authentication
     private FirebaseAuth mAuth;
+
+    // The entry point for accessing a Firebase Database
     private FirebaseDatabase database;
+
+    // Reading or Writing to the data base location.
     private DatabaseReference reference;
+
+    // Variable with which the Trainer and trainee can communicate through the database
     private String notification_message;
 
 
+//////**********************************************////////////
+////// Initialize the variables : mAuth & database
+//////**********************************************////////////
     public FirebaseData() {
         this.mAuth = FirebaseAuth.getInstance();
         this.database = FirebaseDatabase.getInstance();
     }
 
-
+//////**********************************************////////////
+////// Get the user ID
+//////**********************************************////////////
     public String getID() {
         return mAuth.getUid();
     }
 
 
+//////**********************************************////////////
+////// Save a trainer user in Firebase using his personal id (mAuth.getUid)
+//////**********************************************////////////
     public void createTrainer(Trainer trainer) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference reference = database.getReference("Users/" + mAuth.getUid());
@@ -36,6 +55,9 @@ public class FirebaseData {
     }
 
 
+//////**********************************************////////////
+////// Save a trainee user in Firebase using his personal id (mAuth.getUid)
+//////**********************************************////////////
     public void createTrainee(Trainee trainee) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference reference = database.getReference("Users/" + mAuth.getUid());
@@ -43,6 +65,9 @@ public class FirebaseData {
     }
 
 
+//////**********************************************////////////
+////// returns the notification based on the appropriate ID
+//////**********************************************////////////
     public String getNotification() {
         reference = database.getReference("Users/" + mAuth.getUid());
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -60,17 +85,26 @@ public class FirebaseData {
     }
 
 
+//////**********************************************////////////
+////// check if there's new notifications
+//////**********************************************////////////
     public boolean checkForNewNotifications(String notification) {
         return notification != null && !notification.isEmpty();
     }
 
 
+//////**********************************************////////////
+////// Deletes the notification based on the appropriate ID
+//////**********************************************////////////
     public void clearNotification() {
         reference = database.getReference("Users/" + mAuth.getUid() + "/notifications");
         reference.setValue("");
     }
 
 
+//////**********************************************////////////
+////// Deletes the notification based on the appropriate ID
+//////**********************************************////////////
     public void sendPlanRequest(String trainee_id, String trainer_id) {
 
         reference = database.getReference("Users/" + trainer_id + "/my_trainees/" + trainee_id);
@@ -80,11 +114,14 @@ public class FirebaseData {
         reference.setValue(trainer_id);
 
         reference = database.getReference("Users/" + trainer_id + "/notifications");
-        DatabaseReference ref_trainer = database.getReference("Users/"+mAuth.getUid());
-        ref_trainer.addListenerForSingleValueEvent(new ValueEventListener() {
+
+        DatabaseReference gets_trainer_name = database.getReference("Users/"+trainee_id);
+
+        gets_trainer_name.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                reference.setValue("You've got a new plan request from " + snapshot.child("name").getValue(String.class));
+                String trainee_name = snapshot.child("name").getValue(String.class);
+                reference.setValue("You've got a new plan request from " + trainee_name);
             }
 
             @Override

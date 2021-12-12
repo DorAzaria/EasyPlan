@@ -67,8 +67,8 @@ public class RegisterActivity extends AppCompatActivity {
                             if(isNewUser){
                                 // Sign in success, update UI with the signed-in user's information
                                 Intent move = new Intent(RegisterActivity.this, RegisterByTypeActivity.class);
-                                move.putExtra("email",register_email.getText().toString());
-                                move.putExtra("password",register_password.getText().toString());
+                                move.putExtra("email",register_email.getText().toString().trim());
+                                move.putExtra("password",register_password.getText().toString().trim());
                                 startActivity(move);
                             }
                             else {

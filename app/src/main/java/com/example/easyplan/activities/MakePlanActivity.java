@@ -25,6 +25,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Vector;
 
@@ -56,7 +57,6 @@ public class MakePlanActivity extends AppCompatActivity {
         if(move.hasExtra("trainee id from firebase")) {
             trainee_id = move.getStringExtra("trainee id from firebase");
         }
-
 
         trainee_homepage_picture = (ImageView) findViewById(R.id.trainee_homepage_picture);
         trainee_homepage_name = (TextView) findViewById(R.id.trainee_homepage_name);
@@ -150,7 +150,7 @@ public class MakePlanActivity extends AppCompatActivity {
             trains.get("3").put("exercise", train_exer3);
 
             /////////////////////////////////////////////////////////////
-            Vector<String> menu = new Vector<>();
+            ArrayList<String> menu = new ArrayList<>();
             menu.add(day1);
             menu.add(day2);
             menu.add(day3);

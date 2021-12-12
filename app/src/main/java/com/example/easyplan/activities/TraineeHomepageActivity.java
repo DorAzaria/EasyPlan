@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.example.easyplan.R;
 import com.example.easyplan.data.FirebaseData;
+import com.example.easyplan.data.Plan;
 import com.example.easyplan.data.Trainee;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -186,19 +187,29 @@ public class TraineeHomepageActivity extends AppCompatActivity {
 
 //////**********************************************////////////
     private void traineeWithoutPlan() {
+        // If trainee not waiting for the plan, so need to ask for new one (go to Targets)
         trainee_homepage_plan_btn.setVisibility(View.VISIBLE);
 
-        DatabaseReference ref2 = database.getReference("Users/"+mAuth.getUid());
-        ref2.addListenerForSingleValueEvent(new ValueEventListener() {
+        // Checks if trainee is waiting for plan, and if he is waiting, then let them know.
+        waitingScenario();
+    }
+
+
+//////**********************************************////////////
+    private void waitingScenario() {
+        // The plan isn't ready yet, but we want to get the trainer name
+        DatabaseReference getStatusReference = database.getReference("Users/"+mAuth.getUid());
+
+        getStatusReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String status = snapshot.child("plan_status").getValue(String.class);
 
-                if(status != null && !status.equals("active") && !status.isEmpty()) {
+                String plan_status = snapshot.child("plan_status").getValue(String.class);
+                if(plan_status != null && !plan_status.isEmpty()) {
 
                     // status is the id of the trainer.
-                    DatabaseReference ref3 = database.getReference("Users/"+status);
-                    ref3.addListenerForSingleValueEvent(new ValueEventListener() {
+                    DatabaseReference getTrainerNameReference = database.getReference("Users/"+plan_status);
+                    getTrainerNameReference.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             String trainer_name = snapshot.child("name").getValue(String.class);

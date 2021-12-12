@@ -154,6 +154,7 @@ public class LoginActivity extends AppCompatActivity  {
         Button ok_btn = dialog.findViewById(R.id.dialog_ok);
 
         errors.setText(error);
+
         ok_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

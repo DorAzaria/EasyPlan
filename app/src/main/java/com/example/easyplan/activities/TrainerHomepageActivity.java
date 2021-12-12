@@ -48,6 +48,10 @@ public class TrainerHomepageActivity extends AppCompatActivity {
 
         initFields();
 
+        mAuth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance();
+        firebaseData = new FirebaseData();
+
         Intent move = getIntent();
         trainer_id = "";
 
@@ -85,9 +89,6 @@ public class TrainerHomepageActivity extends AppCompatActivity {
         trainer_homepage_duration = (TextView) findViewById(R.id.trainer_homepage_duration);
         trainee_homepage_notification = (ImageView) findViewById(R.id.trainee_homepage_notification);
         trainee_homepage_notification.setVisibility(View.GONE);
-        mAuth = FirebaseAuth.getInstance();
-        database = FirebaseDatabase.getInstance();
-        firebaseData = new FirebaseData();
     }
 
 

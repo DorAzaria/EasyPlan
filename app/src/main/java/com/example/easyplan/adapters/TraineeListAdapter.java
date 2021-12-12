@@ -24,6 +24,8 @@ public class TraineeListAdapter extends RecyclerView.Adapter<TraineeListAdapter.
     public TraineeListAdapter(ArrayList<Trainee> trainees, ArrayList<String> traineesID){
         this.trainees = trainees;
         this.traineesID = traineesID;
+
+
         logos = new int[4];
         logos[0] = R.drawable.trainer1_logo;
         logos[1] = R.drawable.trainer2_logo;

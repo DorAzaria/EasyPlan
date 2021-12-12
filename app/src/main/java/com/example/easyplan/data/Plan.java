@@ -2,18 +2,24 @@ package com.example.easyplan.data;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Vector;
 
 public class Plan {
 
     private String trainer_id, trainee_id, date;
     private HashMap<String, HashMap<String,String>> trains; // <1, <time1, 1 hour>, <excersize, workout>>, <2, <time2, excer2>>, ...
-    private Vector<String> menu;
+    private List<String> menu;
 
-    public Plan(String trainer_id, String trainee_id, HashMap<String, HashMap<String,String>> t, Vector<String> m) {
+    public Plan() {
+
+    }
+
+    public Plan(String trainer_id, String trainee_id, HashMap<String, HashMap<String,String>> t, List<String> m) {
         this.trainer_id = trainer_id;
         this.trainee_id = trainee_id;
         this.trains = t;
@@ -57,11 +63,11 @@ public class Plan {
         this.trains = trains;
     }
 
-    public Vector<String> getMenu() {
+    public List<String> getMenu() {
         return menu;
     }
 
-    public void setMenu(Vector<String> menu) {
+    public void setMenu(List<String> menu) {
         this.menu = menu;
     }
 }

@@ -28,9 +28,9 @@ import com.google.firebase.database.FirebaseDatabase;
 
 //////**********************************************////////////
 ////// This activity manages the trainee registration.
-///// Once presses this button, the process begins:
+///// Once presses this button 'Go to my profile' , the process begins:
 ///// Checks for errors - prints with dialogs if any,
-///// else, create the user (Auth) and register (save personal data).
+///// else, create the user (Auth) and register (save personal data in Real-time DB).
 ///// then move to the homepage.
 //////**********************************************////////////
 public class RegisterTraineeActivity extends AppCompatActivity {

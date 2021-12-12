@@ -40,7 +40,7 @@ public class SelectTargetActivity extends AppCompatActivity {
     public void goToTrainersList(View view) {
 
         if(targets.isEmpty()) {
-            errorDialog("Please choose at least one Target!");
+            errorDialog("Please choose at least one target!");
         }
         else {
             Intent move = new Intent(SelectTargetActivity.this, TrainerListActivity.class);
