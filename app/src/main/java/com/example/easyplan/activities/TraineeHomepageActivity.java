@@ -6,7 +6,10 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -18,18 +21,29 @@ import com.example.easyplan.R;
 import com.example.easyplan.data.FirebaseData;
 import com.example.easyplan.data.Plan;
 import com.example.easyplan.data.Trainee;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
+import java.io.File;
+import java.io.IOException;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 //////**********************************************////////////
 ////// This activity manages the trainee homepage
 //////**********************************************////////////
 public class TraineeHomepageActivity extends AppCompatActivity {
     private ImageView trainee_homepage_picture;
+    private CircleImageView personal_image;
     private TextView trainee_homepage_name, trainee_homepage_address, trainee_homepage_gender;
     private TextView trainee_homepage_age, trainee_homepage_height, trainee_homepage_weight;
     private TextView time_of_train_1 , time_of_train_2 , time_of_train_3;
@@ -63,6 +77,7 @@ public class TraineeHomepageActivity extends AppCompatActivity {
 //////**********************************************////////////
     private void initFields() {
         trainee_homepage_picture = (ImageView) findViewById(R.id.trainee_homepage_picture);
+
         trainee_homepage_name = (TextView) findViewById(R.id.trainee_homepage_name);
         trainee_homepage_address = (TextView) findViewById(R.id.trainee_homepage_address);
         trainee_homepage_gender = (TextView) findViewById(R.id.trainee_homepage_gender);
@@ -82,6 +97,7 @@ public class TraineeHomepageActivity extends AppCompatActivity {
         trainee_homepage_day_5 = (TextView) findViewById(R.id.trainee_homepage_day_5);
         trainee_homepage_day_6 = (TextView) findViewById(R.id.trainee_homepage_day_6);
         trainee_homepage_cheat_day = (TextView) findViewById(R.id.trainee_homepage_cheat_day);
+        personal_image = (CircleImageView) findViewById(R.id.personal_image_usercard);
 
         trainee_homepage_btn = (Button) findViewById(R.id.trainee_homepage_btn);
         trainee_homepage_plan_btn = (Button) findViewById(R.id.trainee_homepage_plan_btn);
@@ -111,6 +127,27 @@ public class TraineeHomepageActivity extends AppCompatActivity {
                 trainee_homepage_gender.setText(trainee.getGender());
                 trainee_homepage_height.setText(trainee.getHeight());
                 trainee_homepage_weight.setText(trainee.getWeight());
+
+                FirebaseStorage storage = FirebaseStorage.getInstance();
+                StorageReference storageRef = storage.getReference();
+                StorageReference path = storageRef.child("images/" + mAuth.getUid());
+
+                path.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        try {
+                            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),uri);
+                            personal_image.setImageURI(uri);
+                        }
+                        catch (IOException e) {e.printStackTrace();}
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        // Handle any errors
+                    }
+                });
+
             }
 
             @Override

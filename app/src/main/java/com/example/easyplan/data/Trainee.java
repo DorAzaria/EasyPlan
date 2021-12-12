@@ -1,5 +1,7 @@
 package com.example.easyplan.data;
 
+import android.net.Uri;
+
 public class Trainee {
 
     private String name, address, height, weight, gender, type, notifications, plan_status;

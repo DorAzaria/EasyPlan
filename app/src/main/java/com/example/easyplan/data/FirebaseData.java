@@ -1,14 +1,19 @@
 package com.example.easyplan.data;
 
 
+import android.net.Uri;
+
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.auth.api.signin.internal.Storage;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 //////**********************************************////////////
 //////
@@ -28,6 +33,9 @@ public class FirebaseData {
     // Variable with which the Trainer and trainee can communicate through the database
     private String notification_message;
 
+    private StorageReference storageReference;
+
+
 
 //////**********************************************////////////
 ////// Initialize the variables : mAuth & database
@@ -35,6 +43,7 @@ public class FirebaseData {
     public FirebaseData() {
         this.mAuth = FirebaseAuth.getInstance();
         this.database = FirebaseDatabase.getInstance();
+        this.storageReference = FirebaseStorage.getInstance().getReference();
     }
 
 //////**********************************************////////////
@@ -65,6 +74,13 @@ public class FirebaseData {
     }
 
 
+    public void uploadUri(Uri image) {
+
+         FirebaseStorage storage = FirebaseStorage.getInstance();
+         StorageReference storageRef = storage.getReference().child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+         storageRef.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).putFile(image);
+
+    }
 //////**********************************************////////////
 ////// returns the notification based on the appropriate ID
 //////**********************************************////////////

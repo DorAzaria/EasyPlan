@@ -58,8 +58,15 @@
                     android:layout_height="120dp"
                     app:srcCompat="@drawable/trainee_logo" />
 
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/personal_image"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    app:srcCompat="@drawable/trainee_logo" />
+
                 <ImageView
                     android:id="@+id/register_trainee_upload"
+                    android:onClick="uploadImage"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_gravity="bottom"

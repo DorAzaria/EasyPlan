@@ -1,11 +1,16 @@
 package com.example.easyplan.activities;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.Window;
@@ -20,11 +25,20 @@ import com.example.easyplan.data.FirebaseData;
 import com.example.easyplan.data.Trainee;
 import com.example.easyplan.R;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.io.File;
+import java.io.IOException;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 //////**********************************************////////////
 ////// This activity manages the trainee registration.
@@ -37,10 +51,12 @@ public class RegisterTraineeActivity extends AppCompatActivity {
 
     private Button register_trainee_btn;
     private ImageView register_trainee_image, register_trainee_upload;
+    private CircleImageView personal_image;
     private EditText register_trainee_full_name, register_trainee_address, register_trainee_age;
     private EditText register_trainee_height,register_trainee_weight;
     private RadioButton register_trainee_male_radio, register_trainee_female_radio;
     private FirebaseAuth mAuth;
+    FirebaseData firebaseData;
     private String email, password;
 
     @Override
@@ -59,6 +75,7 @@ public class RegisterTraineeActivity extends AppCompatActivity {
         register_trainee_btn = (Button) findViewById(R.id.register_trainee_btn);
         register_trainee_image = (ImageView) findViewById(R.id.register_trainee_image);
         register_trainee_upload = (ImageView) findViewById(R.id.register_trainee_upload);
+        personal_image = findViewById(R.id.personal_image);
         register_trainee_full_name = (EditText) findViewById(R.id.register_trainee_full_name2);
         register_trainee_address = (EditText) findViewById(R.id.register_trainee_address);
         register_trainee_age = (EditText) findViewById(R.id.register_trainee_age);
@@ -118,7 +135,7 @@ public class RegisterTraineeActivity extends AppCompatActivity {
             gender = "female";
         } else gender = "male";
 
-        FirebaseData firebaseData = new FirebaseData();
+        firebaseData = new FirebaseData();
         Trainee trainee = new Trainee(name, address, height, weight, gender, "Trainee", "", "",  Integer.parseInt(age));
         firebaseData.createTrainee(trainee);
     }
@@ -210,8 +227,32 @@ public class RegisterTraineeActivity extends AppCompatActivity {
         return errors;
     }
 
+    public void uploadImage(View v) {
+        Intent openGalleryIntent = new Intent(Intent.ACTION_PICK , MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(openGalleryIntent , 1);
+    }
 
-//////**********************************************////////////
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
+            Uri imageUri = data.getData();
+            register_trainee_image.setVisibility(View.GONE);
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),imageUri);
+                personal_image.setImageURI(imageUri);
+            }
+            catch (IOException e) {e.printStackTrace();}
+
+            FirebaseStorage storage = FirebaseStorage.getInstance();
+            StorageReference storageRef = storage.getReference();
+            StorageReference riversRef = storageRef.child("images/" + mAuth.getUid());
+            riversRef.putFile(imageUri);
+
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    //////**********************************************////////////
 ////// Dialog pattern, gets a string and prints it. usually to print errors.
 //////**********************************************////////////
     private void errorDialog(String error) {
