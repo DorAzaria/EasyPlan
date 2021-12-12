@@ -52,7 +52,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if(task.isSuccessful()) {
-                                        errorDialog("Email Sent.");
+                                        moveDialog("Email Sent.");
                                     }
                                     else {
                                         errorDialog("Ops, something went wrong! \n   This email isn't exists in our system :(");
@@ -103,6 +103,30 @@ public class ForgotPasswordActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+    }
+
+//////**********************************************////////////
+////// Dialog pattern, gets a string and prints it. usually to print errors.
+//////**********************************************////////////
+    private void moveDialog(String error) {
+        final Dialog dialog = new Dialog(ForgotPasswordActivity.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(true);
+        dialog.setContentView(R.layout.dialog_error);
+
+        TextView errors = dialog.findViewById(R.id.dialog_error_text);
+        Button ok_btn = dialog.findViewById(R.id.dialog_ok);
+
+        errors.setText(error);
+        ok_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                startActivity(new Intent(ForgotPasswordActivity.this, LoginActivity.class));
             }
         });
 
