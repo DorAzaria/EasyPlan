@@ -57,7 +57,7 @@ public class RegisterTraineeActivity extends AppCompatActivity {
     private RadioButton register_trainee_male_radio, register_trainee_female_radio;
     private FirebaseAuth mAuth;
     FirebaseData firebaseData;
-    private String email, password;
+    private String email, password, gender;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,11 +130,6 @@ public class RegisterTraineeActivity extends AppCompatActivity {
         String age = register_trainee_age.getText().toString();
         String height = register_trainee_height.getText().toString();
         String weight = register_trainee_weight.getText().toString();
-        String gender;
-        if (register_trainee_female_radio.isChecked()) {
-            gender = "female";
-        } else gender = "male";
-
         firebaseData = new FirebaseData();
         Trainee trainee = new Trainee(name, address, height, weight, gender, "Trainee", "", "",  Integer.parseInt(age));
         firebaseData.createTrainee(trainee);
@@ -224,6 +219,10 @@ public class RegisterTraineeActivity extends AppCompatActivity {
             errors += "Insert your gender \n";
         }
 
+        if(gender.isEmpty()) {
+            errors += "Insert your gender \n";
+        }
+
         return errors;
     }
 
@@ -275,4 +274,20 @@ public class RegisterTraineeActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    public void onRadioButtonClicked(View view) {
+        // Is the button now checked?
+        boolean checked = ((RadioButton) view).isChecked();
+
+        // Check which radio button was clicked
+        switch(view.getId()) {
+            case R.id.register_trainee_male_radio:
+                if (checked)
+                    gender = "Male";
+                    break;
+            case R.id.register_trainee_female_radio:
+                if (checked)
+                    gender = "Female";
+                    break;
+        }
+    }
 }

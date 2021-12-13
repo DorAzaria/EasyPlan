@@ -42,11 +42,10 @@ public class TraineeListAdapter extends RecyclerView.Adapter<TraineeListAdapter.
 
     @Override
     public void onBindViewHolder(TraineeListAdapter.TraineeViewHolder holder, int position) {
+        holder.trainee_list_image.setImageResource(logos[position % 4]);
 
         holder.trainee_list_name.setText(this.trainees.get(position).getName());
-        holder.trainee_list_image.setImageResource(logos[position % 4]);
         holder.id = this.traineesID.get(position);
-
     }
 
     @Override

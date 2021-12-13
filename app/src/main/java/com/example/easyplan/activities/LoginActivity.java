@@ -1,24 +1,18 @@
 package com.example.easyplan.activities;
 
-import static com.example.easyplan.R.id.login_to_register;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.easyplan.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -30,7 +24,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import java.util.regex.Pattern;
 
 
 //////**********************************************////////////
@@ -40,7 +33,7 @@ import java.util.regex.Pattern;
 //////**********************************************////////////
 public class LoginActivity extends AppCompatActivity  {
 
-    private EditText login_username, login_password;
+    private EditText login_email, login_password;
     private FirebaseAuth mAuth;
 
     @Override
@@ -48,7 +41,7 @@ public class LoginActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         mAuth = FirebaseAuth.getInstance();
-        login_username = findViewById(R.id.login_email);
+        login_email = findViewById(R.id.login_email);
         login_password =  findViewById(R.id.login_password);
     }
 
@@ -58,7 +51,7 @@ public class LoginActivity extends AppCompatActivity  {
 ////// It checks if the user exists and prints errors using dialog class.
 //////**********************************************////////////
     public void login (View v) {
-        String email = login_username.getText().toString().trim();
+        String email = login_email.getText().toString().trim();
         String password = login_password.getText().toString().trim();
 
         String errors_details = checkInputs();
@@ -77,16 +70,16 @@ public class LoginActivity extends AppCompatActivity  {
 //////**********************************************////////////
     public String checkInputs() {
         String errors = "";
-        String email_input = login_username.getText().toString().trim();
+        String email_input = login_email.getText().toString().trim();
         String password_input = login_password.getText().toString().trim();
 
         if(TextUtils.isEmpty(email_input)) {
-            login_username.setError("Email is required!");
+            login_email.setError("Email is required!");
             errors += "Email is required! \n";
         }
 
         if(!TextUtils.isEmpty(email_input) && !Patterns.EMAIL_ADDRESS.matcher(email_input).matches()) {
-            login_username.setError("Valid email is required!");
+            login_email.setError("Valid email is required!");
             errors += "Valid email is required! \n";
         }
 

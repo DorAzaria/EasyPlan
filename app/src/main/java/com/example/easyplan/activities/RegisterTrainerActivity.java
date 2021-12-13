@@ -39,7 +39,7 @@ public class RegisterTrainerActivity extends AppCompatActivity {
     private RadioButton register_trainer_male_radio, register_trainer_female_radio;
     private CheckBox register_trainer_cardio, register_trainer_fitness, register_trainer_muscle, register_trainer_menu;
     private FirebaseAuth mAuth;
-    private String email, password;
+    private String email, password, gender;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,10 +130,6 @@ public class RegisterTrainerActivity extends AppCompatActivity {
         if (register_trainer_menu.isChecked()) {
             targets.add("Menu Nutrition");
         }
-        String gender;
-        if (register_trainer_female_radio.isChecked()) {
-            gender = "female";
-        } else gender = "male";
 
         FirebaseData firebaseData = new FirebaseData();
         Trainer trainer = new Trainer(name, address, gender, "Trainer", education, personal_page, "",  age, cost, 3, 0, targets, new HashMap<String, String>());
@@ -223,6 +219,10 @@ public class RegisterTrainerActivity extends AppCompatActivity {
             errors += "You must check at least one \n";
         }
 
+        if(gender.isEmpty()) {
+            errors += "You must choose a gender \n";
+        }
+
         return errors;
     }
 
@@ -248,5 +248,22 @@ public class RegisterTrainerActivity extends AppCompatActivity {
         });
 
         dialog.show();
+    }
+
+    public void onRadioButtonClicked(View view) {
+        // Is the button now checked?
+        boolean checked = ((RadioButton) view).isChecked();
+
+        // Check which radio button was clicked
+        switch(view.getId()) {
+            case R.id.register_trainer_male_radio:
+                if (checked)
+                    gender = "Male";
+                    break;
+            case R.id.register_trainer_female_radio:
+                if (checked)
+                    gender = "Female";
+                    break;
+        }
     }
 }
