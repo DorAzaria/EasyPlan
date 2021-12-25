@@ -4,7 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -18,19 +21,28 @@ import com.example.easyplan.data.FirebaseData;
 import com.example.easyplan.data.Plan;
 import com.example.easyplan.data.Trainee;
 import com.example.easyplan.R;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Vector;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class MakePlanActivity extends AppCompatActivity {
-    private ImageView trainee_homepage_picture;
+    private CircleImageView trainee_homepage_picture;
     private TextView trainee_homepage_name, trainee_homepage_address, trainee_homepage_gender;
     private TextView trainee_homepage_age, trainee_homepage_height, trainee_homepage_weight,make_plan_train_number;
 
@@ -46,6 +58,10 @@ public class MakePlanActivity extends AppCompatActivity {
     private FirebaseDatabase database;
     private String trainee_id;
     private FirebaseData firebaseData;
+
+    private ProgressDialog progressDialog;
+    private StorageReference storageReference;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +74,7 @@ public class MakePlanActivity extends AppCompatActivity {
             trainee_id = move.getStringExtra("trainee id from firebase");
         }
 
-        trainee_homepage_picture = (ImageView) findViewById(R.id.trainee_homepage_picture);
+        trainee_homepage_picture = (CircleImageView) findViewById(R.id.trainee_homepage_picture);
         trainee_homepage_name = (TextView) findViewById(R.id.trainee_homepage_name);
         trainee_homepage_address = (TextView) findViewById(R.id.trainee_homepage_address);
         trainee_homepage_gender = (TextView) findViewById(R.id.trainee_homepage_gender);
@@ -89,6 +105,7 @@ public class MakePlanActivity extends AppCompatActivity {
     }
 
     private void setTraineeInfo() {
+        showImage();
         database = FirebaseDatabase.getInstance();
         reference = database.getReference("Users/" + trainee_id);
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -109,6 +126,41 @@ public class MakePlanActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void showImage() {
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Fetching Data");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
+
+        storageReference = FirebaseStorage.getInstance().getReference("images/"+trainee_id);
+        try {
+            File local_file = File.createTempFile("tempfile", ".jpg" );
+            storageReference.getFile(local_file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                    if(progressDialog.isShowing()) {
+                        progressDialog.dismiss();
+                    }
+
+                    Bitmap bitmap = BitmapFactory.decodeFile(local_file.getAbsolutePath());
+                    trainee_homepage_picture.setImageBitmap(bitmap);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    if(progressDialog.isShowing()) {
+                        progressDialog.dismiss();
+                    }
+
+                }
+            });
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void make_plan(View view) {
@@ -278,5 +330,61 @@ public class MakePlanActivity extends AppCompatActivity {
         }
 
         return errors;
+    }
+
+    //////**********************************************////////////
+    public void showImageDialog(View view) {
+
+        final Dialog dialog = new Dialog(MakePlanActivity.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(true);
+        dialog.setContentView(R.layout.dialog_image);
+
+        CircleImageView picture = dialog.findViewById(R.id.dialog_profile_picture);
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Fetching Data");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
+
+        storageReference = FirebaseStorage.getInstance().getReference("images/"+trainee_id);
+        try {
+            File local_file = File.createTempFile("tempfile", ".jpg" );
+            storageReference.getFile(local_file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                    if(progressDialog.isShowing()) {
+                        progressDialog.dismiss();
+                    }
+
+                    Bitmap bitmap = BitmapFactory.decodeFile(local_file.getAbsolutePath());
+                    picture.setImageBitmap(bitmap);
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    if(progressDialog.isShowing()) {
+                        progressDialog.dismiss();
+                    }
+
+                }
+            });
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        Button ok_btn = dialog.findViewById(R.id.dialog_image_btn);
+
+        ok_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
     }
 }

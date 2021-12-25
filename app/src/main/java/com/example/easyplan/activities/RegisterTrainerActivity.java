@@ -1,11 +1,17 @@
 package com.example.easyplan.activities;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.Window;
@@ -22,25 +28,38 @@ import com.example.easyplan.data.FirebaseData;
 import com.example.easyplan.data.Trainer;
 import com.example.easyplan.R;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class RegisterTrainerActivity extends AppCompatActivity {
 
+    private ImageView register_trainer_image;
     private Button register_trainer_btn;
-    private ImageView register_trainer_image, register_trainer_upload;
+    private CircleImageView personal_image;
     private EditText register_trainer_full_name, register_trainer_address, register_trainer_education;
     private EditText register_trainer_personal_page, register_trainer_age, register_trainer_cost, register_trainer_days;
     private RadioButton register_trainer_male_radio, register_trainer_female_radio;
     private CheckBox register_trainer_cardio, register_trainer_fitness, register_trainer_muscle, register_trainer_menu;
     private FirebaseAuth mAuth;
     private String email, password, gender;
+
+    private Uri imageUri;
+    private StorageReference storageReference;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +77,6 @@ public class RegisterTrainerActivity extends AppCompatActivity {
 //////**********************************************////////////
     public void initFields() {
         register_trainer_btn = (Button) findViewById(R.id.register_trainer_btn);
-        register_trainer_image = (ImageView) findViewById(R.id.register_trainer_image);
-        register_trainer_upload = (ImageView) findViewById(R.id.register_trainer_upload);
         register_trainer_full_name = (EditText) findViewById(R.id.register_trainer_full_name);
         register_trainer_address = (EditText) findViewById(R.id.register_trainer_address);
         register_trainer_education = (EditText) findViewById(R.id.register_trainer_education);
@@ -72,6 +89,8 @@ public class RegisterTrainerActivity extends AppCompatActivity {
         register_trainer_fitness = (CheckBox) findViewById(R.id.register_trainer_fitness);
         register_trainer_muscle = (CheckBox) findViewById(R.id.register_trainer_muscle);
         register_trainer_menu = (CheckBox) findViewById(R.id.register_trainer_menu);
+        personal_image = (CircleImageView) findViewById(R.id.personal_trainer_image);
+        register_trainer_image = (ImageView) findViewById(R.id.register_trainer_image);
     }
 
 //////**********************************************////////////
@@ -90,6 +109,31 @@ public class RegisterTrainerActivity extends AppCompatActivity {
         }
     }
 
+    private void uploadImage() {
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Uploading file...");
+        progressDialog.show();
+
+        if(imageUri != null) {
+            storageReference = FirebaseStorage.getInstance().getReference("images/" + mAuth.getUid());
+            storageReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    if (progressDialog.isShowing()) {
+                        progressDialog.dismiss();
+                    }
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    if (progressDialog.isShowing()) {
+                        progressDialog.dismiss();
+                    }
+                    errorDialog("Couldn't upload the image.");
+                }
+            });
+        }
+    }
 
 //////**********************************************////////////
     private void createUser() {
@@ -112,6 +156,7 @@ public class RegisterTrainerActivity extends AppCompatActivity {
 
 //////**********************************************////////////
     private void registerUser() {
+        uploadImage();
         String name = register_trainer_full_name.getText().toString();
         String address = register_trainer_address.getText().toString();
         int age = Integer.parseInt(register_trainer_age.getText().toString());
@@ -267,4 +312,25 @@ public class RegisterTrainerActivity extends AppCompatActivity {
                     break;
         }
     }
+
+    public void uploadImage(View view) {
+        Intent openGalleryIntent = new Intent(Intent.ACTION_PICK , MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(openGalleryIntent , 1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == 1 &&  data != null && data.getData() != null && resultCode == Activity.RESULT_OK) {
+            imageUri = data.getData();
+            register_trainer_image.setVisibility(View.GONE);
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),imageUri);
+                personal_image.setImageURI(imageUri);
+            }
+            catch (IOException e) {e.printStackTrace();}
+
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
 }

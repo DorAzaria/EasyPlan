@@ -42,6 +42,7 @@
     </androidx.appcompat.widget.Toolbar>
 
     <ScrollView
+        android:layout_marginTop="17dp"
         android:layout_width="match_parent"
         android:layout_height="680dp"
         app:layout_constraintBottom_toBottomOf="parent"

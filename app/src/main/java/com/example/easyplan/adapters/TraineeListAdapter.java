@@ -1,6 +1,8 @@
 package com.example.easyplan.adapters;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,18 +10,29 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.easyplan.data.Trainee;
 import com.example.easyplan.R;
 import com.example.easyplan.activities.MakePlanActivity;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class TraineeListAdapter extends RecyclerView.Adapter<TraineeListAdapter.TraineeViewHolder> {
     private ArrayList<Trainee> trainees;
     private ArrayList<String> traineesID;
     int[] logos;
+    private StorageReference storageReference;
 
     public TraineeListAdapter(ArrayList<Trainee> trainees, ArrayList<String> traineesID){
         this.trainees = trainees;
@@ -43,9 +56,29 @@ public class TraineeListAdapter extends RecyclerView.Adapter<TraineeListAdapter.
     @Override
     public void onBindViewHolder(TraineeListAdapter.TraineeViewHolder holder, int position) {
         holder.trainee_list_image.setImageResource(logos[position % 4]);
-
         holder.trainee_list_name.setText(this.trainees.get(position).getName());
         holder.id = this.traineesID.get(position);
+
+        storageReference = FirebaseStorage.getInstance().getReference("images/"+holder.id);
+        try {
+            File local_file = File.createTempFile("tempfile", ".jpg" );
+            storageReference.getFile(local_file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+
+                    Bitmap bitmap = BitmapFactory.decodeFile(local_file.getAbsolutePath());
+                    holder.trainee_list_image.setImageBitmap(bitmap);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                }
+            });
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
@@ -55,7 +88,8 @@ public class TraineeListAdapter extends RecyclerView.Adapter<TraineeListAdapter.
 
     public static class TraineeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView trainee_list_name;
-        private ImageView trainee_list_image, trainee_list_mail;
+        private CircleImageView trainee_list_image;
+        private ImageView trainee_list_mail;
         private CheckBox trainee_list_check;
         int[] logos;
         private String id;

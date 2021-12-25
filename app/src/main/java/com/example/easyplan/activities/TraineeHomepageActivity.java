@@ -5,8 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -42,8 +44,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 ////// This activity manages the trainee homepage
 //////**********************************************////////////
 public class TraineeHomepageActivity extends AppCompatActivity {
-    private ImageView trainee_homepage_picture;
-    private CircleImageView personal_image;
+    private CircleImageView trainee_homepage_picture;
     private TextView trainee_homepage_name, trainee_homepage_address, trainee_homepage_gender;
     private TextView trainee_homepage_age, trainee_homepage_height, trainee_homepage_weight;
     private TextView time_of_train_1 , time_of_train_2 , time_of_train_3;
@@ -59,6 +60,8 @@ public class TraineeHomepageActivity extends AppCompatActivity {
     private String notification;
     private FirebaseData firebaseData;
 
+    private ProgressDialog progressDialog;
+    private StorageReference storageReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +79,7 @@ public class TraineeHomepageActivity extends AppCompatActivity {
 
 //////**********************************************////////////
     private void initFields() {
-        trainee_homepage_picture = (ImageView) findViewById(R.id.trainee_homepage_picture);
+        trainee_homepage_picture = (CircleImageView) findViewById(R.id.trainee_homepage_picture);
 
         trainee_homepage_name = (TextView) findViewById(R.id.trainee_homepage_name);
         trainee_homepage_address = (TextView) findViewById(R.id.trainee_homepage_address);
@@ -97,7 +100,6 @@ public class TraineeHomepageActivity extends AppCompatActivity {
         trainee_homepage_day_5 = (TextView) findViewById(R.id.trainee_homepage_day_5);
         trainee_homepage_day_6 = (TextView) findViewById(R.id.trainee_homepage_day_6);
         trainee_homepage_cheat_day = (TextView) findViewById(R.id.trainee_homepage_cheat_day);
-        personal_image = (CircleImageView) findViewById(R.id.personal_image_usercard);
 
         trainee_homepage_btn = (Button) findViewById(R.id.trainee_homepage_btn);
         trainee_homepage_plan_btn = (Button) findViewById(R.id.trainee_homepage_plan_btn);
@@ -115,6 +117,9 @@ public class TraineeHomepageActivity extends AppCompatActivity {
 
 //////**********************************************////////////
     private void showProfileHeader() {
+
+        showImage();
+
         database = FirebaseDatabase.getInstance();
         reference = database.getReference("Users/" + mAuth.getUid());
         reference.addValueEventListener(new ValueEventListener() {
@@ -127,27 +132,6 @@ public class TraineeHomepageActivity extends AppCompatActivity {
                 trainee_homepage_gender.setText(trainee.getGender());
                 trainee_homepage_height.setText(trainee.getHeight());
                 trainee_homepage_weight.setText(trainee.getWeight());
-
-                FirebaseStorage storage = FirebaseStorage.getInstance();
-                StorageReference storageRef = storage.getReference();
-                StorageReference path = storageRef.child("images/" + mAuth.getUid());
-
-                path.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        try {
-                            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),uri);
-                            personal_image.setImageURI(uri);
-                        }
-                        catch (IOException e) {e.printStackTrace();}
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                        // Handle any errors
-                    }
-                });
-
             }
 
             @Override
@@ -155,6 +139,42 @@ public class TraineeHomepageActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void showImage() {
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Fetching Data");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
+
+        storageReference = FirebaseStorage.getInstance().getReference("images/"+mAuth.getUid());
+        try {
+            File local_file = File.createTempFile("tempfile", ".jpg" );
+            storageReference.getFile(local_file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                    if(progressDialog.isShowing()) {
+                        progressDialog.dismiss();
+                    }
+
+                    Bitmap bitmap = BitmapFactory.decodeFile(local_file.getAbsolutePath());
+                    trainee_homepage_picture.setImageBitmap(bitmap);
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    if(progressDialog.isShowing()) {
+                        progressDialog.dismiss();
+                    }
+
+                }
+            });
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -300,6 +320,61 @@ public class TraineeHomepageActivity extends AppCompatActivity {
         }
     }
 
+//////**********************************************////////////
+    public void showImageDialog(View view) {
+
+        final Dialog dialog = new Dialog(TraineeHomepageActivity.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(true);
+        dialog.setContentView(R.layout.dialog_image);
+
+        CircleImageView picture = dialog.findViewById(R.id.dialog_profile_picture);
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Fetching Data");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
+
+        storageReference = FirebaseStorage.getInstance().getReference("images/"+mAuth.getUid());
+        try {
+            File local_file = File.createTempFile("tempfile", ".jpg" );
+            storageReference.getFile(local_file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                    if(progressDialog.isShowing()) {
+                        progressDialog.dismiss();
+                    }
+
+                    Bitmap bitmap = BitmapFactory.decodeFile(local_file.getAbsolutePath());
+                    picture.setImageBitmap(bitmap);
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    if(progressDialog.isShowing()) {
+                        progressDialog.dismiss();
+                    }
+
+                }
+            });
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        Button ok_btn = dialog.findViewById(R.id.dialog_image_btn);
+
+        ok_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+    }
 
 //////**********************************************////////////
     public void startPlanButton(View view) {
