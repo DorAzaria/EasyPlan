@@ -102,7 +102,6 @@ public class TraineeListAdapter extends RecyclerView.Adapter<TraineeListAdapter.
                 getStatusReference.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        System.out.println("HAHIAHIAHIAIAAHIAIHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
                         String trainer_name = snapshot.child("name").getValue(String.class);
                         // status is the id of the trainer.
                         DatabaseReference getTrainerNameReference = database.getReference("Users/"+holder.id);
