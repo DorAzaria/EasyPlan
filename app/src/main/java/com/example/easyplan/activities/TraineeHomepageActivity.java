@@ -3,19 +3,24 @@ package com.example.easyplan.activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -54,7 +59,7 @@ public class TraineeHomepageActivity extends AppCompatActivity {
     private TextView exercise_1 , exercise_2 , exercise_3;
     private TextView trainee_homepage_day_1, trainee_homepage_day_2, trainee_homepage_day_3, trainee_homepage_day_4;
     private TextView trainee_homepage_day_5, trainee_homepage_day_6, trainee_homepage_cheat_day;
-    private Button trainee_homepage_btn, trainee_homepage_plan_btn;
+    private Button trainee_homepage_btn, trainee_homepage_plan_btn , trainee_homepage_phone_btn;
     private ConstraintLayout trainee_homepage_menu, trainee_homepage_trains;
     private FirebaseAuth mAuth;
     private FirebaseDatabase database;
@@ -103,6 +108,7 @@ public class TraineeHomepageActivity extends AppCompatActivity {
         trainee_homepage_day_5 = (TextView) findViewById(R.id.trainee_homepage_day_5);
         trainee_homepage_day_6 = (TextView) findViewById(R.id.trainee_homepage_day_6);
         trainee_homepage_cheat_day = (TextView) findViewById(R.id.trainee_homepage_cheat_day);
+        trainee_homepage_phone_btn = (Button) findViewById(R.id.trainee_homepage_phone_btn);
 
         trainee_homepage_btn = (Button) findViewById(R.id.trainee_homepage_btn);
         trainee_homepage_plan_btn = (Button) findViewById(R.id.trainee_homepage_plan_btn);
@@ -112,9 +118,11 @@ public class TraineeHomepageActivity extends AppCompatActivity {
         trainee_homepage_menu.setVisibility(View.GONE);
         trainee_homepage_trains.setVisibility(View.GONE);
         trainee_homepage_plan_btn.setVisibility(View.GONE);
+        trainee_homepage_phone_btn.setVisibility(View.GONE);
 
         trainee_homepage_notification = (FrameLayout) findViewById(R.id.trainee_homepage_notification);
         trainee_homepage_notification.setVisibility(View.GONE);
+
     }
 
 
@@ -217,6 +225,7 @@ public class TraineeHomepageActivity extends AppCompatActivity {
         trainee_homepage_btn.setVisibility(View.VISIBLE);
         trainee_homepage_menu.setVisibility(View.VISIBLE);
         trainee_homepage_trains.setVisibility(View.VISIBLE);
+        trainee_homepage_phone_btn.setVisibility(View.VISIBLE);
 
         reference = database.getReference("Plans/" + mAuth.getUid());
         reference.addValueEventListener(new ValueEventListener() {
@@ -395,29 +404,109 @@ public class TraineeHomepageActivity extends AppCompatActivity {
 
 //////**********************************************////////////
     public void sendEmail(View view) {
+
         Log.i("Send email", "");
 
+        DatabaseReference getStatusReference = database.getReference("Users/"+mAuth.getUid());
+
+        getStatusReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                String plan_status = snapshot.child("plan_status").getValue(String.class);
+                String trainee_name = snapshot.child("name").getValue(String.class);
+                if(plan_status != null && !plan_status.isEmpty()) {
+
+                    // status is the id of the trainer.
+                    DatabaseReference getTrainerNameReference = database.getReference("Users/"+plan_status);
+                    getTrainerNameReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            String email_trainer = snapshot.child("email").getValue(String.class);
+                            String name = snapshot.child("name").getValue(String.class);
+
+                            String[] TO = {email_trainer};
+                            Intent emailIntent = new Intent(Intent.ACTION_SEND);
+                            emailIntent.setData(Uri.parse("mailto:"));
+                            emailIntent.setType("text/plain");
 
 
-        String[] TO = {"someone@gmail.com"};
-        String[] CC = {"xyz@gmail.com"};
-        Intent emailIntent = new Intent(Intent.ACTION_SEND);
-        emailIntent.setData(Uri.parse("mailto:"));
-        emailIntent.setType("text/plain");
+                            emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
+                            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "New message from " + trainee_name + " || EasyPlan");
+                            emailIntent.putExtra(Intent.EXTRA_TEXT, "Hi "+name+",\n");
 
+                            try {
+                                startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+                                finish();
+                                Log.i("Finished sending email...", "");
+                            } catch (android.content.ActivityNotFoundException ex) {
+                                Toast.makeText(TraineeHomepageActivity.this,
+                                        "There is no email client installed.", Toast.LENGTH_SHORT).show();
+                            }
+                        }
 
-        emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
-        emailIntent.putExtra(Intent.EXTRA_CC, CC);
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Your subject");
-        emailIntent.putExtra(Intent.EXTRA_TEXT, "Email message goes here");
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
 
-        try {
-            startActivity(Intent.createChooser(emailIntent, "Send mail..."));
-            finish();
-            Log.i("Finished sending email...", "");
-        } catch (android.content.ActivityNotFoundException ex) {
-            Toast.makeText(TraineeHomepageActivity.this,
-                    "There is no email client installed.", Toast.LENGTH_SHORT).show();
-        }
+                        }
+                    });
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    public void callPhone(View view) {
+        Log.i("Send email", "");
+
+        DatabaseReference getStatusReference = database.getReference("Users/"+mAuth.getUid());
+
+        getStatusReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                String plan_status = snapshot.child("plan_status").getValue(String.class);
+                if(plan_status != null && !plan_status.isEmpty()) {
+
+                    // status is the id of the trainer.
+                    DatabaseReference getTrainerNameReference = database.getReference("Users/"+plan_status);
+                    getTrainerNameReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            // getting phone number from edit text
+                            // and changing it to String
+                            String phone_trainer = snapshot.child("phone_number").getValue(String.class);
+
+                            // Getting instance of Intent
+                            // with action as ACTION_CALL
+                            Intent phone_intent = new Intent(Intent.ACTION_CALL);
+
+                            // Set data of Intent through Uri
+                            // by parsing phone number
+                            phone_intent.setData(Uri.parse("tel:" + phone_trainer));
+
+                            // start Intent
+                            TraineeHomepageActivity.this.startActivity(phone_intent);
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }
