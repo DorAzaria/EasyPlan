@@ -51,7 +51,7 @@ public class TrainerHomepageActivity extends AppCompatActivity {
         Intent move = getIntent();
         trainer_id = "";
 
-        // trainer want to see my homepage - he choose me
+        // trainee want to see my homepage - he choose me
         if(move.hasExtra("trainer id from firebase")) {
             trainer_id = move.getStringExtra("trainer id from firebase");
             trainer_list_menu.setVisibility(View.GONE);
@@ -170,6 +170,7 @@ public class TrainerHomepageActivity extends AppCompatActivity {
 
 
     private void newPlanDialog() {
+
         final Dialog dialog = new Dialog(TrainerHomepageActivity.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(true);
