@@ -1,25 +1,45 @@
 package com.example.easyplan.data;
 
 
+import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.net.Uri;
+import android.os.Build;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 
+import com.google.android.datatransport.runtime.TransportRuntime;
 import com.google.android.gms.auth.api.signin.internal.Storage;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.installations.FirebaseInstallations;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.messaging.RemoteMessage;
 import com.google.firebase.storage.StorageReference;
+
+
+
+
+
 
 //////**********************************************////////////
 //////
 //////**********************************************////////////
 
-public class FirebaseData {
+public class FirebaseData  {
 
     // The entry point of the Firebase Authentication
     private FirebaseAuth mAuth;
@@ -35,9 +55,13 @@ public class FirebaseData {
 
     private StorageReference storageReference;
 
+    private FirebaseMessaging fireBaseMessaging;
+
+    private Context context;
+    private Activity activity;
 
 
-//////**********************************************////////////
+    //////**********************************************////////////
 ////// Initialize the variables : mAuth & database
 //////**********************************************////////////
     public FirebaseData() {
@@ -46,7 +70,23 @@ public class FirebaseData {
         this.storageReference = FirebaseStorage.getInstance().getReference();
     }
 
-//////**********************************************////////////
+    public Context getContext() {
+        return context;
+    }
+
+    public void setContext(Context context) {
+        this.context = context;
+    }
+
+    public Activity getActivity() {
+        return activity;
+    }
+
+    public void setActivity(Activity activity) {
+        this.activity = activity;
+    }
+
+    //////**********************************************////////////
 ////// Get the user ID
 //////**********************************************////////////
     public String getID() {
@@ -61,6 +101,20 @@ public class FirebaseData {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference reference = database.getReference("Users/" + mAuth.getUid());
         reference.setValue(trainer);
+
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            return;
+                        }
+                        String token = task.getResult();
+                        reference.child("token").setValue(token);
+
+                    }
+                });
+
     }
 
 
@@ -71,6 +125,19 @@ public class FirebaseData {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference reference = database.getReference("Users/" + mAuth.getUid());
         reference.setValue(trainee);
+
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            return;
+                        }
+                        String token = task.getResult();
+                        reference.child("token").setValue(token);
+
+                    }
+                });
     }
 
 
@@ -134,8 +201,34 @@ public class FirebaseData {
         reference = database.getReference("Users/" + trainer_id + "/notifications");
         reference.setValue("You've got a new plan request");
 
-    }
+        reference = database.getReference("Users/" + trainer_id);
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String trainer_token = snapshot.child("token").getValue().toString();
+                DatabaseReference trainee_reference = database.getReference("Users/"+trainee_id);
+                trainee_reference.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        String trainee_name = snapshot.child("name").getValue(String.class).toString();
+                        FcmNotificationsSender send_notification = new FcmNotificationsSender(trainer_token , "Easy Plan", "You Have a request for plan from " + trainee_name,context,activity);
+                        send_notification.SendNotifications();
+                    }
 
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
 
 //    public void createPlan(Plan plan, String trainer_id, String trainee_id) {
 //        reference = database.getReference("Plans/" + trainee_id);
