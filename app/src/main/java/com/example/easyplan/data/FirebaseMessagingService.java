@@ -1,6 +1,7 @@
-package com.example.easyplan.data;
+package com.myapp.tremplist_update;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -22,12 +23,15 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 
-import com.example.easyplan.activities.SplashScreenActivity;
+import com.example.easyplan.R;
+import com.example.easyplan.activities.TrainerHomepageActivity;
 import com.google.firebase.messaging.RemoteMessage;
+
+import java.util.Objects;
 
 public class FirebaseMessagingService extends com.google.firebase.messaging.FirebaseMessagingService {
 
-     NotificationManager mNotificationManager;
+    NotificationManager mNotificationManager;
 
 
     @Override
@@ -49,22 +53,20 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         v.vibrate(pattern, -1);
 
 
-        int resourceImage = getResources().getIdentifier(remoteMessage.getNotification().getIcon(), "drawable", getPackageName());
+        int resourceImage = getResources().getIdentifier(Objects.requireNonNull(remoteMessage.getNotification()).getIcon(), "drawable", getPackageName());
 
 
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "CHANNEL_ID");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//            builder.setSmallIcon(R.drawable.icontrans);
-            builder.setSmallIcon(resourceImage);
+            builder.setSmallIcon(R.drawable.fitness_logo);
         } else {
-//            builder.setSmallIcon(R.drawable.icon_kritikar);
-            builder.setSmallIcon(resourceImage);
+            builder.setSmallIcon(R.drawable.fitness_logo);
         }
 
 
 
-        Intent resultIntent = new Intent(this, SplashScreenActivity.class);
+        Intent resultIntent = new Intent(this, TrainerHomepageActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 1, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
 
@@ -101,5 +103,3 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
     }
 
 }
-
-
