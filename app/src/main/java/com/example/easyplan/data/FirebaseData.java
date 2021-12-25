@@ -123,28 +123,17 @@ public class FirebaseData {
 //////**********************************************////////////
     public void sendPlanRequest(String trainee_id, String trainer_id) {
 
+        // the plan not yet exist
         reference = database.getReference("Users/" + trainer_id + "/my_trainees/" + trainee_id);
         reference.setValue("false");
 
+        // save the UID of the trainer in trainee plan status field
         reference = database.getReference("Users/" + trainee_id + "/plan_status");
         reference.setValue(trainer_id);
 
+        // notify the trainer about someone who ask for plan
         reference = database.getReference("Users/" + trainer_id + "/notifications");
-
-        DatabaseReference gets_trainer_name = database.getReference("Users/"+trainee_id);
-
-        gets_trainer_name.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String trainee_name = snapshot.child("name").getValue(String.class);
-                reference.setValue("You've got a new plan request from " + trainee_name);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        });
-
+        reference.setValue("You've got a new plan request");
     }
 
 
