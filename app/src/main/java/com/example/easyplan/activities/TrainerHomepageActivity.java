@@ -1,5 +1,7 @@
 package com.example.easyplan.activities;
 
+import androidx.activity.OnBackPressedCallback;
+import androidx.activity.OnBackPressedDispatcherOwner;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -58,19 +60,22 @@ public class TrainerHomepageActivity extends AppCompatActivity {
         if(move.hasExtra("trainer id from firebase")) {
             trainer_id = move.getStringExtra("trainer id from firebase");
             trainer_list_menu.setVisibility(View.GONE);
-            trainer_flag = true;
 
         }
         else {
             trainer_start_plan.setVisibility(View.GONE);
             trainer_id = firebaseData.getID();
+            trainer_flag = true;
             String notification = firebaseData.getNotification();
             if(firebaseData.checkForNewNotifications(notification)) {
                 trainee_homepage_notification.setVisibility(View.VISIBLE);
             }
         }
         getProfileData();
+
     }
+
+
 
 
     private void initFields() {
@@ -210,5 +215,6 @@ public class TrainerHomepageActivity extends AppCompatActivity {
 
         dialog.show();
     }
+
 
 }
