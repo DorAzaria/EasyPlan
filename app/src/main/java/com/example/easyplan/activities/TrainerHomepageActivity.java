@@ -23,6 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
+import java.util.Map;
 
 //////**********************************************////////////
 ////// This activity manages the trainer homepage
@@ -51,7 +52,7 @@ public class TrainerHomepageActivity extends AppCompatActivity {
         Intent move = getIntent();
         trainer_id = "";
 
-        // trainer want to see my homepage - he choose me
+        // trainee want to see my homepage - he choose me
         if(move.hasExtra("trainer id from firebase")) {
             trainer_id = move.getStringExtra("trainer id from firebase");
             trainer_list_menu.setVisibility(View.GONE);
@@ -100,6 +101,7 @@ public class TrainerHomepageActivity extends AppCompatActivity {
                 trainer_homepage_name.setText(trainer.getName());
                 trainer_homepage_cost.setText(String.valueOf(trainer.getCost()));
                 List<String> targets = trainer.getTargets();
+                Map<String, String> my_trainees = trainer.getMy_trainees();
                 if(targets != null) {
                     if (!targets.contains("Fitness"))
                         trainer_homepage_fitness.setVisibility(View.GONE);
@@ -109,6 +111,12 @@ public class TrainerHomepageActivity extends AppCompatActivity {
                         trainer_homepage_cardio.setVisibility(View.GONE);
                     if (!targets.contains("Menu Nutrition"))
                         trainer_homepage_menu.setVisibility(View.GONE);
+                }
+                for(String runner : my_trainees.values()){
+                    if(runner.equals("false")){
+                        trainee_homepage_notification.setVisibility(View.VISIBLE);
+                        break;
+                    }
                 }
                 // because trainer see my profile - remove the menu
             }
@@ -170,6 +178,7 @@ public class TrainerHomepageActivity extends AppCompatActivity {
 
 
     private void newPlanDialog() {
+
         final Dialog dialog = new Dialog(TrainerHomepageActivity.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(true);
@@ -197,6 +206,5 @@ public class TrainerHomepageActivity extends AppCompatActivity {
 
         dialog.show();
     }
-
 
 }
