@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -24,7 +25,9 @@ import android.widget.Toast;
 import com.example.easyplan.data.FirebaseData;
 import com.example.easyplan.data.Trainee;
 import com.example.easyplan.R;
+import com.example.easyplan.databinding.ActivityRegisterTraineeBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -56,8 +59,13 @@ public class RegisterTraineeActivity extends AppCompatActivity {
     private EditText register_trainee_height,register_trainee_weight;
     private RadioButton register_trainee_male_radio, register_trainee_female_radio;
     private FirebaseAuth mAuth;
-    FirebaseData firebaseData;
+    private FirebaseData firebaseData;
     private String email, password, gender;
+
+    private Uri imageUri;
+    private StorageReference storageReference;
+    private ProgressDialog progressDialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,8 +131,35 @@ public class RegisterTraineeActivity extends AppCompatActivity {
     }
 
 
+    private void uploadImage() {
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Uploading file...");
+        progressDialog.show();
+
+        if(imageUri != null) {
+            storageReference = FirebaseStorage.getInstance().getReference("images/" + mAuth.getUid());
+            storageReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    if (progressDialog.isShowing()) {
+                        progressDialog.dismiss();
+                    }
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    if (progressDialog.isShowing()) {
+                        progressDialog.dismiss();
+                    }
+                    errorDialog("Couldn't upload the image.");
+                }
+            });
+        }
+    }
+
 //////**********************************************////////////
     private void registerUser() {
+        uploadImage();
         String name = register_trainee_full_name.getText().toString();
         String address = register_trainee_address.getText().toString();
         String age = register_trainee_age.getText().toString();
@@ -233,19 +268,14 @@ public class RegisterTraineeActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
-            Uri imageUri = data.getData();
+        if (requestCode == 1 &&  data != null && data.getData() != null && resultCode == Activity.RESULT_OK) {
+            imageUri = data.getData();
             register_trainee_image.setVisibility(View.GONE);
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),imageUri);
                 personal_image.setImageURI(imageUri);
             }
             catch (IOException e) {e.printStackTrace();}
-
-            FirebaseStorage storage = FirebaseStorage.getInstance();
-            StorageReference storageRef = storage.getReference();
-            StorageReference riversRef = storageRef.child("images/" + mAuth.getUid());
-            riversRef.putFile(imageUri);
 
         }
         super.onActivityResult(requestCode, resultCode, data);

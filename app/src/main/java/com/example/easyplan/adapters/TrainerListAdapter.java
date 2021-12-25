@@ -1,24 +1,37 @@
 package com.example.easyplan.adapters;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.easyplan.data.Trainer;
 import com.example.easyplan.R;
 import com.example.easyplan.activities.TrainerHomepageActivity;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.ViewHolder> {
     private List<Trainer> trainers;
     private List <String> trainers_ids;
+    private StorageReference storageReference;
 
     public TrainerListAdapter(List<Trainer> data , List <String> ids){
        this.trainers = data;
@@ -42,6 +55,27 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
         if(targets_to_show.contains("Menu Nutrition")) holder.trainer_list_menu.setVisibility(View.VISIBLE);
         if(targets_to_show.contains("Muscle")) holder.trainer_list_muscle.setVisibility(View.VISIBLE);
         holder.trainer_list_name.setText(trainer.getName());
+
+        storageReference = FirebaseStorage.getInstance().getReference("images/"+holder.trainer_id);
+        try {
+            File local_file = File.createTempFile("tempfile", ".jpg" );
+            storageReference.getFile(local_file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+
+                    Bitmap bitmap = BitmapFactory.decodeFile(local_file.getAbsolutePath());
+                    holder.trainer_list_profile_image.setImageBitmap(bitmap);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                }
+            });
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
@@ -51,10 +85,10 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView trainer_list_name, trainer_list_rate;
-        private ImageView trainer_list_profile_image, trainer_list_menu, trainer_list_fitness,trainer_list_cardio,trainer_list_muscle;
+        private ImageView trainer_list_menu, trainer_list_fitness,trainer_list_cardio,trainer_list_muscle;
         private CardView specialCard;
         private String trainer_id;
-
+        private CircleImageView trainer_list_profile_image;
 
         public ViewHolder(View view) {
             super(view);
