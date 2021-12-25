@@ -73,7 +73,6 @@ public class TrainerHomepageActivity extends AppCompatActivity {
         if(move.hasExtra("trainer id from firebase")) {
             trainer_id = move.getStringExtra("trainer id from firebase");
             trainer_list_menu.setVisibility(View.GONE);
-            trainer_flag = true;
 
         }
         else {
