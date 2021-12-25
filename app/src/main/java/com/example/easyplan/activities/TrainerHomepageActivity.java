@@ -112,10 +112,12 @@ public class TrainerHomepageActivity extends AppCompatActivity {
                     if (!targets.contains("Menu Nutrition"))
                         trainer_homepage_menu.setVisibility(View.GONE);
                 }
-                for(String runner : my_trainees.values()){
-                    if(runner.equals("false")){
-                        trainee_homepage_notification.setVisibility(View.VISIBLE);
-                        break;
+                if(my_trainees != null) {
+                    for (String runner : my_trainees.values()) {
+                        if (runner.equals("false")) {
+                            trainee_homepage_notification.setVisibility(View.VISIBLE);
+                            break;
+                        }
                     }
                 }
                 // because trainer see my profile - remove the menu
