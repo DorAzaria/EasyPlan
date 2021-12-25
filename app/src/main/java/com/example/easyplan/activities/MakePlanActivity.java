@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -57,6 +58,8 @@ public class MakePlanActivity extends AppCompatActivity {
     private DatabaseReference reference;
     private FirebaseDatabase database;
     private String trainee_id;
+    private String trainer_id;
+
     private FirebaseData firebaseData;
 
     private ProgressDialog progressDialog;
@@ -69,10 +72,19 @@ public class MakePlanActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         Intent move = getIntent();
         trainee_id = "";
-
+        trainer_id ="";
         if(move.hasExtra("trainee id from firebase")) {
             trainee_id = move.getStringExtra("trainee id from firebase");
         }
+        if(move.hasExtra("trainer id")){
+            trainer_id = move.getStringExtra("trainer id");
+        }
+        initFields();
+        checkForPlan();
+
+
+    }
+    private void initFields() {
 
         trainee_homepage_picture = (CircleImageView) findViewById(R.id.trainee_homepage_picture);
         trainee_homepage_name = (TextView) findViewById(R.id.trainee_homepage_name);
@@ -103,6 +115,30 @@ public class MakePlanActivity extends AppCompatActivity {
         setTraineeInfo();
 
     }
+
+    //////**********************************************////////////
+    private void checkForPlan() {
+        reference = database.getReference("Users/"+trainer_id+"/my_trainees");
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                String flag = snapshot.child(trainee_id).getValue(String.class);
+                if(flag.equals("false")){
+                   return;
+                }else {
+                    make_plan_submit_btn.setVisibility(View.GONE);
+                    show_plan();
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
 
     private void setTraineeInfo() {
         showImage();
@@ -244,6 +280,34 @@ public class MakePlanActivity extends AppCompatActivity {
 
             dialog.show();
         }
+    }
+
+    private void show_plan() {
+
+        reference = database.getReference("Plans/" + trainee_id);
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                make_plan_train_time1.setText(snapshot.child("trains").child("1").child("time").getValue(String.class));
+                make_plan_train_exer1.setText(snapshot.child("trains").child("1").child("exercise").getValue(String.class));
+                make_plan_train_time2.setText(snapshot.child("trains").child("2").child("time").getValue(String.class));
+                make_plan_train_exer2.setText(snapshot.child("trains").child("2").child("exercise").getValue(String.class));
+                make_plan_train_time3.setText(snapshot.child("trains").child("3").child("time").getValue(String.class));
+                make_plan_train_exer3.setText(snapshot.child("trains").child("3").child("exercise").getValue(String.class));
+                make_plan_day_1.setText(snapshot.child("menu").child("0").getValue(String.class));
+                make_plan_day_2.setText(snapshot.child("menu").child("1").getValue(String.class));
+                make_plan_day_3.setText(snapshot.child("menu").child("2").getValue(String.class));
+                make_plan_day_4.setText(snapshot.child("menu").child("3").getValue(String.class));
+                make_plan_day_5.setText(snapshot.child("menu").child("4").getValue(String.class));
+                make_plan_day_6.setText(snapshot.child("menu").child("5").getValue(String.class));
+                make_plan_cheat_day.setText(snapshot.child("menu").child("6").getValue(String.class));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     private String checkInputs() {

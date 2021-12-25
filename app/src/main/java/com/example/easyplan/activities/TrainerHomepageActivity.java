@@ -198,7 +198,9 @@ public class TrainerHomepageActivity extends AppCompatActivity {
     public void logout(View v) {
         mAuth.signOut();
         Intent move = new Intent(TrainerHomepageActivity.this , LoginActivity.class);
+        move.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(move);
+        TrainerHomepageActivity.this.finish();
     }
 
 
