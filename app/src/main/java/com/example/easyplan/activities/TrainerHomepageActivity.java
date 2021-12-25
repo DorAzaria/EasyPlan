@@ -41,6 +41,7 @@ public class TrainerHomepageActivity extends AppCompatActivity {
     private String trainer_id;
     private ImageView trainee_homepage_notification;
     private FirebaseData firebaseData;
+    private boolean trainer_flag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,11 +52,14 @@ public class TrainerHomepageActivity extends AppCompatActivity {
 
         Intent move = getIntent();
         trainer_id = "";
+        trainer_flag = false;
 
         // trainee want to see my homepage - he choose me
         if(move.hasExtra("trainer id from firebase")) {
             trainer_id = move.getStringExtra("trainer id from firebase");
             trainer_list_menu.setVisibility(View.GONE);
+            trainer_flag = true;
+
         }
         else {
             trainer_start_plan.setVisibility(View.GONE);
@@ -65,9 +69,7 @@ public class TrainerHomepageActivity extends AppCompatActivity {
                 trainee_homepage_notification.setVisibility(View.VISIBLE);
             }
         }
-
         getProfileData();
-
     }
 
 
@@ -112,7 +114,7 @@ public class TrainerHomepageActivity extends AppCompatActivity {
                     if (!targets.contains("Menu Nutrition"))
                         trainer_homepage_menu.setVisibility(View.GONE);
                 }
-                if(my_trainees != null) {
+                if(my_trainees != null && trainer_flag) {
                     for (String runner : my_trainees.values()) {
                         if (runner.equals("false")) {
                             trainee_homepage_notification.setVisibility(View.VISIBLE);
