@@ -219,8 +219,10 @@ public class MakePlanActivity extends AppCompatActivity {
 
             reference = database.getReference("Users/" + mAuth.getUid() + "/my_trainees/" + trainee_id);
             reference.setValue("true");
-
-            startActivity(new Intent(MakePlanActivity.this, TraineeHomepageActivity.class));
+            Intent move = new Intent(MakePlanActivity.this, TraineeHomepageActivity.class);
+            move.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(move);
+            MakePlanActivity.this.finish();
         }
         else {
             final Dialog dialog = new Dialog(MakePlanActivity.this);
