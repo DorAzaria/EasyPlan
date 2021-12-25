@@ -25,7 +25,6 @@ import android.widget.Toast;
 import com.example.easyplan.data.FirebaseData;
 import com.example.easyplan.data.Trainee;
 import com.example.easyplan.R;
-import com.example.easyplan.databinding.ActivityRegisterTraineeBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -40,6 +39,7 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -60,8 +60,10 @@ public class RegisterTraineeActivity extends AppCompatActivity {
     private RadioButton register_trainee_male_radio, register_trainee_female_radio;
     private FirebaseAuth mAuth;
     private FirebaseData firebaseData;
-    private String email, password, gender;
-
+    private String email;
+    private String password;
+    private String gender;
+    private EditText phone_number;
     private Uri imageUri;
     private StorageReference storageReference;
     private ProgressDialog progressDialog;
@@ -84,13 +86,14 @@ public class RegisterTraineeActivity extends AppCompatActivity {
         register_trainee_image = (ImageView) findViewById(R.id.register_trainee_image);
         register_trainee_upload = (ImageView) findViewById(R.id.register_trainee_upload);
         personal_image = findViewById(R.id.personal_image);
-        register_trainee_full_name = (EditText) findViewById(R.id.register_trainee_full_name2);
+        register_trainee_full_name = (EditText) findViewById(R.id.register_trainee_full_name);
         register_trainee_address = (EditText) findViewById(R.id.register_trainee_address);
         register_trainee_age = (EditText) findViewById(R.id.register_trainee_age);
         register_trainee_height = (EditText) findViewById(R.id.register_trainee_height);
         register_trainee_weight = (EditText) findViewById(R.id.register_trainee_weight);
         register_trainee_male_radio = (RadioButton) findViewById(R.id.register_trainee_male_radio);
         register_trainee_female_radio = (RadioButton) findViewById(R.id.register_trainee_female_radio);
+        phone_number = (EditText) findViewById(R.id.register_trainee_phone_number);
     }
 
 
@@ -165,8 +168,11 @@ public class RegisterTraineeActivity extends AppCompatActivity {
         String age = register_trainee_age.getText().toString();
         String height = register_trainee_height.getText().toString();
         String weight = register_trainee_weight.getText().toString();
+        String token = mAuth.getCurrentUser().getIdToken(false).toString();
+        String phone = phone_number.getText().toString();
+        String email = mAuth.getCurrentUser().getEmail().toString();
         firebaseData = new FirebaseData();
-        Trainee trainee = new Trainee(name, address, height, weight, gender, "Trainee", "", "",  Integer.parseInt(age));
+        Trainee trainee = new Trainee(name, address, height, weight, gender, "Trainee", "", "",  Integer.parseInt(age), token, phone, email);
         firebaseData.createTrainee(trainee);
     }
 
@@ -183,6 +189,7 @@ public class RegisterTraineeActivity extends AppCompatActivity {
         String age =  register_trainee_age.getText().toString();
         String height = register_trainee_height.getText().toString();
         String weight = register_trainee_weight.getText().toString();
+        String phone = phone_number.getText().toString();
 
 
         if(TextUtils.isEmpty(name)) {
@@ -256,6 +263,11 @@ public class RegisterTraineeActivity extends AppCompatActivity {
 
         if(gender.isEmpty()) {
             errors += "Insert your gender \n";
+        }
+
+        if(TextUtils.isEmpty(phone)) {
+            phone_number.setError("Please insert your phone number.");
+            errors += "Insert your phone number \n";
         }
 
         return errors;

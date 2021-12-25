@@ -12,12 +12,14 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.easyplan.R;
 import com.example.easyplan.data.FirebaseData;
@@ -26,6 +28,7 @@ import com.example.easyplan.data.Trainee;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -389,4 +392,32 @@ public class TraineeHomepageActivity extends AppCompatActivity {
         startActivity(move);
     }
 
+
+//////**********************************************////////////
+    public void sendEmail(View view) {
+        Log.i("Send email", "");
+
+
+
+        String[] TO = {"someone@gmail.com"};
+        String[] CC = {"xyz@gmail.com"};
+        Intent emailIntent = new Intent(Intent.ACTION_SEND);
+        emailIntent.setData(Uri.parse("mailto:"));
+        emailIntent.setType("text/plain");
+
+
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
+        emailIntent.putExtra(Intent.EXTRA_CC, CC);
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Your subject");
+        emailIntent.putExtra(Intent.EXTRA_TEXT, "Email message goes here");
+
+        try {
+            startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+            finish();
+            Log.i("Finished sending email...", "");
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(TraineeHomepageActivity.this,
+                    "There is no email client installed.", Toast.LENGTH_SHORT).show();
+        }
+    }
 }

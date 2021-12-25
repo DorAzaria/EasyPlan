@@ -4,12 +4,12 @@ import android.net.Uri;
 
 public class Trainee {
 
-    private String name, address, height, weight, gender, type, notifications, plan_status;
+    private String name, address, height, weight, gender, type, notifications, plan_status, token, phone_number, email;
     private int age;
 
     public Trainee() {}
 
-    public Trainee(String name, String address, String height, String weight, String gender, String type, String notifications, String plan_status, int age) {
+    public Trainee(String name, String address, String height, String weight, String gender, String type, String notifications, String plan_status, int age, String token, String phone_number, String email) {
         this.name = name;
         this.address = address;
         this.height = height;
@@ -19,6 +19,33 @@ public class Trainee {
         this.notifications = notifications;
         this.plan_status = plan_status;
         this.age = age;
+        this.token = token;
+        this.phone_number = phone_number;
+        this.email = email;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public String getPhone_number() {
+        return phone_number;
+    }
+
+    public void setPhone_number(String phone_number) {
+        this.phone_number = phone_number;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getName() {

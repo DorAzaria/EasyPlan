@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class Trainer {
 
-    private String name, address, gender, type, education, personal_page, notifications;
+    private String name, address, gender, type, education, personal_page, notifications, token, phone_number, email;
     private int age, cost, duration;
     private double rate;
     private List<String> targets;
@@ -13,7 +13,7 @@ public class Trainer {
 
     public Trainer() {}
 
-    public Trainer(String name, String address, String gender, String type, String education, String personal_page, String notifications, int age, int cost, int duration, double rate, List<String> targets, Map<String, String> my_trainees) {
+    public Trainer(String name, String address, String gender, String type, String education, String personal_page, String notifications, int age, int cost, int duration, double rate, List<String> targets, Map<String, String> my_trainees, String token, String phone_number, String email) {
         this.name = name;
         this.address = address;
         this.gender = gender;
@@ -27,6 +27,33 @@ public class Trainer {
         this.rate = rate;
         this.targets = targets;
         this.my_trainees = my_trainees;
+        this.token = token;
+        this.phone_number = phone_number;
+        this.email = email;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public String getPhone_number() {
+        return phone_number;
+    }
+
+    public void setPhone_number(String phone_number) {
+        this.phone_number = phone_number;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getName() {

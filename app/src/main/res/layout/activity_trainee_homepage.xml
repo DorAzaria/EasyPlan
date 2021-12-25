@@ -89,6 +89,7 @@
                 android:layout_height="100dp"
                 android:orientation="vertical">
                 <Button
+                    android:onClick="sendEmail"
                     android:id="@+id/trainee_homepage_btn"
                     android:layout_gravity="center"
                     android:layout_width="300dp"

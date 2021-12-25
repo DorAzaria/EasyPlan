@@ -35,6 +35,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -56,6 +57,7 @@ public class RegisterTrainerActivity extends AppCompatActivity {
     private CheckBox register_trainer_cardio, register_trainer_fitness, register_trainer_muscle, register_trainer_menu;
     private FirebaseAuth mAuth;
     private String email, password, gender;
+    private EditText register_trainer_phone_number;
 
     private Uri imageUri;
     private StorageReference storageReference;
@@ -91,6 +93,7 @@ public class RegisterTrainerActivity extends AppCompatActivity {
         register_trainer_menu = (CheckBox) findViewById(R.id.register_trainer_menu);
         personal_image = (CircleImageView) findViewById(R.id.personal_trainer_image);
         register_trainer_image = (ImageView) findViewById(R.id.register_trainer_image);
+        register_trainer_phone_number = (EditText) findViewById(R.id.register_trainer_phone_number);
     }
 
 //////**********************************************////////////
@@ -163,6 +166,10 @@ public class RegisterTrainerActivity extends AppCompatActivity {
         int cost = Integer.parseInt(register_trainer_cost.getText().toString());
         String education = register_trainer_education.getText().toString();
         String personal_page = register_trainer_personal_page.getText().toString();
+        String phone = register_trainer_phone_number.getText().toString();
+        String email = mAuth.getCurrentUser().getEmail().toString();
+        String token = FirebaseMessaging.getInstance().getToken().toString();
+
         ArrayList<String> targets = new ArrayList<>();
         if (register_trainer_cardio.isChecked()) {
             targets.add("Cardio");
@@ -178,7 +185,7 @@ public class RegisterTrainerActivity extends AppCompatActivity {
         }
 
         FirebaseData firebaseData = new FirebaseData();
-        Trainer trainer = new Trainer(name, address, gender, "Trainer", education, personal_page, "",  age, cost, 3, 0, targets, new HashMap<String, String>());
+        Trainer trainer = new Trainer(name, address, gender, "Trainer", education, personal_page, "",  age, cost, 3, 0, targets, new HashMap<String, String>(), token, phone, email);
         firebaseData.createTrainer(trainer);
     }
 
@@ -196,6 +203,7 @@ public class RegisterTrainerActivity extends AppCompatActivity {
         String cost = register_trainer_cost.getText().toString();
         String education = register_trainer_education.getText().toString();
         String personal_page = register_trainer_personal_page.getText().toString();
+        String phone = register_trainer_phone_number.getText().toString();
 
         if(TextUtils.isEmpty(name)) {
             register_trainer_full_name.setError("Please insert your name.");
@@ -245,6 +253,11 @@ public class RegisterTrainerActivity extends AppCompatActivity {
         if(TextUtils.isEmpty(personal_page)) {
             register_trainer_personal_page.setError("Please insert your personal page.");
             errors += "Insert your personal page \n";
+        }
+
+        if(TextUtils.isEmpty(phone)) {
+            register_trainer_personal_page.setError("Please insert your phone number.");
+            errors += "Insert your phone number \n";
         }
 
         int check_multichecks = 0;
