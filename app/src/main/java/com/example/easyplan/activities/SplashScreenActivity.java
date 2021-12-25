@@ -39,25 +39,11 @@ public class SplashScreenActivity extends AppCompatActivity {
         animationDrawable.setExitFadeDuration(2000);
         animationDrawable.start();
 
-        checkUserType();
-
         new Handler().postDelayed(new Runnable(){
-
             @Override
             public void run() {
-                Intent mainIntent;
-
-                if (move_type.equals("Trainee")) {
-                    mainIntent = new Intent(SplashScreenActivity.this,TraineeHomepageActivity.class);
-                }
-                else if (move_type.equals("Trainer")) {
-                    mainIntent = new Intent(SplashScreenActivity.this,TrainerHomepageActivity.class);
-                }
-                else {
-                    mainIntent = new Intent(SplashScreenActivity.this,LoginActivity.class);
-                }
-                SplashScreenActivity.this.startActivity(mainIntent);
-                SplashScreenActivity.this.finish();
+                System.out.println(move_type);
+                checkUserType();
             }
 
         }, SPLASH_DISPLAY_LENGTH);
@@ -81,12 +67,23 @@ public class SplashScreenActivity extends AppCompatActivity {
                 @Override
                 public void onDataChange(DataSnapshot snapshot) {
                     move_type = snapshot.child("type").getValue(String.class);
+                    if (move_type.equals("Trainee")) {
+                        SplashScreenActivity.this.startActivity(new Intent(SplashScreenActivity.this,TraineeHomepageActivity.class));
+                    }
+                    else if (move_type.equals("Trainer")) {
+                        SplashScreenActivity.this.startActivity(new Intent(SplashScreenActivity.this,TrainerHomepageActivity.class));
+                    }
+                    SplashScreenActivity.this.finish();
                 }
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
                 }
             });
 
+        }
+        else {
+            SplashScreenActivity.this.startActivity(new Intent(SplashScreenActivity.this,LoginActivity.class));
+            SplashScreenActivity.this.finish();
         }
     }
 }
