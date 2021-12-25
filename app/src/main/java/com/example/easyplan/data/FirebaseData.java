@@ -211,7 +211,7 @@ public class FirebaseData  {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         String trainee_name = snapshot.child("name").getValue(String.class).toString();
-                        FcmNotificationsSender send_notification = new FcmNotificationsSender(trainer_token , "Easy Plan", "You Have a request for plan from " + trainee_name,context,activity);
+                        FcmNotificationsSender send_notification = new FcmNotificationsSender(trainer_token , "Easy Plan", "You Have got a new plan request from " + trainee_name,context,activity);
                         send_notification.SendNotifications();
                     }
 
