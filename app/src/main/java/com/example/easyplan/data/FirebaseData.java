@@ -131,9 +131,9 @@ public class FirebaseData {
         reference = database.getReference("Users/" + trainee_id + "/plan_status");
         reference.setValue(trainer_id);
 
-        // notify the trainer about someone who ask for plan
         reference = database.getReference("Users/" + trainer_id + "/notifications");
         reference.setValue("You've got a new plan request");
+
     }
 
 
