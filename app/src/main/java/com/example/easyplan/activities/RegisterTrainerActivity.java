@@ -148,7 +148,9 @@ public class RegisterTrainerActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             registerUser();
                             Intent move = new Intent(RegisterTrainerActivity.this, TrainerHomepageActivity.class);
+                            move.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(move);
+                            RegisterTrainerActivity.this.finish();
                         } else {
                             errorDialog("Authentication failed.");
                         }
