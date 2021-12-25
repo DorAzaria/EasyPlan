@@ -51,7 +51,8 @@
                 android:layout_width="10dp"
                 android:layout_height="10dp"
                 android:layout_gravity="end"
-                app:srcCompat="@drawable/notification_icon"/>
+                android:visibility="invisible"
+                app:srcCompat="@drawable/notification_icon" />
 
         </FrameLayout>
 
