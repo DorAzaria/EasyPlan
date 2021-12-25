@@ -89,11 +89,21 @@
                 android:layout_height="100dp"
                 android:orientation="vertical">
                 <Button
+                    android:onClick="sendEmail"
                     android:id="@+id/trainee_homepage_btn"
                     android:layout_gravity="center"
                     android:layout_width="300dp"
                     android:layout_height="50dp"
-                    android:text="CONTACT TRAINER"/>
+                    android:text="Email To Trainer"/>
+
+                <Button
+                    android:onClick="callPhone"
+                    android:id="@+id/trainee_homepage_phone_btn"
+                    android:layout_gravity="center"
+                    android:layout_width="300dp"
+                    android:layout_height="50dp"
+                    android:text="Call To Trainer"/>
+
                 <Button
                     android:id="@+id/trainee_homepage_plan_btn"
                     android:onClick="startPlanButton"

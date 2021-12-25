@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -255,12 +256,15 @@ public class TrainerHomepageActivity extends AppCompatActivity {
         ok_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.dismiss();
                 String trainee_id = firebaseData.getID();
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
-
-                firebaseData.sendPlanRequest(trainee_id, trainer_id);
+                FirebaseData fd = new FirebaseData();
+                fd.setActivity(TrainerHomepageActivity.this);
+                fd.setContext(v.getContext());
+                fd.sendPlanRequest(trainee_id, trainer_id);
                 startActivity(new Intent(TrainerHomepageActivity.this, TraineeHomepageActivity.class));
+                dialog.dismiss();
+
             }
         });
 

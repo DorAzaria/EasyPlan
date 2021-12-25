@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.easyplan.data.FcmNotificationsSender;
 import com.example.easyplan.data.FirebaseData;
 import com.example.easyplan.data.Plan;
 import com.example.easyplan.data.Trainee;
@@ -257,6 +258,38 @@ public class MakePlanActivity extends AppCompatActivity {
             reference.setValue("true");
             Intent move = new Intent(MakePlanActivity.this, TraineeHomepageActivity.class);
             move.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+
+            reference = database.getReference("Users/" + trainee_id);
+            reference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    String trainee_token = snapshot.child("token").getValue().toString();
+                    DatabaseReference trainee_reference = database.getReference("Users/" + trainer_id);
+                    trainee_reference.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            String trainer_name = snapshot.child("name").getValue(String.class).toString();
+                            FirebaseData fd = new FirebaseData();
+                            fd.setActivity(MakePlanActivity.this);
+                            fd.setContext(view.getContext());
+                            FcmNotificationsSender send_notification = new FcmNotificationsSender(trainee_token , "Easy Plan", "You Have got a new plan from " + trainer_name,fd.getContext(),fd.getActivity());
+                            send_notification.SendNotifications();
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
             startActivity(move);
             MakePlanActivity.this.finish();
         }
