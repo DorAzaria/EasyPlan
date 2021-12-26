@@ -1,2 +1,2 @@
-# <Img src="https://github.com/DorAzaria/EasyPlan/blob/master/app/src/main/res/drawable/EASYPLANGITHUB.png" witdh="750" height="500" class="center" />
+# <Img src="https://github.com/DorAzaria/EasyPlan/blob/master/app/src/main/res/drawable/first_screen.png" witdh="1000" height="510" class="center" />
 
