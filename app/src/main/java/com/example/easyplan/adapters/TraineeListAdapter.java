@@ -43,14 +43,16 @@ public class TraineeListAdapter extends RecyclerView.Adapter<TraineeListAdapter.
     private ArrayList<String> traineesID;
     private FirebaseAuth mAuth;
     private FirebaseDatabase database;
+    private String trainer_id;
     int[] logos;
     private StorageReference storageReference;
 
-    public TraineeListAdapter(ArrayList<Trainee> trainees, ArrayList<String> traineesID){
+    public TraineeListAdapter(ArrayList<Trainee> trainees, ArrayList<String> traineesID, String trainer_id){
         this.trainees = trainees;
         this.traineesID = traineesID;
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
+        this.trainer_id = trainer_id;
 
         logos = new int[4];
         logos[0] = R.drawable.trainer1_logo;
@@ -71,6 +73,7 @@ public class TraineeListAdapter extends RecyclerView.Adapter<TraineeListAdapter.
         holder.trainee_list_image.setImageResource(logos[position % 4]);
         holder.trainee_list_name.setText(this.trainees.get(position).getName());
         holder.id = this.traineesID.get(position);
+        holder.trainer_id = this.trainer_id;
 
         storageReference = FirebaseStorage.getInstance().getReference("images/"+holder.id);
         try {
@@ -161,6 +164,7 @@ public class TraineeListAdapter extends RecyclerView.Adapter<TraineeListAdapter.
         private CheckBox trainee_list_check;
         int[] logos;
         private String id;
+        private String trainer_id;
 
         public TraineeViewHolder(View view) {
             super(view);
@@ -170,6 +174,7 @@ public class TraineeListAdapter extends RecyclerView.Adapter<TraineeListAdapter.
             this.trainee_list_mail = view.findViewById(R.id.trainee_list_mail);
             this.trainee_list_check = view.findViewById(R.id.trainee_list_check);
             this.id = "";
+            this.trainer_id = "";
 
             logos = new int[4];
             logos[0] = R.drawable.trainer1_logo;
@@ -182,6 +187,8 @@ public class TraineeListAdapter extends RecyclerView.Adapter<TraineeListAdapter.
         public void onClick(View view) {
             Intent intent = new Intent(view.getContext(), MakePlanActivity.class);
             intent.putExtra("trainee id from firebase", id);
+            intent.putExtra("trainer id", trainer_id);
+
             view.getContext().startActivity(intent);
         }
     }
