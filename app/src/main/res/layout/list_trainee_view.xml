@@ -10,8 +10,8 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/list_trainee_view_card"
-        android:layout_width="350dp"
-        android:layout_height="110dp"
+        android:layout_width="390dp"
+        android:layout_height="160dp"
         android:layout_marginRight="13dp"
         >
 
@@ -37,20 +37,33 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.111" />
 
+
             <TextView
                 android:id="@+id/trainee_list_name"
                 android:layout_width="145dp"
                 android:layout_height="wrap_content"
-                android:text="Trainee"
                 android:gravity="center"
+                android:text="Trainee"
                 android:textSize="23sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.054"
+                app:layout_constraintHorizontal_bias="0.1"
                 app:layout_constraintStart_toEndOf="@+id/trainee_list_image"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.51" />
+                app:layout_constraintVertical_bias="0.216" />
+
+            <TextView
+                android:layout_width="139dp"
+                android:layout_height="wrap_content"
+                android:hint="date"
+                android:gravity="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.103"
+                app:layout_constraintStart_toEndOf="@+id/trainee_list_image"
+                app:layout_constraintTop_toBottomOf="@+id/trainee_list_name"
+                app:layout_constraintVertical_bias="0.304" />
 
             <FrameLayout
                 android:id="@+id/list_trainee_view_frame"
@@ -71,14 +84,16 @@
             </FrameLayout>
 
 
-            <CheckBox
+            <ImageView
                 android:id="@+id/trainee_list_check"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
+                android:src="@drawable/check"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/list_trainee_view_frame"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:visibility="gone"/>
 
 
 

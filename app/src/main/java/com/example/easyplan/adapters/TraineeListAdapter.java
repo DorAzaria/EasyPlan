@@ -20,6 +20,7 @@ import com.example.easyplan.activities.TraineeHomepageActivity;
 import com.example.easyplan.data.Trainee;
 import com.example.easyplan.R;
 import com.example.easyplan.activities.MakePlanActivity;
+import com.example.easyplan.data.Trainer;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -44,8 +45,8 @@ public class TraineeListAdapter extends RecyclerView.Adapter<TraineeListAdapter.
     private FirebaseAuth mAuth;
     private FirebaseDatabase database;
     private String trainer_id;
-    int[] logos;
     private StorageReference storageReference;
+    private DatabaseReference reference;
 
     public TraineeListAdapter(ArrayList<Trainee> trainees, ArrayList<String> traineesID, String trainer_id){
         this.trainees = trainees;
@@ -54,11 +55,6 @@ public class TraineeListAdapter extends RecyclerView.Adapter<TraineeListAdapter.
         database = FirebaseDatabase.getInstance();
         this.trainer_id = trainer_id;
 
-        logos = new int[4];
-        logos[0] = R.drawable.trainer1_logo;
-        logos[1] = R.drawable.trainer2_logo;
-        logos[2] = R.drawable.trainer3_logo;
-        logos[3] = R.drawable.trainer4_logo;
     }
 
     @Override
@@ -70,10 +66,24 @@ public class TraineeListAdapter extends RecyclerView.Adapter<TraineeListAdapter.
 
     @Override
     public void onBindViewHolder(TraineeListAdapter.TraineeViewHolder holder, int position) {
-        holder.trainee_list_image.setImageResource(logos[position % 4]);
         holder.trainee_list_name.setText(this.trainees.get(position).getName());
         holder.id = this.traineesID.get(position);
         holder.trainer_id = this.trainer_id;
+        reference = database.getReference("Users/"+trainer_id+"/my_trainees/"+this.traineesID.get(position));
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.getValue(String.class).equals("true")) {
+                    holder.trainee_list_check.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
 
         storageReference = FirebaseStorage.getInstance().getReference("images/"+holder.id);
         try {
@@ -160,9 +170,7 @@ public class TraineeListAdapter extends RecyclerView.Adapter<TraineeListAdapter.
     public static class TraineeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView trainee_list_name;
         private CircleImageView trainee_list_image;
-        private ImageView trainee_list_mail;
-        private CheckBox trainee_list_check;
-        int[] logos;
+        private ImageView trainee_list_mail, trainee_list_check;
         private String id;
         private String trainer_id;
 
@@ -175,12 +183,6 @@ public class TraineeListAdapter extends RecyclerView.Adapter<TraineeListAdapter.
             this.trainee_list_check = view.findViewById(R.id.trainee_list_check);
             this.id = "";
             this.trainer_id = "";
-
-            logos = new int[4];
-            logos[0] = R.drawable.trainer1_logo;
-            logos[1] = R.drawable.trainer2_logo;
-            logos[2] = R.drawable.trainer3_logo;
-            logos[3] = R.drawable.trainer4_logo;
         }
 
         @Override
