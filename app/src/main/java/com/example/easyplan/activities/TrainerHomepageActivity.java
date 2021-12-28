@@ -33,6 +33,7 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Map;
 
@@ -106,6 +107,7 @@ public class TrainerHomepageActivity extends AppCompatActivity {
         trainer_homepage_days = (TextView) findViewById(R.id.trainer_homepage_days);
         trainer_homepage_duration = (TextView) findViewById(R.id.trainer_homepage_duration);
         trainee_homepage_notification = (ImageView) findViewById(R.id.trainee_homepage_notification);
+        trainer_homepage_rate = (TextView) findViewById(R.id.trainer_homepage_rate);
         trainee_homepage_notification.setVisibility(View.GONE);
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
@@ -122,6 +124,7 @@ public class TrainerHomepageActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Trainer trainer = snapshot.getValue(Trainer.class);
                 trainer_homepage_name.setText(trainer.getName());
+                trainer_homepage_rate.setText(new DecimalFormat("#.#").format(trainer.getRate()));
                 trainer_homepage_cost.setText(String.valueOf(trainer.getCost()));
                 List<String> targets = trainer.getTargets();
                 Map<String, String> my_trainees = trainer.getMy_trainees();
@@ -325,6 +328,10 @@ public class TrainerHomepageActivity extends AppCompatActivity {
         });
 
         dialog.show();
+    }
+
+    private void endPlan(View view) {
+
     }
 
 }

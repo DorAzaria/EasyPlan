@@ -99,6 +99,14 @@
                     android:layout_height="wrap_content"
                     android:text="START PLAN"/>
 
+                <Button
+                    android:onClick="endPlan"
+                    android:id="@+id/trainee_homepage_end_plan_btn"
+                    android:layout_gravity="center"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:text="End Plan"/>
+
             </LinearLayout>
 
         </LinearLayout>
@@ -120,6 +128,8 @@
         app:layout_constraintStart_toStartOf="@+id/make_plan_toolbar"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
