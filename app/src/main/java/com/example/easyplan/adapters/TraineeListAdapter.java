@@ -71,6 +71,18 @@ public class TraineeListAdapter extends RecyclerView.Adapter<TraineeListAdapter.
         holder.id = this.traineesID.get(position);
         holder.trainer_id = this.trainer_id;
         reference = database.getReference("Plans/" + holder.id);
+        Trainee trainee = trainees.get(position);
+
+        holder.trainee_list_phone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String phone_trainer = trainee.getPhone_number();
+                Intent move = new Intent(Intent.ACTION_DIAL);
+                move.setData(Uri.parse("tel:"+phone_trainer));
+                holder.itemView.getContext().startActivity(move);
+            }
+        });
+
         reference.addValueEventListener(new ValueEventListener() {
             @SuppressLint("SetTextI18n")
             @Override
@@ -190,7 +202,7 @@ public class TraineeListAdapter extends RecyclerView.Adapter<TraineeListAdapter.
     public static class TraineeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView trainee_list_name , plan_date;
         private CircleImageView trainee_list_image;
-        private ImageView trainee_list_mail, trainee_list_check;
+        private ImageView trainee_list_mail, trainee_list_check, trainee_list_phone;
         private String id;
         private String trainer_id;
 
@@ -201,6 +213,7 @@ public class TraineeListAdapter extends RecyclerView.Adapter<TraineeListAdapter.
             this.trainee_list_image = view.findViewById(R.id.trainee_list_image);
             this.trainee_list_mail = view.findViewById(R.id.trainee_list_mail);
             this.trainee_list_check = view.findViewById(R.id.trainee_list_check);
+            this.trainee_list_phone = view.findViewById(R.id.trainee_list_phone);
             this.plan_date = view.findViewById(R.id.plan_date);
 
             this.id = "";

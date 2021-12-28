@@ -82,6 +82,7 @@
                     android:layout_height="50dp"
                     android:layout_gravity="center"
                     android:onClick="sendEmail"
+                    android:drawableLeft="@drawable/mail_btn"
                     android:text="Email To Trainer" />
 
                 <Button
@@ -90,6 +91,7 @@
                     android:layout_height="50dp"
                     android:layout_gravity="center"
                     android:onClick="callPhone"
+                    android:drawableLeft="@drawable/phone"
                     android:text="Call To Trainer" />
 
                 <Button
@@ -98,6 +100,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:onClick="startPlanButton"
+                    android:drawableLeft="@drawable/muscle"
                     android:text="START PLAN" />
 
                 <Button
