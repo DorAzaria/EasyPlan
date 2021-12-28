@@ -27,10 +27,6 @@ public class EndPlanActivity extends AppCompatActivity {
     private RatingBar end_plan_toolbar_ratebar;
     private DatabaseReference reference;
     private FirebaseDatabase database;
-//    private float rating;
-//    private int counter;
-//    private double total;
-//    private double rate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,9 +48,15 @@ public class EndPlanActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 float rating = end_plan_toolbar_ratebar.getRating();
-                int counter = (snapshot.child("counter").getValue(Integer.class) + 1);
-                double total = (snapshot.child("total").getValue(Integer.class) + rating);
-                double rate = total / counter;
+                int counter = 1;
+                double total = rating;
+                double rate = rating;
+                if(snapshot.child("counter").getValue() !=null){
+                    counter = (snapshot.child("counter").getValue(Integer.class) + 1);
+                    total = (snapshot.child("total").getValue(Integer.class) + rating);
+                    rate = total / counter;
+                }
+
                 reference = database.getReference("Users/" + trainer_id);
                 reference.child("counter").setValue(counter);
                 reference.child("total").setValue(total);

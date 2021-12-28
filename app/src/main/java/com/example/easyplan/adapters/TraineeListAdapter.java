@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.easyplan.activities.TraineeHomepageActivity;
@@ -202,7 +203,8 @@ public class TraineeListAdapter extends RecyclerView.Adapter<TraineeListAdapter.
     public static class TraineeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView trainee_list_name , plan_date;
         private CircleImageView trainee_list_image;
-        private ImageView trainee_list_mail, trainee_list_check, trainee_list_phone;
+        private ImageView trainee_list_mail, trainee_list_phone;
+        private CardView trainee_list_check;
         private String id;
         private String trainer_id;
 
