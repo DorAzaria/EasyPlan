@@ -43,7 +43,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:gravity="center"
                     android:orientation="vertical">
 
@@ -60,7 +60,7 @@
                         android:id="@+id/time_of_train_1"
                         android:layout_marginTop="10dp"
                         android:layout_width="250dp"
-                        android:layout_height="35dp"
+                        android:layout_height="wrap_content"
                         android:textSize="18sp"
                         android:text="Time Of Train"
                         />
@@ -69,7 +69,7 @@
                         android:id="@+id/exercise_1"
                         android:layout_marginTop="10dp"
                         android:layout_width="250dp"
-                        android:layout_height="35dp"
+                        android:layout_height="wrap_content"
                         android:textSize="18sp"
                         android:text="Exercises"
                         />
@@ -91,7 +91,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:gravity="center"
                     android:orientation="vertical">
 
@@ -106,7 +106,7 @@
                     <TextView
                         android:id="@+id/time_of_train_2"
                         android:layout_width="250dp"
-                        android:layout_height="35dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:text="Time Of Train"
                         android:textSize="18sp" />
@@ -114,7 +114,7 @@
                     <TextView
                         android:id="@+id/exercise_2"
                         android:layout_width="250dp"
-                        android:layout_height="35dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:text="Exercises"
                         android:textSize="18sp" />
@@ -136,13 +136,13 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:gravity="center"
                     android:orientation="vertical">
 
                     <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="25dp"
+                        android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="Train 3"
                         android:textSize="20sp"
@@ -151,7 +151,7 @@
                     <TextView
                         android:id="@+id/time_of_train_3"
                         android:layout_width="250dp"
-                        android:layout_height="35dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:text="Time Of Train"
                         android:textSize="18sp" />
@@ -159,7 +159,7 @@
                     <TextView
                         android:id="@+id/exercise_3"
                         android:layout_width="250dp"
-                        android:layout_height="35dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:text="Exercises"
                         android:textSize="18sp" />
