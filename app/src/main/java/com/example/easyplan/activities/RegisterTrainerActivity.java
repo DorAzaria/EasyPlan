@@ -193,7 +193,7 @@ public class RegisterTrainerActivity extends AppCompatActivity {
         }
 
         FirebaseData firebaseData = new FirebaseData();
-        Trainer trainer = new Trainer(name, address, gender, "Trainer", education, personal_page, "",  age, cost, 3, 0, targets, new HashMap<String, String>(), token, phone, email);
+        Trainer trainer = new Trainer(name, address, gender, "Trainer", education, personal_page, "",  age, cost, 3, 0, targets, new HashMap<String, String>(), token, phone, email,0,0);
         firebaseData.createTrainer(trainer);
 
     }
