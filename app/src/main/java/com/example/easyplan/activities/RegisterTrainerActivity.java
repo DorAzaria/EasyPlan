@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.View;
@@ -113,25 +114,16 @@ public class RegisterTrainerActivity extends AppCompatActivity {
     }
 
     private void uploadImage() {
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("Uploading file...");
-        progressDialog.show();
-
         if(imageUri != null) {
             storageReference = FirebaseStorage.getInstance().getReference("images/" + mAuth.getUid());
             storageReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    if (progressDialog.isShowing()) {
-                        progressDialog.dismiss();
-                    }
+
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    if (progressDialog.isShowing()) {
-                        progressDialog.dismiss();
-                    }
                     errorDialog("Couldn't upload the image.");
                 }
             });
@@ -147,10 +139,24 @@ public class RegisterTrainerActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             registerUser();
-                            Intent move = new Intent(RegisterTrainerActivity.this, TrainerHomepageActivity.class);
-                            move.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(move);
-                            RegisterTrainerActivity.this.finish();
+                            progressDialog = new ProgressDialog(RegisterTrainerActivity.this);
+                            progressDialog.setTitle("Setting your profile...");
+                            progressDialog.show();
+
+                            Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                public void run() {
+                                    // Actions to do after 6 seconds
+                                    if (!RegisterTrainerActivity.this.isFinishing() && progressDialog != null && progressDialog.isShowing()) {
+                                        progressDialog.dismiss();
+                                    }
+                                    Intent move = new Intent(RegisterTrainerActivity.this, TrainerHomepageActivity.class);
+                                    move.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(move);
+                                    RegisterTrainerActivity.this.finish();
+                                }
+                            }, 6000);
+
                         } else {
                             errorDialog("Authentication failed.");
                         }
