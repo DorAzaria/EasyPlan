@@ -64,6 +64,11 @@ public class RegisterTrainerActivity extends AppCompatActivity {
     private StorageReference storageReference;
     private ProgressDialog progressDialog;
 
+
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +80,9 @@ public class RegisterTrainerActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         initFields();
     }
+
+
+
 
 
 //////**********************************************////////////
@@ -97,6 +105,13 @@ public class RegisterTrainerActivity extends AppCompatActivity {
         register_trainer_phone_number = (EditText) findViewById(R.id.register_trainer_phone_number);
     }
 
+
+
+
+
+
+
+
 //////**********************************************////////////
 ///// Once presses this button, the process begins:
 ///// Checks for errors - prints with dialogs if any,
@@ -113,6 +128,13 @@ public class RegisterTrainerActivity extends AppCompatActivity {
         }
     }
 
+
+
+
+
+
+
+//////**********************************************////////////
     private void uploadImage() {
         if(imageUri != null) {
             storageReference = FirebaseStorage.getInstance().getReference("images/" + mAuth.getUid());
@@ -129,6 +151,16 @@ public class RegisterTrainerActivity extends AppCompatActivity {
             });
         }
     }
+
+
+
+
+
+
+
+
+
+
 
 //////**********************************************////////////
     private void createUser() {
@@ -165,6 +197,12 @@ public class RegisterTrainerActivity extends AppCompatActivity {
     }
 
 
+
+
+
+
+
+
 //////**********************************************////////////
     private void registerUser() {
         uploadImage();
@@ -197,6 +235,10 @@ public class RegisterTrainerActivity extends AppCompatActivity {
         firebaseData.createTrainer(trainer);
 
     }
+
+
+
+
 
 
 //////**********************************************////////////
@@ -295,6 +337,12 @@ public class RegisterTrainerActivity extends AppCompatActivity {
     }
 
 
+
+
+
+
+
+
 //////**********************************************////////////
 ////// Dialog pattern, gets a string and prints it. usually to print errors.
 //////**********************************************////////////
@@ -335,10 +383,20 @@ public class RegisterTrainerActivity extends AppCompatActivity {
         }
     }
 
+
+
+
+
     public void uploadImage(View view) {
         Intent openGalleryIntent = new Intent(Intent.ACTION_PICK , MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(openGalleryIntent , 1);
     }
+
+
+
+
+
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

@@ -28,6 +28,15 @@ public class SplashScreenActivity extends AppCompatActivity {
     private DatabaseReference reference;
     private String move_type;
 
+
+
+
+
+
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +58,13 @@ public class SplashScreenActivity extends AppCompatActivity {
         }, SPLASH_DISPLAY_LENGTH);
 
     }
+
+
+
+
+
+
+
 
 
 //////**********************************************////////////
@@ -86,4 +102,6 @@ public class SplashScreenActivity extends AppCompatActivity {
             SplashScreenActivity.this.finish();
         }
     }
+
+
 }

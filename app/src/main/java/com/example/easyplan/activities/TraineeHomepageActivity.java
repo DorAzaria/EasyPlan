@@ -71,6 +71,10 @@ public class TraineeHomepageActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private StorageReference storageReference;
 
+
+
+
+//////**********************************************////////////
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,6 +87,10 @@ public class TraineeHomepageActivity extends AppCompatActivity {
         checkForNotifications();
         checkForPlan();
     }
+
+
+
+
 
 
 //////**********************************************////////////
@@ -128,6 +136,11 @@ public class TraineeHomepageActivity extends AppCompatActivity {
     }
 
 
+
+
+
+    
+
 //////**********************************************////////////
     private void showProfileHeader() {
 
@@ -154,6 +167,13 @@ public class TraineeHomepageActivity extends AppCompatActivity {
         });
     }
 
+
+
+
+
+
+
+//////**********************************************////////////
     private void showImage() {
         progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Fetching Data");
@@ -191,6 +211,13 @@ public class TraineeHomepageActivity extends AppCompatActivity {
     }
 
 
+    
+    
+    
+    
+    
+    
+    
 //////**********************************************////////////
     private void checkForNotifications() {
         notification = firebaseData.getNotification();
@@ -198,6 +225,12 @@ public class TraineeHomepageActivity extends AppCompatActivity {
             trainee_homepage_notification.setVisibility(View.VISIBLE);
         }
     }
+    
+    
+    
+    
+    
+    
 
 
 //////**********************************************////////////
@@ -221,6 +254,11 @@ public class TraineeHomepageActivity extends AppCompatActivity {
         });
     }
 
+    
+    
+    
+    
+    
 
 //////**********************************************////////////
     private void showPlan() {
@@ -254,6 +292,13 @@ public class TraineeHomepageActivity extends AppCompatActivity {
             }
         });
     }
+    
+    
+    
+    
+    
+    
+    
 
 
 //////**********************************************////////////
@@ -266,6 +311,14 @@ public class TraineeHomepageActivity extends AppCompatActivity {
     }
 
 
+    
+    
+    
+    
+    
+    
+    
+    
 //////**********************************************////////////
     private void waitingScenario() {
         // The plan isn't ready yet, but we want to get the trainer name
@@ -303,6 +356,15 @@ public class TraineeHomepageActivity extends AppCompatActivity {
             }
         });
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
 
 //////**********************************************////////////
@@ -334,6 +396,12 @@ public class TraineeHomepageActivity extends AppCompatActivity {
         }
     }
 
+    
+    
+    
+    
+    
+    
 //////**********************************************////////////
     public void showImageDialog(View view) {
 
@@ -390,10 +458,18 @@ public class TraineeHomepageActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    
+
+
+
+
 //////**********************************************////////////
     public void startPlanButton(View view) {
         startActivity(new Intent(TraineeHomepageActivity.this, SelectTargetActivity.class));
     }
+
+
+
 
 
 //////**********************************************////////////
@@ -404,6 +480,10 @@ public class TraineeHomepageActivity extends AppCompatActivity {
         startActivity(move);
         TraineeHomepageActivity.this.finish();
     }
+
+
+
+
 
 
 //////**********************************************////////////
@@ -464,6 +544,18 @@ public class TraineeHomepageActivity extends AppCompatActivity {
         });
     }
 
+
+
+
+
+
+
+
+
+
+
+
+//////**********************************************////////////
     public void callPhone(View view) {
         Log.i("Send email", "");
 
@@ -504,6 +596,11 @@ public class TraineeHomepageActivity extends AppCompatActivity {
             }
         });
     }
+
+
+
+
+
 
     public void endPlan(View view) {
         Intent move = new Intent(TraineeHomepageActivity.this , EndPlanActivity.class);

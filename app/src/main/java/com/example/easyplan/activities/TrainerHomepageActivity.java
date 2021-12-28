@@ -57,10 +57,16 @@ public class TrainerHomepageActivity extends AppCompatActivity {
     private ImageView trainee_homepage_notification;
     private FirebaseData firebaseData;
     private boolean trainer_flag;
-
     private ProgressDialog progressDialog;
     private StorageReference storageReference;
 
+
+
+
+
+
+
+//////**********************************************////////////
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,6 +100,10 @@ public class TrainerHomepageActivity extends AppCompatActivity {
 
 
 
+
+
+
+//////**********************************************////////////
     private void initFields() {
         trainer_homepage_name = (TextView) findViewById(R.id.trainer_homepage_name);
         trainer_homepage_picture = (CircleImageView) findViewById(R.id.trainer_homepage_picture);
@@ -125,6 +135,14 @@ public class TrainerHomepageActivity extends AppCompatActivity {
     }
 
 
+
+
+
+
+
+
+
+//////**********************************************////////////
     private void getProfileData() {
         showImage();
 
@@ -173,6 +191,12 @@ public class TrainerHomepageActivity extends AppCompatActivity {
         });
     }
 
+
+
+
+
+
+//////**********************************************////////////
     private void showImage() {
         progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Fetching Data");
@@ -208,12 +232,25 @@ public class TrainerHomepageActivity extends AppCompatActivity {
         }
     }
 
+
+
+
+
+
+//////**********************************************////////////
     public void trainee_list(View view) {
         Intent move = new Intent(TrainerHomepageActivity.this, TraineeListActivity.class);
         startActivity(move);
     }
 
 
+
+
+
+
+
+
+//////**********************************************////////////
     public void logout(View v) {
         mAuth.signOut();
         Intent move = new Intent(TrainerHomepageActivity.this , LoginActivity.class);
@@ -223,11 +260,26 @@ public class TrainerHomepageActivity extends AppCompatActivity {
     }
 
 
+
+
+
+
+
+
+
+//////**********************************************////////////
     public void start_plan(View view) {
         newPlanDialog();
     }
 
 
+
+
+
+
+
+
+//////**********************************************////////////
     private void newPlanDialog() {
 
         final Dialog dialog = new Dialog(TrainerHomepageActivity.this);
@@ -263,6 +315,13 @@ public class TrainerHomepageActivity extends AppCompatActivity {
         dialog.show();
     }
 
+
+
+
+
+
+
+//////**********************************************////////////
     public void showImageDialog(View view) {
 
         final Dialog dialog = new Dialog(TrainerHomepageActivity.this);
@@ -317,5 +376,11 @@ public class TrainerHomepageActivity extends AppCompatActivity {
 
         dialog.show();
     }
+
+
+
+
+
+
 
 }

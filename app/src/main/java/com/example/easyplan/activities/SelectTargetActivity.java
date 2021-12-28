@@ -25,6 +25,12 @@ public class SelectTargetActivity extends AppCompatActivity {
     int fitness_press = 0, cardio_press = 0, muscles_press = 0, nutrition_press = 0;
     private ArrayList <String> targets;
 
+
+
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +41,10 @@ public class SelectTargetActivity extends AppCompatActivity {
         register_by_target_menu_nutrition_linear = (LinearLayout) findViewById(R.id.register_by_target_menu_nutrition_linear);
         targets = new ArrayList<>();
     }
+
+
+
+
 
 //////**********************************************////////////
     public void goToTrainersList(View view) {
@@ -49,6 +59,11 @@ public class SelectTargetActivity extends AppCompatActivity {
         }
 
     }
+
+
+
+
+
 
 
 //////**********************************************////////////
@@ -68,6 +83,10 @@ public class SelectTargetActivity extends AppCompatActivity {
     }
 
 
+
+
+
+
 //////**********************************************////////////
     public void pressMuscle(View view) {
         muscles_press++;
@@ -82,6 +101,10 @@ public class SelectTargetActivity extends AppCompatActivity {
             targets.add("Muscle");
         }
     }
+
+
+
+
 
 
 //////**********************************************////////////
