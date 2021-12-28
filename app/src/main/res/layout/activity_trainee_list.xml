@@ -33,8 +33,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/trainee_recycler_view"
-        android:layout_width="414dp"
-        android:layout_height="698dp"
+        android:layout_width="match_parent"
+        android:layout_height="665dp"
         android:layout_marginTop="1dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
