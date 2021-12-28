@@ -59,7 +59,7 @@ public class TraineeHomepageActivity extends AppCompatActivity {
     private TextView exercise_1 , exercise_2 , exercise_3;
     private TextView trainee_homepage_day_1, trainee_homepage_day_2, trainee_homepage_day_3, trainee_homepage_day_4;
     private TextView trainee_homepage_day_5, trainee_homepage_day_6, trainee_homepage_cheat_day;
-    private Button trainee_homepage_btn, trainee_homepage_plan_btn , trainee_homepage_phone_btn;
+    private Button trainee_homepage_btn, trainee_homepage_plan_btn , trainee_homepage_phone_btn , trainee_homepage_end_plan_btn;
     private ConstraintLayout trainee_homepage_menu, trainee_homepage_trains;
     private FirebaseAuth mAuth;
     private FirebaseDatabase database;
@@ -112,8 +112,10 @@ public class TraineeHomepageActivity extends AppCompatActivity {
 
         trainee_homepage_btn = (Button) findViewById(R.id.trainee_homepage_btn);
         trainee_homepage_plan_btn = (Button) findViewById(R.id.trainee_homepage_plan_btn);
+        trainee_homepage_end_plan_btn = (Button) findViewById(R.id.trainee_homepage_end_plan_btn);
         trainee_homepage_menu = (ConstraintLayout) findViewById(R.id.trainee_homepage_menu);
         trainee_homepage_trains = (ConstraintLayout) findViewById(R.id.trainee_homepage_trains);
+        trainee_homepage_end_plan_btn.setVisibility(View.GONE);
         trainee_homepage_btn.setVisibility(View.GONE);
         trainee_homepage_menu.setVisibility(View.GONE);
         trainee_homepage_trains.setVisibility(View.GONE);
@@ -226,7 +228,7 @@ public class TraineeHomepageActivity extends AppCompatActivity {
         trainee_homepage_menu.setVisibility(View.VISIBLE);
         trainee_homepage_trains.setVisibility(View.VISIBLE);
         trainee_homepage_phone_btn.setVisibility(View.VISIBLE);
-
+        trainee_homepage_plan_btn.setVisibility(View.VISIBLE);
         reference = database.getReference("Plans/" + mAuth.getUid());
         reference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -510,5 +512,9 @@ public class TraineeHomepageActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void endPlan(View view) {
+        Intent move = new Intent(TraineeHomepageActivity.this , EndPlanActivity.class);
     }
 }
