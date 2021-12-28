@@ -37,7 +37,11 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Vector;
 
@@ -47,10 +51,8 @@ public class MakePlanActivity extends AppCompatActivity {
     private CircleImageView trainee_homepage_picture;
     private TextView trainee_homepage_name, trainee_homepage_address, trainee_homepage_gender;
     private TextView trainee_homepage_age, trainee_homepage_height, trainee_homepage_weight,make_plan_train_number;
-
     private EditText make_plan_train_time1, make_plan_train_exer1, make_plan_train_time2, make_plan_train_exer2,
             make_plan_train_time3, make_plan_train_exer3;
-
     private EditText make_plan_day_1, make_plan_day_2, make_plan_day_3, make_plan_day_4;
     private EditText make_plan_day_5, make_plan_day_6, make_plan_cheat_day;
     private ImageView make_plan_menu;
@@ -60,11 +62,15 @@ public class MakePlanActivity extends AppCompatActivity {
     private FirebaseDatabase database;
     private String trainee_id;
     private String trainer_id;
-
     private FirebaseData firebaseData;
-
     private ProgressDialog progressDialog;
     private StorageReference storageReference;
+
+
+
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,13 +86,20 @@ public class MakePlanActivity extends AppCompatActivity {
         if(move.hasExtra("trainer id")){
             trainer_id = move.getStringExtra("trainer id");
         }
+
         initFields();
-        checkForPlan();
-
-
+        setTraineeInfo(); // show trainee header info (at the top)
+        checkForPlan(); // if the plan exists so hide the "Start Plan" button
+        // make_plan(): is 'OnClick' method of plan's creation.
     }
-    private void initFields() {
 
+
+
+
+
+
+
+    private void initFields() {
         trainee_homepage_picture = (CircleImageView) findViewById(R.id.trainee_homepage_picture);
         trainee_homepage_name = (TextView) findViewById(R.id.trainee_homepage_name);
         trainee_homepage_address = (TextView) findViewById(R.id.trainee_homepage_address);
@@ -114,12 +127,15 @@ public class MakePlanActivity extends AppCompatActivity {
         make_plan_submit_btn = (Button) findViewById(R.id.make_plan_submit_btn);
 
         make_plan_menu = (ImageView) (findViewById(R.id.make_plan_menu));
-
-        setTraineeInfo();
-
     }
 
-    //////**********************************************////////////
+
+
+
+
+
+
+    //////********************if the plan exists so hide the "Start Plan" button*************************////////////
     private void checkForPlan() {
         reference = database.getReference("Users/"+trainer_id+"/my_trainees");
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -143,8 +159,16 @@ public class MakePlanActivity extends AppCompatActivity {
     }
 
 
+
+
+
+
+
+//////********************show trainee header info (at the top)*************************////////////
     private void setTraineeInfo() {
+
         showImage();
+
         database = FirebaseDatabase.getInstance();
         reference = database.getReference("Users/" + trainee_id);
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -164,9 +188,14 @@ public class MakePlanActivity extends AppCompatActivity {
 
             }
         });
-
     }
 
+
+
+
+
+
+//////***********************load image of the trainee and show on the header**********************////////////
     private void showImage() {
         progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Fetching Data");
@@ -202,6 +231,11 @@ public class MakePlanActivity extends AppCompatActivity {
         }
     }
 
+
+
+
+
+//////***********************is 'OnClick' method of plan's creation + send notification**********************////////////
     public void make_plan(View view) {
 
         String check = checkInputs();
@@ -250,7 +284,10 @@ public class MakePlanActivity extends AppCompatActivity {
             menu.add(day6);
             menu.add(cheat);
 
-            Plan plan = new Plan(trainer_id, trainee_id, trains, menu);
+            DateFormat df = new SimpleDateFormat("EEE, d MMM yyyy");
+            String strDate = df.format(Calendar.getInstance().getTime());
+
+            Plan plan = new Plan(trainer_id, trainee_id, trains, menu, strDate);
 
             FirebaseDatabase database = FirebaseDatabase.getInstance();
             DatabaseReference reference = database.getReference("Plans/" + trainee_id);
@@ -258,39 +295,11 @@ public class MakePlanActivity extends AppCompatActivity {
 
             reference = database.getReference("Users/" + mAuth.getUid() + "/my_trainees/" + trainee_id);
             reference.setValue("true");
-            Intent move = new Intent(MakePlanActivity.this, TraineeHomepageActivity.class);
+
+            Intent move = new Intent(MakePlanActivity.this, TrainerHomepageActivity.class);
             move.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
 
-            reference = database.getReference("Users/" + trainee_id);
-            reference.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    String trainee_token = snapshot.child("token").getValue().toString();
-                    DatabaseReference trainee_reference = database.getReference("Users/" + trainer_id);
-                    trainee_reference.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            String trainer_name = snapshot.child("name").getValue(String.class).toString();
-                            FirebaseData fd = new FirebaseData();
-                            fd.setActivity(MakePlanActivity.this);
-                            fd.setContext(view.getContext());
-                            FcmNotificationsSender send_notification = new FcmNotificationsSender(trainee_token , "Easy Plan", "You Have got a new plan from " + trainer_name,fd.getContext(),fd.getActivity());
-                            send_notification.SendNotifications();
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
-
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
+            sendNotification(view);
 
             startActivity(move);
             MakePlanActivity.this.finish();
@@ -317,6 +326,51 @@ public class MakePlanActivity extends AppCompatActivity {
         }
     }
 
+
+
+
+
+
+//////***********************send notification to the trainee (notify him the plan is ready)**********************////////////
+    private void sendNotification(View view) {
+        reference = database.getReference("Users/" + trainee_id);
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String trainee_token = snapshot.child("token").getValue().toString();
+                DatabaseReference trainee_reference = database.getReference("Users/" + trainer_id);
+                trainee_reference.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        String trainer_name = snapshot.child("name").getValue(String.class).toString();
+                        FirebaseData fd = new FirebaseData();
+                        fd.setActivity(MakePlanActivity.this);
+                        fd.setContext(view.getContext());
+                        FcmNotificationsSender send_notification = new FcmNotificationsSender(trainee_token , "Easy Plan", "You Have got a new plan from " + trainer_name,fd.getContext(),fd.getActivity());
+                        send_notification.SendNotifications();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+
+
+
+
+
+//////***********************if the plan is made then just show the current data of the plan*********************////////////
     private void show_plan() {
 
         reference = database.getReference("Plans/" + trainee_id);
@@ -345,6 +399,12 @@ public class MakePlanActivity extends AppCompatActivity {
         });
     }
 
+
+
+
+
+
+//////***********************check relevant inputs*********************////////////
     private String checkInputs() {
         String errors = "";
 
@@ -433,7 +493,13 @@ public class MakePlanActivity extends AppCompatActivity {
         return errors;
     }
 
-    //////**********************************************////////////
+
+
+
+
+
+
+//////***********************show the image header in big version***********************////////////
     public void showImageDialog(View view) {
 
         final Dialog dialog = new Dialog(MakePlanActivity.this);
@@ -489,8 +555,21 @@ public class MakePlanActivity extends AppCompatActivity {
         dialog.show();
     }
 
+
+
+
+
+
+//////***********************go back to the trainee list view***********************////////////
     public void trainee_list_menu (View v) {
         Intent move = new Intent(MakePlanActivity.this , TraineeListActivity.class);
         startActivity(move);
     }
+
+
+
+
+
+
+
 }

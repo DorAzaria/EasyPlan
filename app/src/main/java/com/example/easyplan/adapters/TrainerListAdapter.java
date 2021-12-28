@@ -34,11 +34,23 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
     private List <String> trainers_ids;
     private StorageReference storageReference;
 
+
+
+
+
+
+    /// THIS CONSTRUCTOR GETS ALL TRAINERS AS ARRAYLIST AND ALSO THEIR IDS
     public TrainerListAdapter(List<Trainer> data , List <String> ids){
        this.trainers = data;
        this.trainers_ids = ids;
     }
 
+
+
+
+
+
+    /// FOR EACH TRAINER, INIT A NEW VIEW USING INFLATE METHOD.
     @Override
     public TrainerListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View rowItem = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_trainer_view, parent, false);
@@ -46,6 +58,12 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
     }
 
 
+
+
+
+
+
+    /// FOR EACH VIEW (TRAINER) SET THE RELEVANT DATA
     @Override
     public void onBindViewHolder(TrainerListAdapter.ViewHolder holder, int position) {
         Trainer trainer = trainers.get(position);
@@ -80,11 +98,23 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
 
     }
 
+
+
+
+
+
+    /// GET TOTAL NUMBER OF TRAINERS
     @Override
     public int getItemCount() {
         return this.trainers.size();
     }
 
+
+
+
+
+
+    /// INIT ALL RELEVANT OBJECTS
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView trainer_list_name, trainer_list_rate;
         private ImageView trainer_list_menu, trainer_list_fitness,trainer_list_cardio,trainer_list_muscle;

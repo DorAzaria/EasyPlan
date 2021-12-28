@@ -33,6 +33,15 @@ public class TraineeListActivity extends AppCompatActivity {
     private ArrayList<Trainee> trainees_adapter;
     private ArrayList<String> trainees_id_adapter;
 
+
+
+
+
+
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +62,13 @@ public class TraineeListActivity extends AppCompatActivity {
         ArrayList<String> trainees_uid = getAllTraineesUID();
         showAllTrainees(trainees_uid);
     }
+
+
+
+
+
+
+
 
 
 //////**********************************************////////////
@@ -81,6 +97,13 @@ public class TraineeListActivity extends AppCompatActivity {
     }
 
 
+
+
+
+
+
+
+
 //////**********************************************////////////
 ////// Gets all trainees id and fill the Trainees Objects with its ID for the adapter.
 //////**********************************************////////////
@@ -106,4 +129,7 @@ public class TraineeListActivity extends AppCompatActivity {
             }
         });
     }
+
+
+
 }

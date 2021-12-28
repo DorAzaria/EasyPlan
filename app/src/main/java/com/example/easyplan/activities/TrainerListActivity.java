@@ -22,6 +22,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+
+
+
+
+
+
+
 //////**********************************************////////////
 ////// This activity manages the trainers list.
 ////// It loads all the trainers with the specific targets and uses RecyclerView to present the data.
@@ -52,6 +59,14 @@ public class TrainerListActivity extends AppCompatActivity {
     }
 
 
+
+
+
+
+
+
+
+
 //////**********************************************////////////
     private void getTrainers(ArrayList<String> trainee_targets) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -80,4 +95,8 @@ public class TrainerListActivity extends AppCompatActivity {
             }
         });
     }
+
+
+
+
 }

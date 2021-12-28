@@ -19,16 +19,12 @@ public class Plan {
 
     }
 
-    public Plan(String trainer_id, String trainee_id, HashMap<String, HashMap<String,String>> t, List<String> m) {
+    public Plan(String trainer_id, String trainee_id, HashMap<String, HashMap<String,String>> t, List<String> m, String date) {
         this.trainer_id = trainer_id;
         this.trainee_id = trainee_id;
         this.trains = t;
         this.menu = m;
-
-        Date date = Calendar.getInstance().getTime();
-        DateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy hh:mm:ss");
-        String strDate = dateFormat.format(date);
-        this.date = strDate;
+        this.date = date;
     }
 
     public String getTrainer_id() {
