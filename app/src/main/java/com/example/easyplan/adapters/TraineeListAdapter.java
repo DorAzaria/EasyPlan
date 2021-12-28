@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.easyplan.activities.TraineeHomepageActivity;
@@ -105,7 +106,7 @@ public class TraineeListAdapter extends RecyclerView.Adapter<TraineeListAdapter.
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.getValue(String.class).equals("true")) {
+                if(snapshot.getValue(String.class).equals("false")) {
                     holder.trainee_list_check.setVisibility(View.VISIBLE);
                 }
             }
@@ -202,9 +203,10 @@ public class TraineeListAdapter extends RecyclerView.Adapter<TraineeListAdapter.
     public static class TraineeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView trainee_list_name , plan_date;
         private CircleImageView trainee_list_image;
-        private ImageView trainee_list_mail, trainee_list_check, trainee_list_phone;
+        private ImageView trainee_list_mail, trainee_list_phone;
         private String id;
         private String trainer_id;
+        private CardView trainee_list_check;
 
         public TraineeViewHolder(View view) {
             super(view);
@@ -212,10 +214,10 @@ public class TraineeListAdapter extends RecyclerView.Adapter<TraineeListAdapter.
             this.trainee_list_name = view.findViewById(R.id.trainee_list_name);
             this.trainee_list_image = view.findViewById(R.id.trainee_list_image);
             this.trainee_list_mail = view.findViewById(R.id.trainee_list_mail);
-            this.trainee_list_check = view.findViewById(R.id.trainee_list_check);
             this.trainee_list_phone = view.findViewById(R.id.trainee_list_phone);
             this.plan_date = view.findViewById(R.id.plan_date);
-
+            this.trainee_list_check = view.findViewById(R.id.trainee_list_check);
+            this.trainee_list_check.setVisibility(View.GONE);
             this.id = "";
             this.trainer_id = "";
         }

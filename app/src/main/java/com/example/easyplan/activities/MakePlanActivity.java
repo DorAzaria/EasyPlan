@@ -37,7 +37,11 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Vector;
 
@@ -250,7 +254,10 @@ public class MakePlanActivity extends AppCompatActivity {
             menu.add(day6);
             menu.add(cheat);
 
-            Plan plan = new Plan(trainer_id, trainee_id, trains, menu);
+            DateFormat df = new SimpleDateFormat("EEE, d MMM yyyy");
+            String strDate = df.format(Calendar.getInstance().getTime());
+
+            Plan plan = new Plan(trainer_id, trainee_id, trains, menu, strDate);
 
             FirebaseDatabase database = FirebaseDatabase.getInstance();
             DatabaseReference reference = database.getReference("Plans/" + trainee_id);
@@ -258,7 +265,8 @@ public class MakePlanActivity extends AppCompatActivity {
 
             reference = database.getReference("Users/" + mAuth.getUid() + "/my_trainees/" + trainee_id);
             reference.setValue("true");
-            Intent move = new Intent(MakePlanActivity.this, TraineeHomepageActivity.class);
+
+            Intent move = new Intent(MakePlanActivity.this, TrainerHomepageActivity.class);
             move.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
 
             reference = database.getReference("Users/" + trainee_id);

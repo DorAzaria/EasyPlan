@@ -21,6 +21,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.EasyPlan">
+
         <activity
             android:name=".activities.EndPlanActivity"
             android:exported="false" />
@@ -29,6 +30,7 @@
             android:exported="false" />
         <activity
             android:name=".activities.MakePlanActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan"
             android:exported="false" />
         <activity
             android:name=".activities.ForgotPasswordActivity"
@@ -68,8 +70,8 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
 
+        </activity>
         <service
             android:name=".data.FirebaseMessagingService"
             android:permission="TODO"

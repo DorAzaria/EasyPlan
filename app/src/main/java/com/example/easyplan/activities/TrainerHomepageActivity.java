@@ -209,10 +209,6 @@ public class TrainerHomepageActivity extends AppCompatActivity {
     }
 
     public void trainee_list(View view) {
-        String notification = firebaseData.getNotification();
-        if(firebaseData.checkForNewNotifications(notification)) {
-            makeNotificationsDialog(notification);
-        }
         Intent move = new Intent(TrainerHomepageActivity.this, TraineeListActivity.class);
         startActivity(move);
     }
@@ -229,35 +225,6 @@ public class TrainerHomepageActivity extends AppCompatActivity {
 
     public void start_plan(View view) {
         newPlanDialog();
-    }
-
-    private void makeNotificationsDialog(String my_notification) {
-        final Dialog dialog = new Dialog(TrainerHomepageActivity.this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setCancelable(true);
-        dialog.setContentView(R.layout.dialog_error);
-
-        TextView errors = dialog.findViewById(R.id.dialog_error_text);
-        Button ok_btn = dialog.findViewById(R.id.dialog_ok);
-        TextView title = dialog.findViewById(R.id.dialog_title);
-
-        errors.setText(my_notification);
-        title.setText("Notifications");
-
-        ok_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                firebaseData.clearNotification();
-
-                dialog.dismiss();
-
-                startActivity(new Intent(TrainerHomepageActivity.this, TraineeListActivity.class));
-            }
-        });
-
-
-        dialog.show();
     }
 
 
@@ -284,9 +251,11 @@ public class TrainerHomepageActivity extends AppCompatActivity {
                 fd.setActivity(TrainerHomepageActivity.this);
                 fd.setContext(v.getContext());
                 fd.sendPlanRequest(trainee_id, trainer_id);
-                startActivity(new Intent(TrainerHomepageActivity.this, TraineeHomepageActivity.class));
+                Intent move = new Intent(TrainerHomepageActivity.this, TraineeHomepageActivity.class);
+                move.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(move);
+                TrainerHomepageActivity.this.finish();
                 dialog.dismiss();
-
             }
         });
 
