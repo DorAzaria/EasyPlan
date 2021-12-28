@@ -36,7 +36,7 @@
             android:layout_marginLeft="140dp"
             android:background="@color/purple_500"
             app:srcCompat="@drawable/menu_icon"
-            tools:layout_editor_absoluteX="149dp" />
+             />
 
 
     </androidx.appcompat.widget.Toolbar>

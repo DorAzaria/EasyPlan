@@ -62,6 +62,7 @@
                         android:layout_width="250dp"
                         android:layout_height="35dp"
                         android:textSize="15dp"
+                        android:windowSoftInputMode="adjustPan"
                         android:background="@drawable/edit_text_background"
                         android:hint="Time Of Train"
                         />
@@ -72,6 +73,7 @@
                         android:layout_width="250dp"
                         android:layout_height="35dp"
                         android:textSize="15dp"
+                        android:windowSoftInputMode="adjustPan"
                         android:background="@drawable/edit_text_background"
                         android:hint="Exercises"
                         />
@@ -111,6 +113,7 @@
                         android:id="@+id/make_plan_train_time2"
                         android:layout_marginTop="10dp"
                         android:layout_width="250dp"
+                        android:windowSoftInputMode="adjustPan"
                         android:layout_height="35dp"
                         android:textSize="15dp"
                         android:background="@drawable/edit_text_background"
@@ -122,6 +125,7 @@
                         android:layout_marginTop="10dp"
                         android:layout_width="250dp"
                         android:layout_height="35dp"
+                        android:windowSoftInputMode="adjustPan"
                         android:textSize="15dp"
                         android:background="@drawable/edit_text_background"
                         android:hint="Exercises"
@@ -164,6 +168,7 @@
                         android:layout_width="250dp"
                         android:layout_height="35dp"
                         android:textSize="15dp"
+                        android:windowSoftInputMode="adjustPan"
                         android:background="@drawable/edit_text_background"
                         android:hint="Time Of Train"
                         />
@@ -173,6 +178,7 @@
                         android:layout_marginTop="10dp"
                         android:layout_width="250dp"
                         android:layout_height="35dp"
+                        android:windowSoftInputMode="adjustPan"
                         android:textSize="15dp"
                         android:background="@drawable/edit_text_background"
                         android:hint="Exercises"
