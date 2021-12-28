@@ -330,8 +330,4 @@ public class TrainerHomepageActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    private void endPlan(View view) {
-
-    }
-
 }
