@@ -488,6 +488,7 @@
         android:layout_marginBottom="30dp"
         android:onClick="start_plan"
         android:text="Start Plan"
+        android:drawableLeft="@drawable/muscle"
         android:textStyle="bold" />
     </LinearLayout>
         </LinearLayout>
