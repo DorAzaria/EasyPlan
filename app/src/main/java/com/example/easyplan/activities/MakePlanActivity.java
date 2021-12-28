@@ -53,7 +53,7 @@ public class MakePlanActivity extends AppCompatActivity {
 
     private EditText make_plan_day_1, make_plan_day_2, make_plan_day_3, make_plan_day_4;
     private EditText make_plan_day_5, make_plan_day_6, make_plan_cheat_day;
-
+    private ImageView make_plan_menu;
     private Button make_plan_submit_btn;
     private FirebaseAuth mAuth;
     private DatabaseReference reference;
@@ -112,6 +112,8 @@ public class MakePlanActivity extends AppCompatActivity {
         make_plan_cheat_day = (EditText) findViewById(R.id.make_plan_cheat_day);
 
         make_plan_submit_btn = (Button) findViewById(R.id.make_plan_submit_btn);
+
+        make_plan_menu = (ImageView) (findViewById(R.id.make_plan_menu));
 
         setTraineeInfo();
 
@@ -485,5 +487,10 @@ public class MakePlanActivity extends AppCompatActivity {
         });
 
         dialog.show();
+    }
+
+    public void trainee_list_menu (View v) {
+        Intent move = new Intent(MakePlanActivity.this , TraineeListActivity.class);
+        startActivity(move);
     }
 }

@@ -1,5 +1,6 @@
 package com.example.easyplan.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -69,7 +70,26 @@ public class TraineeListAdapter extends RecyclerView.Adapter<TraineeListAdapter.
         holder.trainee_list_name.setText(this.trainees.get(position).getName());
         holder.id = this.traineesID.get(position);
         holder.trainer_id = this.trainer_id;
-        reference = database.getReference("Users/"+trainer_id+"/my_trainees/"+this.traineesID.get(position));
+        reference = database.getReference("Plans/" + holder.id);
+        reference.addValueEventListener(new ValueEventListener() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String trainee_plan_date = snapshot.child("date").getValue(String.class);
+                if (trainee_plan_date != null) {
+                holder.plan_date.setText(trainee_plan_date);
+                }
+                else {
+                    holder.plan_date.setText("The plan has not yet been defined");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        reference = database.getReference("Users/"+trainer_id+"/my_trainees/"+ holder.id);
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -168,7 +188,7 @@ public class TraineeListAdapter extends RecyclerView.Adapter<TraineeListAdapter.
     }
 
     public static class TraineeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private TextView trainee_list_name;
+        private TextView trainee_list_name , plan_date;
         private CircleImageView trainee_list_image;
         private ImageView trainee_list_mail, trainee_list_check;
         private String id;
@@ -181,6 +201,8 @@ public class TraineeListAdapter extends RecyclerView.Adapter<TraineeListAdapter.
             this.trainee_list_image = view.findViewById(R.id.trainee_list_image);
             this.trainee_list_mail = view.findViewById(R.id.trainee_list_mail);
             this.trainee_list_check = view.findViewById(R.id.trainee_list_check);
+            this.plan_date = view.findViewById(R.id.plan_date);
+
             this.id = "";
             this.trainer_id = "";
         }

@@ -34,6 +34,7 @@
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_marginLeft="140dp"
+            android:onClick="trainee_list_menu"
             android:background="@color/purple_500"
             app:srcCompat="@drawable/menu_icon"
              />

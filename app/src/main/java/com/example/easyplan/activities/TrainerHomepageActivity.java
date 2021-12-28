@@ -46,6 +46,7 @@ public class TrainerHomepageActivity extends AppCompatActivity {
     private CircleImageView trainer_homepage_picture;
     private ImageView trainer_list_menu;
     private TextView trainer_homepage_name, trainer_homepage_rate;
+    private TextView trainer_homepage_age , trainer_homepage_education , trainer_homepage_personal_page,trainer_homepage_address , trainer_homepage_gender;
     private TextView trainer_homepage_cost, trainer_homepage_days,trainer_homepage_duration;
     private ImageView trainer_homepage_fitness, trainer_homepage_muscle, trainer_homepage_cardio, trainer_homepage_menu;
     private Button trainer_start_plan;
@@ -106,9 +107,18 @@ public class TrainerHomepageActivity extends AppCompatActivity {
         trainer_homepage_cost = (TextView) findViewById(R.id.trainer_homepage_cost);
         trainer_homepage_days = (TextView) findViewById(R.id.trainer_homepage_days);
         trainer_homepage_duration = (TextView) findViewById(R.id.trainer_homepage_duration);
+        trainer_homepage_age = (TextView) findViewById(R.id.trainer_homepage_age);
+        trainer_homepage_address = (TextView) findViewById(R.id.trainee_homepage_address);
+        trainer_homepage_gender = (TextView) findViewById(R.id.trainer_homepage_gender);
+        trainer_homepage_education = (TextView) findViewById(R.id.trainer_homepage_education);
+        trainer_homepage_personal_page = (TextView) findViewById(R.id.trainer_hompage_personal_page);
+
         trainee_homepage_notification = (ImageView) findViewById(R.id.trainee_homepage_notification);
         trainer_homepage_rate = (TextView) findViewById(R.id.trainer_homepage_rate);
         trainee_homepage_notification.setVisibility(View.GONE);
+        trainer_homepage_personal_page.setVisibility(View.GONE);
+
+
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
         firebaseData = new FirebaseData();
@@ -126,6 +136,15 @@ public class TrainerHomepageActivity extends AppCompatActivity {
                 trainer_homepage_name.setText(trainer.getName());
                 trainer_homepage_rate.setText(new DecimalFormat("#.#").format(trainer.getRate()));
                 trainer_homepage_cost.setText(String.valueOf(trainer.getCost()));
+                trainer_homepage_address.setText(trainer.getAddress());
+                trainer_homepage_age.setText(String.valueOf(trainer.getAge()));
+                trainer_homepage_gender.setText(trainer.getGender());
+                trainer_homepage_address.setText(trainer.getAddress());
+                trainer_homepage_education.setText(trainer.getEducation());
+                if(trainer.getPersonal_page()!= null) {
+                    trainer_homepage_personal_page.setText(trainer.getPersonal_page());
+                    trainer_homepage_personal_page.setVisibility(View.VISIBLE);
+                }
                 List<String> targets = trainer.getTargets();
                 Map<String, String> my_trainees = trainer.getMy_trainees();
                 if(targets != null) {
