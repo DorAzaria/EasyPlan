@@ -59,7 +59,7 @@
 
 
     </androidx.appcompat.widget.Toolbar>
-
+d
 
     <androidx.cardview.widget.CardView
         android:id="@+id/trainer_card_list"
