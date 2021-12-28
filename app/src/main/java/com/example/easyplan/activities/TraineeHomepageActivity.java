@@ -228,7 +228,7 @@ public class TraineeHomepageActivity extends AppCompatActivity {
         trainee_homepage_menu.setVisibility(View.VISIBLE);
         trainee_homepage_trains.setVisibility(View.VISIBLE);
         trainee_homepage_phone_btn.setVisibility(View.VISIBLE);
-        trainee_homepage_plan_btn.setVisibility(View.VISIBLE);
+        trainee_homepage_end_plan_btn.setVisibility(View.VISIBLE);
         reference = database.getReference("Plans/" + mAuth.getUid());
         reference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -508,5 +508,7 @@ public class TraineeHomepageActivity extends AppCompatActivity {
 
     public void endPlan(View view) {
         Intent move = new Intent(TraineeHomepageActivity.this , EndPlanActivity.class);
+        move.putExtra("trainee_id", mAuth.getUid());
+        startActivity(move);
     }
 }

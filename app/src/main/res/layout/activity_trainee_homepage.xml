@@ -71,44 +71,42 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:gravity="center"
+                android:layout_height="150dp"
                 android:layout_marginBottom="50dp"
-                android:layout_height="100dp"
+                android:gravity="center"
                 android:orientation="vertical">
-                <Button
-                    android:onClick="sendEmail"
-                    android:id="@+id/trainee_homepage_btn"
-                    android:layout_gravity="center"
-                    android:layout_width="300dp"
-                    android:layout_height="50dp"
-                    android:drawableLeft="@drawable/mail_btn"
-                    android:text="Email To Trainer"
-                    />
 
                 <Button
-                    android:onClick="callPhone"
-                    android:id="@+id/trainee_homepage_phone_btn"
-                    android:layout_gravity="center"
+                    android:id="@+id/trainee_homepage_btn"
                     android:layout_width="300dp"
                     android:layout_height="50dp"
-                    android:text="Call To Trainer"
-                    android:drawableLeft="@drawable/phone"/>
+                    android:layout_gravity="center"
+                    android:onClick="sendEmail"
+                    android:text="Email To Trainer" />
+
+                <Button
+                    android:id="@+id/trainee_homepage_phone_btn"
+                    android:layout_width="300dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:onClick="callPhone"
+                    android:text="Call To Trainer" />
 
                 <Button
                     android:id="@+id/trainee_homepage_plan_btn"
-                    android:onClick="startPlanButton"
-                    android:layout_gravity="center"
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
-                    android:text="START PLAN"/>
+                    android:layout_gravity="center"
+                    android:onClick="startPlanButton"
+                    android:text="START PLAN" />
 
                 <Button
-                    android:onClick="endPlan"
                     android:id="@+id/trainee_homepage_end_plan_btn"
-                    android:layout_gravity="center"
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
-                    android:text="End Plan"/>
+                    android:layout_gravity="center"
+                    android:onClick="endPlan"
+                    android:text="End Plan" />
 
             </LinearLayout>
 
