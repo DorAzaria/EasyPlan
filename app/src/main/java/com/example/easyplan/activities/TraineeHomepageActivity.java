@@ -485,17 +485,9 @@ public class TraineeHomepageActivity extends AppCompatActivity {
                             // getting phone number from edit text
                             // and changing it to String
                             String phone_trainer = snapshot.child("phone_number").getValue(String.class);
-
-                            // Getting instance of Intent
-                            // with action as ACTION_CALL
-                            Intent phone_intent = new Intent(Intent.ACTION_CALL);
-
-                            // Set data of Intent through Uri
-                            // by parsing phone number
-                            phone_intent.setData(Uri.parse("tel:" + phone_trainer));
-
-                            // start Intent
-                            TraineeHomepageActivity.this.startActivity(phone_intent);
+                            Intent intent = new Intent(Intent.ACTION_DIAL);
+                            intent.setData(Uri.parse("tel:"+phone_trainer));
+                            view.getContext().startActivity(intent);
                         }
 
                         @Override

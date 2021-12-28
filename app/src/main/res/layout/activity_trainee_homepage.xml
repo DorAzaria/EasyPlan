@@ -81,7 +81,9 @@
                     android:layout_gravity="center"
                     android:layout_width="300dp"
                     android:layout_height="50dp"
-                    android:text="Email To Trainer"/>
+                    android:drawableLeft="@drawable/mail_btn"
+                    android:text="Email To Trainer"
+                    />
 
                 <Button
                     android:onClick="callPhone"
@@ -89,7 +91,8 @@
                     android:layout_gravity="center"
                     android:layout_width="300dp"
                     android:layout_height="50dp"
-                    android:text="Call To Trainer"/>
+                    android:text="Call To Trainer"
+                    android:drawableLeft="@drawable/phone"/>
 
                 <Button
                     android:id="@+id/trainee_homepage_plan_btn"

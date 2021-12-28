@@ -366,6 +366,7 @@
         android:layout_marginBottom="36dp"
         android:onClick="start_plan"
         android:text="Start Plan"
+        android:drawableLeft="@drawable/muscle"
         android:textStyle="bold" />
 
         </LinearLayout>

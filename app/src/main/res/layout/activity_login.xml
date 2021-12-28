@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/edit_text_background"
         android:ems="10"
+        android:windowSoftInputMode="adjustPan"
         android:hint="@string/email"
         android:minHeight="48dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -28,6 +29,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/edit_text_background"
         android:ems="10"
+        android:windowSoftInputMode="adjustPan"
         android:hint="Password"
         android:inputType="textPassword"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -60,6 +62,7 @@
         app:layout_constraintVertical_bias="0.776"
         android:textStyle="bold"/>
 
+
     <Button
         android:id="@+id/login_btn"
         android:layout_width="300dp"
@@ -67,13 +70,13 @@
         android:background="@color/purple_200"
         android:onClick="login"
         android:text="LOGIN"
+        android:drawableLeft="@drawable/login"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/login_password"
-        app:layout_constraintVertical_bias="0.073" />
-
+        app:layout_constraintVertical_bias="0.07" />
 
     <TextView
         android:id="@+id/textView6"
