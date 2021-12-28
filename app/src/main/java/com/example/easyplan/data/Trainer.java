@@ -6,15 +6,17 @@ import java.util.Map;
 public class Trainer {
 
     private String name, address, gender, type, education, personal_page, notifications, token, phone_number, email;
-    private int age, cost, duration;
+    private int age, cost, duration, counter, total;
     private double rate;
     private List<String> targets;
     private Map<String, String> my_trainees;
 
     public Trainer() {}
 
-    public Trainer(String name, String address, String gender, String type, String education, String personal_page, String notifications, int age, int cost, int duration, double rate, List<String> targets, Map<String, String> my_trainees, String token, String phone_number, String email) {
+    public Trainer(String name, String address, String gender, String type, String education, String personal_page, String notifications, int age, int cost, int duration, double rate, List<String> targets, Map<String, String> my_trainees, String token, String phone_number, String email, int count, int total) {
         this.name = name;
+        this.counter = count;
+        this.total = total;
         this.address = address;
         this.gender = gender;
         this.type = type;
