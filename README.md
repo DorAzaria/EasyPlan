@@ -1,2 +1,7 @@
-# <Img src="https://github.com/DorAzaria/EasyPlan/blob/master/app/src/main/res/drawable/first_screen.png" witdh="1000" height="450" align="center" />
-
+![Slide1](https://user-images.githubusercontent.com/73520539/147592726-0ff7144c-04de-4f31-813e-1be621d22a27.JPG)
+![Slide2](https://user-images.githubusercontent.com/73520539/147592734-7d919127-b5a7-46fd-9a3d-752e35f86008.JPG)
+![Slide3](https://user-images.githubusercontent.com/73520539/147592738-d9d7384f-1765-4b70-aae8-ae2586564168.JPG)
+![Slide4](https://user-images.githubusercontent.com/73520539/147592740-8ff1d45f-044f-4d0b-b31a-3581b48461ff.JPG)
+![Slide5](https://user-images.githubusercontent.com/73520539/147592745-117e3bbb-470c-4c50-b624-5e4c35e3c560.JPG)
+![Slide6](https://user-images.githubusercontent.com/73520539/147592748-d58e833e-05c5-4d30-8e00-e83f68fd8ecb.JPG)
+![Slide8](https://user-images.githubusercontent.com/73520539/147592754-dbe21ec8-3d86-4230-869f-2ca6f925ca8e.JPG)
