@@ -67,6 +67,7 @@ public class TraineeHomepageActivity extends AppCompatActivity {
     private FrameLayout trainee_homepage_notification;
     private String notification;
     private FirebaseData firebaseData;
+    private String Flag;
 
     private ProgressDialog progressDialog;
     private StorageReference storageReference;
@@ -77,11 +78,21 @@ public class TraineeHomepageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_trainee_homepage);
         firebaseData = new FirebaseData();
         mAuth = FirebaseAuth.getInstance();
+        Flag = "false";
+        Intent move = getIntent();
+        if(move.hasExtra("Flag")){
+            Flag = move.getStringExtra("Flag");
+        }
         notification = "";
         initFields();
         showProfileHeader();
-        checkForNotifications();
-        checkForPlan();
+        if(Flag.equals("false")){
+            checkForNotifications();
+            checkForPlan();
+        }else{
+            traineeWithoutPlan();
+        }
+
     }
 
 
@@ -507,8 +518,21 @@ public class TraineeHomepageActivity extends AppCompatActivity {
     }
 
     public void endPlan(View view) {
-        Intent move = new Intent(TraineeHomepageActivity.this , EndPlanActivity.class);
-        move.putExtra("trainee_id", mAuth.getUid());
-        startActivity(move);
+        reference = database.getReference("Users/" + mAuth.getUid());
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+               String trainer_id = snapshot.child("plan_status").getValue(String.class);
+                Intent move = new Intent(TraineeHomepageActivity.this , EndPlanActivity.class);
+                move.putExtra("trainee_id", mAuth.getUid());
+                move.putExtra("trainer_id", trainer_id);
+                startActivity(move);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+
+        });
     }
 }
