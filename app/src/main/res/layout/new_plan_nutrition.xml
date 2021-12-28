@@ -65,6 +65,7 @@
                             android:id="@+id/make_plan_day_1"
                             android:layout_width="250dp"
                             android:layout_height="35dp"
+                            android:windowSoftInputMode="adjustPan"
                             android:textSize="15sp"
                             android:background="@drawable/edit_text_background"
                             android:hint="Day 1"
@@ -88,6 +89,7 @@
                             android:id="@+id/make_plan_day_2"
                             android:layout_width="250dp"
                             android:layout_height="35dp"
+                            android:windowSoftInputMode="adjustPan"
                             android:textSize="15sp"
                             android:background="@drawable/edit_text_background"
                             android:hint="Day 2"
@@ -110,6 +112,7 @@
                         <EditText
                             android:id="@+id/make_plan_day_3"
                             android:layout_width="250dp"
+                            android:windowSoftInputMode="adjustPan"
                             android:layout_height="35dp"
                             android:background="@drawable/edit_text_background"
                             android:hint="Day 3"
@@ -132,6 +135,7 @@
                         <EditText
                             android:id="@+id/make_plan_day_4"
                             android:layout_width="250dp"
+                            android:windowSoftInputMode="adjustPan"
                             android:layout_height="35dp"
                             android:textSize="15sp"
                             android:background="@drawable/edit_text_background"
@@ -155,6 +159,7 @@
                         <EditText
                             android:id="@+id/make_plan_day_5"
                             android:layout_width="250dp"
+                            android:windowSoftInputMode="adjustPan"
                             android:layout_height="35dp"
                             android:textSize="15sp"
                             android:background="@drawable/edit_text_background"
@@ -179,6 +184,7 @@
                             android:id="@+id/make_plan_day_6"
                             android:layout_width="250dp"
                             android:layout_height="35dp"
+                            android:windowSoftInputMode="adjustPan"
                             android:textSize="15sp"
                             android:background="@drawable/edit_text_background"
                             android:hint="Day 6"
@@ -200,6 +206,7 @@
                         <EditText
                             android:id="@+id/make_plan_cheat_day"
                             android:layout_width="250dp"
+                            android:windowSoftInputMode="adjustPan"
                             android:layout_height="35dp"
                             android:textSize="15sp"
                             android:background="@drawable/edit_text_background"
