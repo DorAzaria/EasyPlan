@@ -15,7 +15,7 @@ public class Trainer {
 
     public Trainer(String name, String address, String gender, String type, String education, String personal_page, String notifications, int age, int cost, int duration, double rate, List<String> targets, Map<String, String> my_trainees, String token, String phone_number, String email, int count, int total) {
         this.name = name;
-        this.counter = cost ;
+        this.counter = count;
         this.total = total;
         this.address = address;
         this.gender = gender;
