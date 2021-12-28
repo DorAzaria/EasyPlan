@@ -24,6 +24,7 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -55,6 +56,7 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
         if(targets_to_show.contains("Menu Nutrition")) holder.trainer_list_menu.setVisibility(View.VISIBLE);
         if(targets_to_show.contains("Muscle")) holder.trainer_list_muscle.setVisibility(View.VISIBLE);
         holder.trainer_list_name.setText(trainer.getName());
+        holder.trainer_list_rate.setText(new DecimalFormat("#.#").format(trainer.getRate()));
 
         storageReference = FirebaseStorage.getInstance().getReference("images/"+holder.trainer_id);
         try {
@@ -94,6 +96,7 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
             super(view);
             view.setOnClickListener(this);
             this.trainer_list_name = view.findViewById(R.id.trainer_list_name);
+            this.trainer_list_rate = view.findViewById(R.id.trainer_list_rate);
             this.trainer_list_rate = view.findViewById(R.id.trainer_list_rate);
             this.trainer_list_profile_image = view.findViewById(R.id.trainer_list_profile_image);
             this.specialCard = view.findViewById(R.id.trainer_list_special_card);
