@@ -93,8 +93,8 @@ public class FirebaseData  {
         return mAuth.getUid();
     }
 
-    public DatabaseReference getUserReference() {
-        return database.getReference("Users/" + getID());
+    public DatabaseReference getUserReference(String id) {
+        return database.getReference("Users/" + id);
     }
 
     public DatabaseReference getPlanReference(String id) {
@@ -104,7 +104,7 @@ public class FirebaseData  {
 ////// Save a trainer user in Firebase using his personal id (mAuth.getUid)
 //////**********************************************////////////
     public void createTrainer(Trainer trainer) {
-        DatabaseReference reference = getUserReference();
+        DatabaseReference reference = getUserReference(getID());
         reference.setValue(trainer);
 
         FirebaseMessaging.getInstance().getToken()
@@ -122,8 +122,8 @@ public class FirebaseData  {
 
     }
 
-    public StorageReference getStorageReference() {
-        return  FirebaseStorage.getInstance().getReference("images/" + getID());
+    public StorageReference getStorageReference(String id) {
+        return  FirebaseStorage.getInstance().getReference("images/" + id);
     }
 
     public void logout() {
@@ -134,7 +134,7 @@ public class FirebaseData  {
 ////// Save a trainee user in Firebase using his personal id (mAuth.getUid)
 //////**********************************************////////////
     public void createTrainee(Trainee trainee) {
-        DatabaseReference reference = getUserReference();
+        DatabaseReference reference = getUserReference(getID());
         reference.setValue(trainee);
 
         // set the token
@@ -241,11 +241,9 @@ public class FirebaseData  {
         });
     }
 
-//    public void createPlan(Plan plan, String trainer_id, String trainee_id) {
-//        reference = database.getReference("Plans/" + trainee_id);
-//        reference.setValue(plan);
-//        reference = database.getReference("Users/" + trainer_id + "/my_trainees/" + trainee_id);
-//        reference.setValue("true");
-//    }
+    public void createPlan(Plan plan) {
+        getPlanReference(plan.getTrainee_id()).setValue(plan);
+        getUserReference(plan.getTrainer_id() + "/my_trainees/" + plan.getTrainee_id()).setValue("true");
+    }
 
 }

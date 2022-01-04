@@ -142,7 +142,7 @@ public class TraineeHomepageActivity extends AppCompatActivity {
 
         showImage();
 
-        model.getUserReference().addValueEventListener(new ValueEventListener() {
+        model.getUserReference(model.getID()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Trainee trainee = snapshot.getValue(Trainee.class);
@@ -175,7 +175,7 @@ public class TraineeHomepageActivity extends AppCompatActivity {
         progressDialog.show();
 
 
-        storageReference = model.getStorageReference();
+        storageReference = model.getStorageReference(model.getID());
         try {
             File local_file = File.createTempFile("tempfile", ".jpg" );
             storageReference.getFile(local_file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
@@ -211,12 +211,11 @@ public class TraineeHomepageActivity extends AppCompatActivity {
 
 //////**********************************************////////////
     private void checkForPlan() {
-        DatabaseReference reference = model.getPlanReference(model.getID());
-        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+        model.getPlanReference(model.getID()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
 
-                if(snapshot.getValue(String.class) != null) {
+                if(snapshot.getValue() != null) {
                     showPlan();
                 }
                 else {
@@ -302,7 +301,7 @@ public class TraineeHomepageActivity extends AppCompatActivity {
         // The plan isn't ready yet, but we want to get the trainer name
 
 
-        model.getUserReference().addListenerForSingleValueEvent(new ValueEventListener() {
+        model.getUserReference(model.getID()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
@@ -354,7 +353,7 @@ public class TraineeHomepageActivity extends AppCompatActivity {
         progressDialog.show();
 
 
-        storageReference = model.getStorageReference();
+        storageReference = model.getStorageReference(model.getID());
         try {
             File local_file = File.createTempFile("tempfile", ".jpg" );
             storageReference.getFile(local_file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
@@ -427,7 +426,7 @@ public class TraineeHomepageActivity extends AppCompatActivity {
     public void sendEmail(View view) {
 
 
-        model.getUserReference().addListenerForSingleValueEvent(new ValueEventListener() {
+        model.getUserReference(model.getID()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
@@ -493,7 +492,7 @@ public class TraineeHomepageActivity extends AppCompatActivity {
 //////**********************************************////////////
     public void callPhone(View view) {
 
-        model.getUserReference().addListenerForSingleValueEvent(new ValueEventListener() {
+        model.getUserReference(model.getID()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
@@ -536,7 +535,7 @@ public class TraineeHomepageActivity extends AppCompatActivity {
 
     public void endPlan(View view) {
 
-        model.getUserReference().addValueEventListener(new ValueEventListener() {
+        model.getUserReference(model.getID()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                String trainer_id = snapshot.child("plan_status").getValue(String.class);

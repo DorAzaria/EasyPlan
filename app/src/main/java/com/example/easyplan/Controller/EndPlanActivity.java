@@ -40,6 +40,7 @@ public class EndPlanActivity extends AppCompatActivity {
 
     public void endPlan(View view) {
         reference = database.getReference("Users/" + trainer_id);
+
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

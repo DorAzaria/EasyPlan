@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 
+import com.example.easyplan.Model.FirebaseData;
 import com.example.easyplan.Model.Trainee;
 import com.example.easyplan.R;
 import com.example.easyplan.Controller.adapters.TraineeListAdapter;
@@ -25,9 +26,7 @@ import java.util.ArrayList;
 ////// It loads all the trainees uses RecyclerView to present the data.
 //////**********************************************////////////
 public class TraineeListActivity extends AppCompatActivity {
-    private FirebaseAuth mAuth;
-    private FirebaseDatabase dataBase;
-    private DatabaseReference reference;
+    private FirebaseData model;
     private TraineeListAdapter adapter;
     private String trainerId;
     private ArrayList<Trainee> trainees_adapter;
@@ -47,8 +46,8 @@ public class TraineeListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trainee_list);
 
-        mAuth = FirebaseAuth.getInstance();
-        trainerId = mAuth.getUid();
+        model = new FirebaseData();
+        trainerId = model.getID();
 
         trainees_adapter = new ArrayList<>();
         trainees_id_adapter = new ArrayList<>();
@@ -76,9 +75,8 @@ public class TraineeListActivity extends AppCompatActivity {
 //////**********************************************////////////
     private ArrayList<String> getAllTraineesUID() {
         ArrayList<String> trainees_temp_id = new ArrayList<>();
-        dataBase = FirebaseDatabase.getInstance();
-        reference = dataBase.getReference("Users/"+trainerId+"/my_trainees");
-        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+
+        model.getUserReference(trainerId+"/my_trainees").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot runner : snapshot.getChildren()) {
@@ -108,8 +106,7 @@ public class TraineeListActivity extends AppCompatActivity {
 ////// Gets all trainees id and fill the Trainees Objects with its ID for the adapter.
 //////**********************************************////////////
     private void showAllTrainees(ArrayList<String> trainees_id) {
-        reference = dataBase.getReference("Users/");
-        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+        model.getUserReference("").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot runner : snapshot.getChildren()) {

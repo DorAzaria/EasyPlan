@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.easyplan.Model.FirebaseData;
 import com.example.easyplan.Model.Trainer;
 import com.example.easyplan.R;
 import com.example.easyplan.Controller.TrainerHomepageActivity;
@@ -32,7 +33,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.ViewHolder> {
     private List<Trainer> trainers;
     private List <String> trainers_ids;
-    private StorageReference storageReference;
+    private FirebaseData model;
 
 
 
@@ -43,6 +44,7 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
     public TrainerListAdapter(List<Trainer> data , List <String> ids){
        this.trainers = data;
        this.trainers_ids = ids;
+       this.model = new FirebaseData();
     }
 
 
@@ -76,10 +78,9 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
         holder.trainer_list_name.setText(trainer.getName());
         holder.trainer_list_rate.setText(new DecimalFormat("#.#").format(trainer.getRate()));
 
-        storageReference = FirebaseStorage.getInstance().getReference("images/"+holder.trainer_id);
         try {
             File local_file = File.createTempFile("tempfile", ".jpg" );
-            storageReference.getFile(local_file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+            model.getStorageReference(holder.trainer_id).getFile(local_file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
 

@@ -9,6 +9,7 @@ import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 
+import com.example.easyplan.Model.FirebaseData;
 import com.example.easyplan.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -24,8 +25,8 @@ import com.google.firebase.database.ValueEventListener;
 //////**********************************************////////////
 public class SplashScreenActivity extends AppCompatActivity {
     private final int SPLASH_DISPLAY_LENGTH = 1000;
-    private FirebaseDatabase database;
-    private DatabaseReference reference;
+
+    private FirebaseData model;
     private String move_type;
 
 
@@ -41,13 +42,13 @@ public class SplashScreenActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
+        model = new FirebaseData();
 
         ConstraintLayout constraintLayout = findViewById(R.id.splash_layout);
         AnimationDrawable animationDrawable = (AnimationDrawable) constraintLayout.getBackground();
         animationDrawable.setEnterFadeDuration(1000);
         animationDrawable.setExitFadeDuration(2000);
         animationDrawable.start();
-
         new Handler().postDelayed(new Runnable(){
             @Override
             public void run() {
@@ -72,14 +73,12 @@ public class SplashScreenActivity extends AppCompatActivity {
 //////**********************************************////////////
     private void checkUserType() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        database = FirebaseDatabase.getInstance();
         move_type = "";
         // user is already logged in
         if (user != null) {
             String uid = user.getUid();
             // check the type of the user and send him to specific home page by his type
-            reference = database.getReference("Users/" + uid);
-            reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            model.getUserReference(uid).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot snapshot) {
                     move_type = snapshot.child("type").getValue(String.class);

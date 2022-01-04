@@ -125,7 +125,7 @@ public class RegisterTrainerActivity extends AppCompatActivity {
 //////**********************************************////////////
     private void uploadImage() {
         if(imageUri != null) {
-            model.getStorageReference().putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            model.getStorageReference(model.getID()).putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 

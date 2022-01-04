@@ -54,14 +54,10 @@ public class MakePlanActivity extends AppCompatActivity {
     private EditText make_plan_day_5, make_plan_day_6, make_plan_cheat_day;
     private ImageView make_plan_menu;
     private Button make_plan_submit_btn;
-    private FirebaseAuth mAuth;
-    private DatabaseReference reference;
-    private FirebaseDatabase database;
     private String trainee_id;
     private String trainer_id;
-    private FirebaseData firebaseData;
+    private FirebaseData model;
     private ProgressDialog progressDialog;
-    private StorageReference storageReference;
 
 
 
@@ -73,7 +69,6 @@ public class MakePlanActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_make_plan);
-        mAuth = FirebaseAuth.getInstance();
         Intent move = getIntent();
         trainee_id = "";
         trainer_id ="";
@@ -124,6 +119,7 @@ public class MakePlanActivity extends AppCompatActivity {
         make_plan_submit_btn = (Button) findViewById(R.id.make_plan_submit_btn);
 
         make_plan_menu = (ImageView) (findViewById(R.id.make_plan_menu));
+        model = new FirebaseData();
     }
 
 
@@ -134,8 +130,7 @@ public class MakePlanActivity extends AppCompatActivity {
 
     //////********************if the plan exists so hide the "Start Plan" button*************************////////////
     private void checkForPlan() {
-        reference = database.getReference("Users/"+trainer_id+"/my_trainees");
-        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+        model.getUserReference(trainer_id+"/my_trainees").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 String flag = snapshot.child(trainee_id).getValue(String.class);
@@ -166,9 +161,7 @@ public class MakePlanActivity extends AppCompatActivity {
 
         showImage();
 
-        database = FirebaseDatabase.getInstance();
-        reference = database.getReference("Users/" + trainee_id);
-        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+        model.getUserReference(trainee_id).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Trainee trainee = snapshot.getValue(Trainee.class);
@@ -200,10 +193,9 @@ public class MakePlanActivity extends AppCompatActivity {
         progressDialog.show();
 
 
-        storageReference = FirebaseStorage.getInstance().getReference("images/"+trainee_id);
         try {
             File local_file = File.createTempFile("tempfile", ".jpg" );
-            storageReference.getFile(local_file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+            model.getStorageReference(trainee_id).getFile(local_file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                     if(progressDialog.isShowing()) {
@@ -237,7 +229,6 @@ public class MakePlanActivity extends AppCompatActivity {
 
         String check = checkInputs();
         if(check.isEmpty()) {
-            String trainer_id = mAuth.getUid();
 
             String train_time1 = make_plan_train_time1.getText().toString();
             String train_exer1 = make_plan_train_exer1.getText().toString();
@@ -284,20 +275,11 @@ public class MakePlanActivity extends AppCompatActivity {
             DateFormat df = new SimpleDateFormat("EEE, d MMM yyyy");
             String strDate = df.format(Calendar.getInstance().getTime());
 
-            Plan plan = new Plan(trainer_id, trainee_id, trains, menu, strDate);
-
-            FirebaseDatabase database = FirebaseDatabase.getInstance();
-            DatabaseReference reference = database.getReference("Plans/" + trainee_id);
-            reference.setValue(plan);
-
-            reference = database.getReference("Users/" + mAuth.getUid() + "/my_trainees/" + trainee_id);
-            reference.setValue("true");
+            model.createPlan(new Plan(trainer_id, trainee_id, trains, menu, strDate));
+            sendNotification(view);
 
             Intent move = new Intent(MakePlanActivity.this, TrainerHomepageActivity.class);
             move.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-
-            sendNotification(view);
-
             startActivity(move);
             MakePlanActivity.this.finish();
         }
@@ -330,13 +312,11 @@ public class MakePlanActivity extends AppCompatActivity {
 
 //////***********************send notification to the trainee (notify him the plan is ready)**********************////////////
     private void sendNotification(View view) {
-        reference = database.getReference("Users/" + trainee_id);
-        reference.addValueEventListener(new ValueEventListener() {
+        model.getUserReference(trainee_id).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String trainee_token = snapshot.child("token").getValue().toString();
-                DatabaseReference trainee_reference = database.getReference("Users/" + trainer_id);
-                trainee_reference.addValueEventListener(new ValueEventListener() {
+                model.getUserReference(trainer_id).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         String trainer_name = snapshot.child("name").getValue(String.class).toString();
@@ -370,8 +350,7 @@ public class MakePlanActivity extends AppCompatActivity {
 //////***********************if the plan is made then just show the current data of the plan*********************////////////
     private void show_plan() {
 
-        reference = database.getReference("Plans/" + trainee_id);
-        reference.addValueEventListener(new ValueEventListener() {
+        model.getPlanReference(trainee_id).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 make_plan_train_time1.setText(snapshot.child("trains").child("1").child("time").getValue(String.class));
@@ -511,10 +490,9 @@ public class MakePlanActivity extends AppCompatActivity {
         progressDialog.show();
 
 
-        storageReference = FirebaseStorage.getInstance().getReference("images/"+trainee_id);
         try {
             File local_file = File.createTempFile("tempfile", ".jpg" );
-            storageReference.getFile(local_file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+            model.getStorageReference(trainee_id).getFile(local_file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                     if(progressDialog.isShowing()) {

@@ -115,7 +115,7 @@ public class LoginActivity extends AppCompatActivity  {
 //////**********************************************////////////
     private void moveToHomepage() {
 
-        model.getUserReference().addValueEventListener(new ValueEventListener() {
+        model.getUserReference(model.getID()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String username_type = snapshot.child("type").getValue(String.class);

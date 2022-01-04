@@ -49,16 +49,11 @@ public class TrainerHomepageActivity extends AppCompatActivity {
     private TextView trainer_homepage_cost, trainer_homepage_days,trainer_homepage_duration;
     private ImageView trainer_homepage_fitness, trainer_homepage_muscle, trainer_homepage_cardio, trainer_homepage_menu;
     private Button trainer_start_plan;
-    private FirebaseAuth mAuth;
-    private DatabaseReference reference;
-    private FirebaseDatabase database;
     private String trainer_id;
     private ImageView trainee_homepage_notification;
-    private FirebaseData firebaseData;
+    private FirebaseData model;
     private boolean trainer_flag;
     private ProgressDialog progressDialog;
-    private StorageReference storageReference;
-
 
 
 
@@ -85,12 +80,8 @@ public class TrainerHomepageActivity extends AppCompatActivity {
         }
         else {
             trainer_start_plan.setVisibility(View.GONE);
-            trainer_id = firebaseData.getID();
+            trainer_id = model.getID();
             trainer_flag = true;
-            String notification = firebaseData.getNotification();
-            if(firebaseData.checkForNewNotifications(notification)) {
-                trainee_homepage_notification.setVisibility(View.VISIBLE);
-            }
         }
         getProfileData();
 
@@ -127,10 +118,7 @@ public class TrainerHomepageActivity extends AppCompatActivity {
         trainee_homepage_notification.setVisibility(View.GONE);
         trainer_homepage_personal_page.setVisibility(View.GONE);
 
-
-        mAuth = FirebaseAuth.getInstance();
-        database = FirebaseDatabase.getInstance();
-        firebaseData = new FirebaseData();
+        model = new FirebaseData();
     }
 
 
@@ -145,8 +133,7 @@ public class TrainerHomepageActivity extends AppCompatActivity {
     private void getProfileData() {
         showImage();
 
-        reference = database.getReference("Users/" + trainer_id);
-        reference.addValueEventListener(new ValueEventListener() {
+        model.getUserReference(trainer_id).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Trainer trainer = snapshot.getValue(Trainer.class);
@@ -203,10 +190,9 @@ public class TrainerHomepageActivity extends AppCompatActivity {
         progressDialog.show();
 
 
-        storageReference = FirebaseStorage.getInstance().getReference("images/"+trainer_id);
         try {
             File local_file = File.createTempFile("tempfile", ".jpg" );
-            storageReference.getFile(local_file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+            model.getStorageReference(trainer_id).getFile(local_file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                     if(progressDialog.isShowing()) {
@@ -251,7 +237,7 @@ public class TrainerHomepageActivity extends AppCompatActivity {
 
 //////**********************************************////////////
     public void logout(View v) {
-        mAuth.signOut();
+        model.logout();
         Intent move = new Intent(TrainerHomepageActivity.this , LoginActivity.class);
         move.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(move);
@@ -296,7 +282,7 @@ public class TrainerHomepageActivity extends AppCompatActivity {
         ok_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String trainee_id = firebaseData.getID();
+                String trainee_id = model.getID();
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                 FirebaseData fd = new FirebaseData();
                 fd.setActivity(TrainerHomepageActivity.this);
@@ -334,11 +320,9 @@ public class TrainerHomepageActivity extends AppCompatActivity {
         progressDialog.setCancelable(false);
         progressDialog.show();
 
-
-        storageReference = FirebaseStorage.getInstance().getReference("images/"+trainer_id);
         try {
             File local_file = File.createTempFile("tempfile", ".jpg" );
-            storageReference.getFile(local_file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+            model.getStorageReference(trainer_id).getFile(local_file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                     if(progressDialog.isShowing()) {
