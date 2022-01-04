@@ -150,11 +150,6 @@ public class MakePlanActivity extends AppCompatActivity {
         });
     }
 
-
-
-
-
-
 //////***********************load image of the trainee and show on the header**********************////////////
     private void showImage() {
         progressDialog = new ProgressDialog(this);
@@ -237,8 +232,8 @@ public class MakePlanActivity extends AppCompatActivity {
             String strDate = df.format(Calendar.getInstance().getTime());
 
             model.createPlan(new Plan(trainer_id, trainee_id, trains, menu, strDate));
+            model.setActivity(MakePlanActivity.this);
             model.setContext(view.getContext());
-            model.setActivity(this);
             model.sendNotification(trainer_id , trainee_id , "You Have got a new plan from");
 
             Intent move = new Intent(MakePlanActivity.this, TrainerHomepageActivity.class);

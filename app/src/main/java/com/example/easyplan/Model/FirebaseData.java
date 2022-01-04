@@ -250,6 +250,7 @@ public class FirebaseData  {
         getPlanReference(plan.getTrainee_id()).setValue(plan);
         getUserReference((plan.getTrainer_id() + "/my_trainees/" + plan.getTrainee_id())).setValue("true");
     }
+
     public void sendNotification (String from , String to, String message) {
         getUserReference(to).addValueEventListener(new ValueEventListener() {
             @Override
@@ -259,7 +260,7 @@ public class FirebaseData  {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         String from_name = snapshot.child("name").getValue(String.class);
-                        FcmNotificationsSender send_notification = new FcmNotificationsSender(to_token , "Easy Plan", message +" "+ from_name,getContext(),getActivity());
+                        FcmNotificationsSender send_notification = new FcmNotificationsSender(to_token , "Easy Plan", message +" "+ from_name,context,activity);
                         send_notification.SendNotifications();
                     }
 
