@@ -61,6 +61,7 @@ public class EndPlanActivity extends AppCompatActivity {
                 reference.getRef().removeValue();
                 reference = database.getReference("Users/" + trainee_id);
                 reference.child("plan_status").setValue("");
+
                 reference = database.getReference("Users/" + trainer_id+"/my_trainees");
                 reference.child(trainee_id).getRef().removeValue();
                 Intent move = new Intent(EndPlanActivity.this , TraineeHomepageActivity.class);

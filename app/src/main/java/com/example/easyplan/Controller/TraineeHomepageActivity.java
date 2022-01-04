@@ -216,7 +216,7 @@ public class TraineeHomepageActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
 
-                if(snapshot.getValue(String.class) != null) {
+                if(snapshot.getValue() != null) {
                     showPlan();
                 }
                 else {

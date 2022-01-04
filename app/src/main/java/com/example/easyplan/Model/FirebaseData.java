@@ -248,7 +248,7 @@ public class FirebaseData  {
 
     public void createPlan(Plan plan) {
         getPlanReference(plan.getTrainee_id()).setValue(plan);
-        getUserReference(("Users/" + plan.getTrainer_id() + "/my_trainees/" + plan.getTrainee_id())).setValue("true");
+        getUserReference((plan.getTrainer_id() + "/my_trainees/" + plan.getTrainee_id())).setValue("true");
     }
     public void sendNotification (String from , String to, String message) {
         getUserReference(to).addValueEventListener(new ValueEventListener() {

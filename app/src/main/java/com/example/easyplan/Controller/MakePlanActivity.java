@@ -82,11 +82,6 @@ public class MakePlanActivity extends AppCompatActivity {
     }
 
 
-
-
-
-
-
     private void initFields() {
         trainee_homepage_picture = (CircleImageView) findViewById(R.id.trainee_homepage_picture);
         trainee_homepage_name = (TextView) findViewById(R.id.trainee_homepage_name);
@@ -242,8 +237,8 @@ public class MakePlanActivity extends AppCompatActivity {
             String strDate = df.format(Calendar.getInstance().getTime());
 
             model.createPlan(new Plan(trainer_id, trainee_id, trains, menu, strDate));
-            model.setContext(getApplicationContext());
-            model.setActivity(MakePlanActivity.this);
+            model.setContext(view.getContext());
+            model.setActivity(this);
             model.sendNotification(trainer_id , trainee_id , "You Have got a new plan from");
 
             Intent move = new Intent(MakePlanActivity.this, TrainerHomepageActivity.class);

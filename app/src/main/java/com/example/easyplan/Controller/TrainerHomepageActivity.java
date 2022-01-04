@@ -143,9 +143,7 @@ public class TrainerHomepageActivity extends AppCompatActivity {
                     if (!targets.contains("Menu Nutrition"))
                         trainer_homepage_menu.setVisibility(View.GONE);
                 }
-                if(my_trainees.isEmpty()) trainer_list_menu.setVisibility(View.GONE);
-
-                if(trainer_flag && my_trainees.containsValue("false")) {
+                if(my_trainees != null && trainer_flag && my_trainees.containsValue("false")) {
                             trainee_homepage_notification.setVisibility(View.VISIBLE);
                 }
             }
