@@ -250,9 +250,9 @@ public class TrainerHomepageActivity extends AppCompatActivity {
                 fd.sendPlanRequest(trainee_id, trainer_id);
                 Intent move = new Intent(TrainerHomepageActivity.this, TraineeHomepageActivity.class);
                 move.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                dialog.dismiss();
                 startActivity(move);
                 TrainerHomepageActivity.this.finish();
-                dialog.dismiss();
             }
         });
 

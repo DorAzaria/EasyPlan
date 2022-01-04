@@ -252,15 +252,18 @@ public class FirebaseData  {
     }
 
     public void sendNotification (String from , String to, String message) {
-       getUserReference(to).addValueEventListener(new ValueEventListener() {
+
+        reference = database.getReference("Users/" + to);
+        reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String to_token = snapshot.child("token").getValue(String.class);
-                getUserReference(from).addValueEventListener(new ValueEventListener() {
+                String to_token = snapshot.child("token").getValue().toString();
+                DatabaseReference trainee_reference = database.getReference("Users/"+from);
+                trainee_reference.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        String from_name = snapshot.child("name").getValue(String.class);
-                        FcmNotificationsSender send_notification = new FcmNotificationsSender(to_token , "Easy Plan", message +" "+ from_name,context,activity);
+                        String from_name = snapshot.child("name").getValue(String.class).toString();
+                        FcmNotificationsSender send_notification = new FcmNotificationsSender(to_token , "Easy Plan", message +" " + from_name,context,activity);
                         send_notification.SendNotifications();
                     }
 
@@ -269,6 +272,7 @@ public class FirebaseData  {
 
                     }
                 });
+
             }
 
             @Override
@@ -276,6 +280,31 @@ public class FirebaseData  {
 
             }
         });
+
+//       getUserReference(to).addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                String to_token = snapshot.child("token").getValue(String.class);
+//                getUserReference(from).addValueEventListener(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                        String from_name = snapshot.child("name").getValue(String.class);
+//                        FcmNotificationsSender send_notification = new FcmNotificationsSender(to_token , "Easy Plan", message +" "+ from_name,context,activity);
+//                        send_notification.SendNotifications();
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError error) {
+//
+//                    }
+//                });
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
     }
 
 }
