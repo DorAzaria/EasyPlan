@@ -231,9 +231,10 @@ public class MakePlanActivity extends AppCompatActivity {
             @SuppressLint("SimpleDateFormat") DateFormat df = new SimpleDateFormat("EEE, d MMM yyyy");
             String strDate = df.format(Calendar.getInstance().getTime());
 
+
             model.createPlan(new Plan(trainer_id, trainee_id, trains, menu, strDate));
-            model.setActivity(MakePlanActivity.this);
-            model.setContext(view.getContext());
+            model.setActivity(this);
+            model.setContext(getApplicationContext());
             model.sendNotification(trainer_id , trainee_id , "You Have got a new plan from");
 
             Intent move = new Intent(MakePlanActivity.this, TrainerHomepageActivity.class);

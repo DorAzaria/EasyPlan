@@ -252,7 +252,7 @@ public class FirebaseData  {
     }
 
     public void sendNotification (String from , String to, String message) {
-        this.getUserReference(to).addValueEventListener(new ValueEventListener() {
+       getUserReference(to).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String to_token = snapshot.child("token").getValue(String.class);
