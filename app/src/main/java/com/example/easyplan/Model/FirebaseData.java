@@ -7,6 +7,7 @@ import android.net.Uri;
 
 import androidx.annotation.NonNull;
 
+import com.example.easyplan.Controller.MakePlanActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -96,6 +97,9 @@ public class FirebaseData  {
     public DatabaseReference getUserReference() {
         return database.getReference("Users/" + getID());
     }
+    public DatabaseReference getUserReference(String type) {
+        return database.getReference("Users/" + type);
+    }
 
     public DatabaseReference getPlanReference(String id) {
         return database.getReference("Plans/"+id);
@@ -124,6 +128,9 @@ public class FirebaseData  {
 
     public StorageReference getStorageReference() {
         return  FirebaseStorage.getInstance().getReference("images/" + getID());
+    }
+    public StorageReference getStorageReference(String type) {
+        return  FirebaseStorage.getInstance().getReference("images/" + type);
     }
 
     public void logout() {
@@ -163,16 +170,14 @@ public class FirebaseData  {
 ////// returns the notification based on the appropriate ID
 //////**********************************************////////////
     public String getNotification() {
-        reference = database.getReference("Users/" + mAuth.getUid());
+        reference = getUserReference();
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 notification_message = snapshot.child("notifications").getValue(String.class);
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
         return notification_message;
@@ -241,11 +246,35 @@ public class FirebaseData  {
         });
     }
 
-//    public void createPlan(Plan plan, String trainer_id, String trainee_id) {
-//        reference = database.getReference("Plans/" + trainee_id);
-//        reference.setValue(plan);
-//        reference = database.getReference("Users/" + trainer_id + "/my_trainees/" + trainee_id);
-//        reference.setValue("true");
-//    }
+    public void createPlan(Plan plan) {
+        getPlanReference(plan.getTrainee_id()).setValue(plan);
+        getUserReference(("Users/" + plan.getTrainer_id() + "/my_trainees/" + plan.getTrainee_id())).setValue("true");
+    }
+    public void sendNotification (String from , String to, String message) {
+        getUserReference(to).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String to_token = snapshot.child("token").getValue(String.class);
+                getUserReference(from).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        String from_name = snapshot.child("name").getValue(String.class);
+                        FcmNotificationsSender send_notification = new FcmNotificationsSender(to_token , "Easy Plan", message +" "+ from_name,getContext(),getActivity());
+                        send_notification.SendNotifications();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
 
 }

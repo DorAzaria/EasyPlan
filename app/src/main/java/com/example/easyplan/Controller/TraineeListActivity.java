@@ -33,15 +33,6 @@ public class TraineeListActivity extends AppCompatActivity {
     private ArrayList<Trainee> trainees_adapter;
     private ArrayList<String> trainees_id_adapter;
 
-
-
-
-
-
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +46,7 @@ public class TraineeListActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = findViewById(R.id.trainee_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
         adapter = new TraineeListAdapter(trainees_adapter, trainees_id_adapter, trainerId);
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new DividerItemDecoration(this, 0));

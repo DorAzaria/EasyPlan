@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.easyplan.Model.FirebaseData;
 import com.example.easyplan.Model.Trainee;
 import com.example.easyplan.R;
 import com.example.easyplan.Controller.MakePlanActivity;
@@ -41,35 +42,27 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class TraineeListAdapter extends RecyclerView.Adapter<TraineeListAdapter.TraineeViewHolder> {
     private ArrayList<Trainee> trainees;
     private ArrayList<String> traineesID;
-    private FirebaseAuth mAuth;
-    private FirebaseDatabase database;
     private String trainer_id;
-    private StorageReference storageReference;
-    private DatabaseReference reference;
+    private FirebaseData model;
+
 
     public TraineeListAdapter(ArrayList<Trainee> trainees, ArrayList<String> traineesID, String trainer_id){
         this.trainees = trainees;
         this.traineesID = traineesID;
-        mAuth = FirebaseAuth.getInstance();
-        database = FirebaseDatabase.getInstance();
         this.trainer_id = trainer_id;
-
+        this.model = new FirebaseData();
     }
-
     @Override
     public TraineeListAdapter.TraineeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View rowItem = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_trainee_view, parent, false);
         return new TraineeViewHolder(rowItem);
     }
 
-
     @Override
     public void onBindViewHolder(TraineeListAdapter.TraineeViewHolder holder, int position) {
-        holder.trainee_list_name.setText(this.trainees.get(position).getName());
-        holder.id = this.traineesID.get(position);
-        holder.trainer_id = this.trainer_id;
-        reference = database.getReference("Plans/" + holder.id);
         Trainee trainee = trainees.get(position);
+        holder.trainee_list_name.setText(trainee.getName());
+        holder.trainee_id = this.traineesID.get(position);
 
         holder.trainee_list_phone.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,7 +74,7 @@ public class TraineeListAdapter extends RecyclerView.Adapter<TraineeListAdapter.
             }
         });
 
-        reference.addValueEventListener(new ValueEventListener() {
+        model.getPlanReference(holder.trainee_id).addValueEventListener(new ValueEventListener() {
             @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -91,37 +84,20 @@ public class TraineeListAdapter extends RecyclerView.Adapter<TraineeListAdapter.
                 }
                 else {
                     holder.plan_date.setText("The plan has not yet been defined");
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-        reference = database.getReference("Users/"+trainer_id+"/my_trainees/"+ holder.id);
-        reference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.getValue(String.class).equals("true")) {
                     holder.trainee_list_check.setVisibility(View.VISIBLE);
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
 
-
-        storageReference = FirebaseStorage.getInstance().getReference("images/"+holder.id);
         try {
             File local_file = File.createTempFile("tempfile", ".jpg" );
-            storageReference.getFile(local_file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+            model.getStorageReference(holder.trainee_id).getFile(local_file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-
                     Bitmap bitmap = BitmapFactory.decodeFile(local_file.getAbsolutePath());
                     holder.trainee_list_image.setImageBitmap(bitmap);
                 }
@@ -138,50 +114,27 @@ public class TraineeListAdapter extends RecyclerView.Adapter<TraineeListAdapter.
         holder.trainee_list_mail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("Send email", "");
-
-                DatabaseReference getStatusReference = database.getReference("Users/"+mAuth.getUid());
-
-                getStatusReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                model.getUserReference().addListenerForSingleValueEvent(new ValueEventListener() {
+                    @SuppressLint("IntentReset")
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         String trainer_name = snapshot.child("name").getValue(String.class);
-                        // status is the id of the trainer.
-                        DatabaseReference getTrainerNameReference = database.getReference("Users/"+holder.id);
-                        getTrainerNameReference.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                String email_trainee = snapshot.child("email").getValue(String.class);
-                                String name = snapshot.child("name").getValue(String.class);
+                        String[] TO = {trainee.getEmail()};
+                        Intent emailIntent = new Intent(Intent.ACTION_SEND);
+                        emailIntent.setData(Uri.parse("mailto:"));
+                        emailIntent.setType("text/plain");
+                        emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
+                        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "New message from " + trainer_name + " || EasyPlan");
+                        emailIntent.putExtra(Intent.EXTRA_TEXT, "Hi "+ trainee.getName() +",\n");
 
-                                String[] TO = {email_trainee};
-                                Intent emailIntent = new Intent(Intent.ACTION_SEND);
-                                emailIntent.setData(Uri.parse("mailto:"));
-                                emailIntent.setType("text/plain");
-
-
-                                emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
-                                emailIntent.putExtra(Intent.EXTRA_SUBJECT, "New message from " + trainer_name + " || EasyPlan");
-                                emailIntent.putExtra(Intent.EXTRA_TEXT, "Hi "+name+",\n");
-
-                                try {
-                                    holder.itemView.getContext().startActivity(Intent.createChooser(emailIntent, "Send mail..."));
-                                    Log.i("Finished sending email...", "");
-                                } catch (android.content.ActivityNotFoundException ex) {
-                                    Toast.makeText(holder.itemView.getContext(),
-                                            "There is no email client installed.", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
-                        });
-
-
+                        try {
+                            holder.itemView.getContext().startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+                            Log.i("Finished sending email...", "");
+                        } catch (android.content.ActivityNotFoundException ex) {
+                            Toast.makeText(holder.itemView.getContext(),
+                                    "There is no email client installed.", Toast.LENGTH_SHORT).show();
+                        }
                     }
-
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
 
@@ -202,8 +155,7 @@ public class TraineeListAdapter extends RecyclerView.Adapter<TraineeListAdapter.
         private CircleImageView trainee_list_image;
         private ImageView trainee_list_mail, trainee_list_phone;
         private CardView trainee_list_check;
-        private String id;
-        private String trainer_id;
+        private String trainee_id;
 
         public TraineeViewHolder(View view) {
             super(view);
@@ -214,17 +166,13 @@ public class TraineeListAdapter extends RecyclerView.Adapter<TraineeListAdapter.
             this.trainee_list_check = view.findViewById(R.id.trainee_list_check);
             this.trainee_list_phone = view.findViewById(R.id.trainee_list_phone);
             this.plan_date = view.findViewById(R.id.plan_date);
-
-            this.id = "";
-            this.trainer_id = "";
+            this.trainee_id = "";
         }
 
         @Override
         public void onClick(View view) {
             Intent intent = new Intent(view.getContext(), MakePlanActivity.class);
-            intent.putExtra("trainee id from firebase", id);
-            intent.putExtra("trainer id", trainer_id);
-
+            intent.putExtra("trainee id from firebase", trainee_id);
             view.getContext().startActivity(intent);
         }
     }
