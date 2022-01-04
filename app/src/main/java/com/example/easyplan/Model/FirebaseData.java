@@ -59,6 +59,17 @@ public class FirebaseData  {
         this.storageReference = FirebaseStorage.getInstance().getReference();
     }
 
+    public FirebaseAuth getmAuth() {
+        return mAuth;
+    }
+
+    public void setmAuth(FirebaseAuth mAuth) {
+        this.mAuth = mAuth;
+    }
+
+    public FirebaseDatabase getDatabase() {
+        return this.database;
+    }
     public Context getContext() {
         return context;
     }
@@ -82,13 +93,18 @@ public class FirebaseData  {
         return mAuth.getUid();
     }
 
+    public DatabaseReference getUserReference() {
+        return database.getReference("Users/" + getID());
+    }
 
+    public DatabaseReference getPlanReference(String id) {
+        return database.getReference("Plans/"+id);
+    }
 //////**********************************************////////////
 ////// Save a trainer user in Firebase using his personal id (mAuth.getUid)
 //////**********************************************////////////
     public void createTrainer(Trainer trainer) {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference reference = database.getReference("Users/" + mAuth.getUid());
+        DatabaseReference reference = getUserReference();
         reference.setValue(trainer);
 
         FirebaseMessaging.getInstance().getToken()
@@ -106,15 +122,22 @@ public class FirebaseData  {
 
     }
 
+    public StorageReference getStorageReference() {
+        return  FirebaseStorage.getInstance().getReference("images/" + getID());
+    }
+
+    public void logout() {
+        mAuth.signOut();
+    }
 
 //////**********************************************////////////
 ////// Save a trainee user in Firebase using his personal id (mAuth.getUid)
 //////**********************************************////////////
     public void createTrainee(Trainee trainee) {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference reference = database.getReference("Users/" + mAuth.getUid());
+        DatabaseReference reference = getUserReference();
         reference.setValue(trainee);
 
+        // set the token
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(new OnCompleteListener<String>() {
                     @Override
@@ -124,7 +147,6 @@ public class FirebaseData  {
                         }
                         String token = task.getResult();
                         reference.child("token").setValue(token);
-
                     }
                 });
     }

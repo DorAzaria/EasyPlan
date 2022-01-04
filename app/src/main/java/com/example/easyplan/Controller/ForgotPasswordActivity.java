@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.easyplan.Model.FirebaseData;
 import com.example.easyplan.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -23,12 +24,13 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
     private EditText forgot_password_email;
     private Button forgot_password_btn;
+    private FirebaseData model;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot_password);
-
+        model = new FirebaseData();
         forgot_password_btn = (Button) findViewById(R.id.forgot_password_btn);
         forgot_password_email = (EditText) findViewById(R.id.forgot_password_email);
 
@@ -39,9 +41,9 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
                 if(check.isEmpty()) {
 
-                    FirebaseAuth auth = FirebaseAuth.getInstance();
                     String emailAddress = forgot_password_email.getText().toString();
-                    auth.sendPasswordResetEmail(emailAddress)
+
+                    model.getmAuth().sendPasswordResetEmail(emailAddress)
                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {

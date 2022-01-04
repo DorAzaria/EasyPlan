@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.easyplan.Model.FirebaseData;
 import com.example.easyplan.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -33,16 +34,16 @@ import java.util.regex.Pattern;
 public class RegisterActivity extends AppCompatActivity {
 
     private EditText register_password, register_re_password, register_email;
-    private FirebaseAuth mAuth;
+    private FirebaseData model;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        mAuth = FirebaseAuth.getInstance();
+        model = new FirebaseData();
+        register_email = (EditText) findViewById(R.id.register_email);
         register_password = (EditText) findViewById(R.id.register_password);
         register_re_password = (EditText) findViewById(R.id.register_re_password);
-        register_email = (EditText) findViewById(R.id.register_email);
     }
 
 
@@ -55,7 +56,7 @@ public class RegisterActivity extends AppCompatActivity {
         // if it's empty then there's no errors, else, use dialog to show the errors.
         if(errors_details.isEmpty()) {
 
-            mAuth.fetchSignInMethodsForEmail(register_email.getText().toString())
+            model.getmAuth().fetchSignInMethodsForEmail(register_email.getText().toString())
                     .addOnCompleteListener (new OnCompleteListener<SignInMethodQueryResult>() {
                         @Override
                         public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {

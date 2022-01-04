@@ -54,25 +54,23 @@ public class RegisterTraineeActivity extends AppCompatActivity {
     private EditText register_trainee_full_name, register_trainee_address, register_trainee_age;
     private EditText register_trainee_height,register_trainee_weight;
     private RadioButton register_trainee_male_radio, register_trainee_female_radio;
-    private FirebaseAuth mAuth;
-    private FirebaseData firebaseData;
     private String email;
     private String password;
     private String gender;
     private EditText phone_number;
     private Uri imageUri;
-    private StorageReference storageReference;
     private ProgressDialog progressDialog;
+    private FirebaseData model;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_trainee);
+        model = new FirebaseData();
         //get email and password from register by type activity
         this.email = getIntent().getStringExtra("email");
         this.password = getIntent().getStringExtra("password");
-        mAuth = FirebaseAuth.getInstance();
         initFields();
     }
 
@@ -112,13 +110,14 @@ public class RegisterTraineeActivity extends AppCompatActivity {
 
 //////**********************************************////////////
     private void createUser() {
-        mAuth.createUserWithEmailAndPassword(email, password)
+        model.getmAuth().createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             registerUser();
+
                             progressDialog = new ProgressDialog(RegisterTraineeActivity.this);
                             progressDialog.setTitle("Setting your profile...");
                             progressDialog.show();
@@ -147,10 +146,8 @@ public class RegisterTraineeActivity extends AppCompatActivity {
 
 
     private void uploadImage() {
-
         if(imageUri != null) {
-            storageReference = FirebaseStorage.getInstance().getReference("images/" + mAuth.getUid());
-            storageReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            model.getStorageReference().putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
@@ -158,7 +155,6 @@ public class RegisterTraineeActivity extends AppCompatActivity {
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-
                     errorDialog("Couldn't upload the image.");
                 }
             });
@@ -173,12 +169,10 @@ public class RegisterTraineeActivity extends AppCompatActivity {
         String age = register_trainee_age.getText().toString();
         String height = register_trainee_height.getText().toString();
         String weight = register_trainee_weight.getText().toString();
-        String token = mAuth.getCurrentUser().getIdToken(false).toString();
         String phone = phone_number.getText().toString();
-        String email = mAuth.getCurrentUser().getEmail().toString();
-        firebaseData = new FirebaseData();
-        Trainee trainee = new Trainee(name, address, height, weight, gender, "Trainee", "", "",  Integer.parseInt(age), token, phone, email);
-        firebaseData.createTrainee(trainee);
+        String email = model.getmAuth().getCurrentUser().getEmail().toString();
+        Trainee trainee = new Trainee(name, address, height, weight, gender, "Trainee", "", "",  Integer.parseInt(age), "", phone, email);
+        model.createTrainee(trainee);
     }
 
 
@@ -278,25 +272,29 @@ public class RegisterTraineeActivity extends AppCompatActivity {
         return errors;
     }
 
+
+
     public void uploadImage(View v) {
         Intent openGalleryIntent = new Intent(Intent.ACTION_PICK , MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(openGalleryIntent , 1);
+        startActivityForResult(openGalleryIntent , 1); // requestCode is like a channel to communicate between two objects
     }
+
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+
+        // if the data exists and is successful
         if (requestCode == 1 &&  data != null && data.getData() != null && resultCode == Activity.RESULT_OK) {
             imageUri = data.getData();
             register_trainee_image.setVisibility(View.GONE);
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),imageUri);
-                personal_image.setImageURI(imageUri);
-            }
-            catch (IOException e) {e.printStackTrace();}
-
+            personal_image.setImageURI(imageUri); // show image on front
         }
         super.onActivityResult(requestCode, resultCode, data);
+
     }
+
+
 
     //////**********************************************////////////
 ////// Dialog pattern, gets a string and prints it. usually to print errors.

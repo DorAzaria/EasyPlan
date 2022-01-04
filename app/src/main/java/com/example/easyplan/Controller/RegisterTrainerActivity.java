@@ -52,28 +52,20 @@ public class RegisterTrainerActivity extends AppCompatActivity {
     private EditText register_trainer_personal_page, register_trainer_age, register_trainer_cost, register_trainer_days;
     private RadioButton register_trainer_male_radio, register_trainer_female_radio;
     private CheckBox register_trainer_cardio, register_trainer_fitness, register_trainer_muscle, register_trainer_menu;
-    private FirebaseAuth mAuth;
     private String email, password, gender;
     private EditText register_trainer_phone_number;
-
     private Uri imageUri;
-    private StorageReference storageReference;
     private ProgressDialog progressDialog;
-
-
-
-
+    private FirebaseData model;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_trainer);
-
+        model = new FirebaseData();
         this.email = getIntent().getStringExtra("email");
         this.password = getIntent().getStringExtra("password");
-
-        mAuth = FirebaseAuth.getInstance();
         initFields();
     }
 
@@ -133,8 +125,7 @@ public class RegisterTrainerActivity extends AppCompatActivity {
 //////**********************************************////////////
     private void uploadImage() {
         if(imageUri != null) {
-            storageReference = FirebaseStorage.getInstance().getReference("images/" + mAuth.getUid());
-            storageReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            model.getStorageReference().putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
@@ -160,7 +151,7 @@ public class RegisterTrainerActivity extends AppCompatActivity {
 
 //////**********************************************////////////
     private void createUser() {
-        mAuth.createUserWithEmailAndPassword(email, password)
+        model.getmAuth().createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -209,8 +200,7 @@ public class RegisterTrainerActivity extends AppCompatActivity {
         String education = register_trainer_education.getText().toString();
         String personal_page = register_trainer_personal_page.getText().toString();
         String phone = register_trainer_phone_number.getText().toString();
-        String email = mAuth.getCurrentUser().getEmail().toString();
-        String token = FirebaseMessaging.getInstance().getToken().toString();
+        String email = model.getmAuth().getCurrentUser().getEmail().toString();
 
         ArrayList<String> targets = new ArrayList<>();
         if (register_trainer_cardio.isChecked()) {
@@ -227,7 +217,7 @@ public class RegisterTrainerActivity extends AppCompatActivity {
         }
 
         FirebaseData firebaseData = new FirebaseData();
-        Trainer trainer = new Trainer(name, address, gender, "Trainer", education, personal_page, "",  age, cost, 3, 0, targets, new HashMap<String, String>(), token, phone, email,0,0);
+        Trainer trainer = new Trainer(name, address, gender, "Trainer", education, personal_page, "",  age, cost, 3, 0, targets, new HashMap<String, String>(), "", phone, email,0,0);
         firebaseData.createTrainer(trainer);
 
     }

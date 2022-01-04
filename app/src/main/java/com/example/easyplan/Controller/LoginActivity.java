@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.easyplan.Model.FirebaseData;
 import com.example.easyplan.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -34,13 +35,13 @@ import com.google.firebase.database.ValueEventListener;
 public class LoginActivity extends AppCompatActivity  {
 
     private EditText login_email, login_password;
-    private FirebaseAuth mAuth;
+    private FirebaseData model;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        mAuth = FirebaseAuth.getInstance();
+        model = new FirebaseData();
         login_email = findViewById(R.id.login_email);
         login_password =  findViewById(R.id.login_password);
     }
@@ -95,14 +96,14 @@ public class LoginActivity extends AppCompatActivity  {
 ////// signIn method checks if the user exists or not and pass to the system
 //////**********************************************////////////
     public void signIn(String email, String password) {
-        mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        model.getmAuth().signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()) {
                     moveToHomepage();
                 }
                 else {
-                    errorDialog("Failed to login!");
+                    errorDialog("Failed to login!"); // e.c. wrong password or email
                 }
             }
         });
@@ -113,9 +114,8 @@ public class LoginActivity extends AppCompatActivity  {
 ////// moveToHomepage method takes the user to its homepage - depends by its type (Trainer or Trainee).
 //////**********************************************////////////
     private void moveToHomepage() {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference reference = database.getReference("Users/" + mAuth.getUid());
-        reference.addValueEventListener(new ValueEventListener() {
+
+        model.getUserReference().addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String username_type = snapshot.child("type").getValue(String.class);
@@ -133,6 +133,7 @@ public class LoginActivity extends AppCompatActivity  {
             }
         });
     }
+
 
 //////**********************************************////////////
 ////// Dialog pattern, gets a string and prints it. usually to print errors.

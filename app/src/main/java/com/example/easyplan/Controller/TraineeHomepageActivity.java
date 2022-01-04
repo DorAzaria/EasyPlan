@@ -52,12 +52,7 @@ public class TraineeHomepageActivity extends AppCompatActivity {
     private TextView trainee_homepage_day_5, trainee_homepage_day_6, trainee_homepage_cheat_day;
     private Button trainee_homepage_btn, trainee_homepage_plan_btn , trainee_homepage_phone_btn , trainee_homepage_end_plan_btn;
     private ConstraintLayout trainee_homepage_menu, trainee_homepage_trains;
-    private FirebaseAuth mAuth;
-    private FirebaseDatabase database;
-    private DatabaseReference reference;
-    private FrameLayout trainee_homepage_notification;
-    private String notification;
-    private FirebaseData firebaseData;
+    private FirebaseData model;
     private String Flag;
 
     private ProgressDialog progressDialog;
@@ -71,18 +66,20 @@ public class TraineeHomepageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trainee_homepage);
-        firebaseData = new FirebaseData();
-        mAuth = FirebaseAuth.getInstance();
+        model = new FirebaseData();
+
         Flag = "false";
         Intent move = getIntent();
+
         if(move.hasExtra("Flag")){
             Flag = move.getStringExtra("Flag");
         }
-        notification = "";
+
         initFields();
+
         showProfileHeader();
+
         if(Flag.equals("false")){
-            checkForNotifications();
             checkForPlan();
         }else{
             traineeWithoutPlan();
@@ -132,9 +129,6 @@ public class TraineeHomepageActivity extends AppCompatActivity {
         trainee_homepage_plan_btn.setVisibility(View.GONE);
         trainee_homepage_phone_btn.setVisibility(View.GONE);
 
-        trainee_homepage_notification = (FrameLayout) findViewById(R.id.trainee_homepage_notification);
-        trainee_homepage_notification.setVisibility(View.GONE);
-
     }
 
 
@@ -148,9 +142,7 @@ public class TraineeHomepageActivity extends AppCompatActivity {
 
         showImage();
 
-        database = FirebaseDatabase.getInstance();
-        reference = database.getReference("Users/" + mAuth.getUid());
-        reference.addValueEventListener(new ValueEventListener() {
+        model.getUserReference().addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Trainee trainee = snapshot.getValue(Trainee.class);
@@ -183,7 +175,7 @@ public class TraineeHomepageActivity extends AppCompatActivity {
         progressDialog.show();
 
 
-        storageReference = FirebaseStorage.getInstance().getReference("images/"+mAuth.getUid());
+        storageReference = model.getStorageReference();
         try {
             File local_file = File.createTempFile("tempfile", ".jpg" );
             storageReference.getFile(local_file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
@@ -212,36 +204,19 @@ public class TraineeHomepageActivity extends AppCompatActivity {
         }
     }
 
+    
+    
 
-    
-    
-    
-    
-    
-    
-    
-//////**********************************************////////////
-    private void checkForNotifications() {
-        notification = firebaseData.getNotification();
-        if(firebaseData.checkForNewNotifications(notification)) {
-            trainee_homepage_notification.setVisibility(View.VISIBLE);
-        }
-    }
-    
-    
-    
-    
-    
-    
 
 
 //////**********************************************////////////
     private void checkForPlan() {
-        reference = database.getReference("Plans/");
+        DatabaseReference reference = model.getPlanReference(model.getID());
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                if (snapshot.hasChild(mAuth.getUid())) {
+
+                if(snapshot.getValue(String.class) != null) {
                     showPlan();
                 }
                 else {
@@ -251,7 +226,6 @@ public class TraineeHomepageActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
     }
@@ -264,12 +238,14 @@ public class TraineeHomepageActivity extends AppCompatActivity {
 
 //////**********************************************////////////
     private void showPlan() {
+
         trainee_homepage_btn.setVisibility(View.VISIBLE);
         trainee_homepage_menu.setVisibility(View.VISIBLE);
         trainee_homepage_trains.setVisibility(View.VISIBLE);
         trainee_homepage_phone_btn.setVisibility(View.VISIBLE);
         trainee_homepage_end_plan_btn.setVisibility(View.VISIBLE);
-        reference = database.getReference("Plans/" + mAuth.getUid());
+
+        DatabaseReference reference = model.getPlanReference(model.getID());
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -324,9 +300,9 @@ public class TraineeHomepageActivity extends AppCompatActivity {
 //////**********************************************////////////
     private void waitingScenario() {
         // The plan isn't ready yet, but we want to get the trainer name
-        DatabaseReference getStatusReference = database.getReference("Users/"+mAuth.getUid());
 
-        getStatusReference.addListenerForSingleValueEvent(new ValueEventListener() {
+
+        model.getUserReference().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
@@ -334,7 +310,7 @@ public class TraineeHomepageActivity extends AppCompatActivity {
                 if(plan_status != null && !plan_status.isEmpty()) {
 
                     // status is the id of the trainer.
-                    DatabaseReference getTrainerNameReference = database.getReference("Users/"+plan_status);
+                    DatabaseReference getTrainerNameReference = model.getDatabase().getReference("Users/"+plan_status);
                     getTrainerNameReference.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -358,48 +334,7 @@ public class TraineeHomepageActivity extends AppCompatActivity {
             }
         });
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
 
-
-//////**********************************************////////////
-    public void clickNotification(View view) {
-        if(notification != null && !notification.isEmpty()) {
-
-            final Dialog dialog = new Dialog(TraineeHomepageActivity.this);
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            dialog.setCancelable(true);
-            dialog.setContentView(R.layout.dialog_error);
-
-            TextView errors = dialog.findViewById(R.id.dialog_error_text);
-            Button ok_btn = dialog.findViewById(R.id.dialog_ok);
-            TextView title = dialog.findViewById(R.id.dialog_title);
-
-            errors.setText(notification);
-            title.setText("Notifications");
-
-            ok_btn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    firebaseData.clearNotification();
-                    dialog.dismiss();
-                }
-            });
-
-            dialog.show();
-
-        }
-    }
-
-    
-    
     
     
     
@@ -419,7 +354,7 @@ public class TraineeHomepageActivity extends AppCompatActivity {
         progressDialog.show();
 
 
-        storageReference = FirebaseStorage.getInstance().getReference("images/"+mAuth.getUid());
+        storageReference = model.getStorageReference();
         try {
             File local_file = File.createTempFile("tempfile", ".jpg" );
             storageReference.getFile(local_file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
@@ -476,7 +411,7 @@ public class TraineeHomepageActivity extends AppCompatActivity {
 
 //////**********************************************////////////
     public void logout(View v) {
-        mAuth.signOut();
+        model.logout();
         Intent move = new Intent(TraineeHomepageActivity.this , LoginActivity.class);
         move.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(move);
@@ -491,20 +426,18 @@ public class TraineeHomepageActivity extends AppCompatActivity {
 //////**********************************************////////////
     public void sendEmail(View view) {
 
-        Log.i("Send email", "");
 
-        DatabaseReference getStatusReference = database.getReference("Users/"+mAuth.getUid());
-
-        getStatusReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        model.getUserReference().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 String plan_status = snapshot.child("plan_status").getValue(String.class);
                 String trainee_name = snapshot.child("name").getValue(String.class);
+
                 if(plan_status != null && !plan_status.isEmpty()) {
 
                     // status is the id of the trainer.
-                    DatabaseReference getTrainerNameReference = database.getReference("Users/"+plan_status);
+                    DatabaseReference getTrainerNameReference = model.getDatabase().getReference("Users/"+plan_status);
                     getTrainerNameReference.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -523,7 +456,7 @@ public class TraineeHomepageActivity extends AppCompatActivity {
 
                             try {
                                 startActivity(Intent.createChooser(emailIntent, "Send mail..."));
-                                Log.i("Finished sending email...", "");
+
                             } catch (android.content.ActivityNotFoundException ex) {
                                 Toast.makeText(TraineeHomepageActivity.this,
                                         "There is no email client installed.", Toast.LENGTH_SHORT).show();
@@ -559,11 +492,8 @@ public class TraineeHomepageActivity extends AppCompatActivity {
 
 //////**********************************************////////////
     public void callPhone(View view) {
-        Log.i("Send email", "");
 
-        DatabaseReference getStatusReference = database.getReference("Users/"+mAuth.getUid());
-
-        getStatusReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        model.getUserReference().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
@@ -571,7 +501,7 @@ public class TraineeHomepageActivity extends AppCompatActivity {
                 if(plan_status != null && !plan_status.isEmpty()) {
 
                     // status is the id of the trainer.
-                    DatabaseReference getTrainerNameReference = database.getReference("Users/"+plan_status);
+                    DatabaseReference getTrainerNameReference = model.getDatabase().getReference("Users/"+plan_status);
                     getTrainerNameReference.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -605,15 +535,15 @@ public class TraineeHomepageActivity extends AppCompatActivity {
 
 
     public void endPlan(View view) {
-        reference = database.getReference("Users/" + mAuth.getUid());
-        reference.addValueEventListener(new ValueEventListener() {
+
+        model.getUserReference().addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                String trainer_id = snapshot.child("plan_status").getValue(String.class);
-                Intent move = new Intent(TraineeHomepageActivity.this , EndPlanActivity.class);
-                move.putExtra("trainee_id", mAuth.getUid());
-                move.putExtra("trainer_id", trainer_id);
-                startActivity(move);
+               Intent move = new Intent(TraineeHomepageActivity.this , EndPlanActivity.class);
+               move.putExtra("trainee_id", model.getID());
+               move.putExtra("trainer_id", trainer_id);
+               startActivity(move);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {

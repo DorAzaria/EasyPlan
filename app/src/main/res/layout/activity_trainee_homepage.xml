@@ -29,18 +29,6 @@
             app:srcCompat="@drawable/fitness_logo"
             tools:layout_editor_absoluteX="149dp" />
 
-        <FrameLayout
-            android:id="@+id/trainee_homepage_notification"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:onClick="clickNotification"
-            android:layout_marginLeft="130dp">
-
-
-        </FrameLayout>
-
-
-
     </androidx.appcompat.widget.Toolbar>
 
     <ScrollView
