@@ -58,6 +58,15 @@ public class TrainerListActivity extends AppCompatActivity {
         getTrainers(trainee_targets);
     }
 
+
+
+
+
+
+
+
+
+
 //////**********************************************////////////
     private void getTrainers(ArrayList<String> trainee_targets) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -66,6 +75,7 @@ public class TrainerListActivity extends AppCompatActivity {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onDataChange(DataSnapshot snapshot) {
+
                 for (DataSnapshot runner : snapshot.getChildren()) {
                     String type = runner.child("type").getValue(String.class);
                     if (type.equals("Trainer")) {

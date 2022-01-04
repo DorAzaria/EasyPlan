@@ -46,21 +46,33 @@ public class TrainerHomepageActivity extends AppCompatActivity {
     private ImageView trainer_list_menu;
     private TextView trainer_homepage_name, trainer_homepage_rate;
     private TextView trainer_homepage_age , trainer_homepage_education , trainer_homepage_personal_page,trainer_homepage_address , trainer_homepage_gender;
-    private TextView trainer_homepage_cost;
+    private TextView trainer_homepage_cost, trainer_homepage_days,trainer_homepage_duration;
     private ImageView trainer_homepage_fitness, trainer_homepage_muscle, trainer_homepage_cardio, trainer_homepage_menu;
     private Button trainer_start_plan;
+    private FirebaseAuth mAuth;
+    private DatabaseReference reference;
+    private FirebaseDatabase database;
     private String trainer_id;
     private ImageView trainee_homepage_notification;
-    private FirebaseData model;
+    private FirebaseData firebaseData;
     private boolean trainer_flag;
     private ProgressDialog progressDialog;
+    private StorageReference storageReference;
+
+
+
+
+
+
 
 //////**********************************************////////////
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trainer_homepage);
+
         initFields();
+
         Intent move = getIntent();
         trainer_id = "";
         trainer_flag = false;
@@ -69,16 +81,26 @@ public class TrainerHomepageActivity extends AppCompatActivity {
         if(move.hasExtra("trainer id from firebase")) {
             trainer_id = move.getStringExtra("trainer id from firebase");
             trainer_list_menu.setVisibility(View.GONE);
-        }
 
+        }
         else {
             trainer_start_plan.setVisibility(View.GONE);
-            trainer_id = model.getID();
+            trainer_id = firebaseData.getID();
             trainer_flag = true;
+            String notification = firebaseData.getNotification();
+            if(firebaseData.checkForNewNotifications(notification)) {
+                trainee_homepage_notification.setVisibility(View.VISIBLE);
+            }
         }
-
         getProfileData();
+
     }
+
+
+
+
+
+
 
 //////**********************************************////////////
     private void initFields() {
@@ -92,6 +114,8 @@ public class TrainerHomepageActivity extends AppCompatActivity {
         trainer_homepage_menu = (ImageView) findViewById(R.id.trainer_homepage_menu);
         trainer_homepage_rate = (TextView) findViewById(R.id.trainer_homepage_rate);
         trainer_homepage_cost = (TextView) findViewById(R.id.trainer_homepage_cost);
+        trainer_homepage_days = (TextView) findViewById(R.id.trainer_homepage_days);
+        trainer_homepage_duration = (TextView) findViewById(R.id.trainer_homepage_duration);
         trainer_homepage_age = (TextView) findViewById(R.id.trainer_homepage_age);
         trainer_homepage_address = (TextView) findViewById(R.id.trainee_homepage_address);
         trainer_homepage_gender = (TextView) findViewById(R.id.trainer_homepage_gender);
@@ -102,7 +126,11 @@ public class TrainerHomepageActivity extends AppCompatActivity {
         trainer_homepage_rate = (TextView) findViewById(R.id.trainer_homepage_rate);
         trainee_homepage_notification.setVisibility(View.GONE);
         trainer_homepage_personal_page.setVisibility(View.GONE);
-        model = new FirebaseData();
+
+
+        mAuth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance();
+        firebaseData = new FirebaseData();
     }
 
 
@@ -116,7 +144,9 @@ public class TrainerHomepageActivity extends AppCompatActivity {
 //////**********************************************////////////
     private void getProfileData() {
         showImage();
-        model.getUserReference(trainer_id).addValueEventListener(new ValueEventListener() {
+
+        reference = database.getReference("Users/" + trainer_id);
+        reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Trainer trainer = snapshot.getValue(Trainer.class);
@@ -128,11 +158,12 @@ public class TrainerHomepageActivity extends AppCompatActivity {
                 trainer_homepage_gender.setText(trainer.getGender());
                 trainer_homepage_address.setText(trainer.getAddress());
                 trainer_homepage_education.setText(trainer.getEducation());
-                trainer_homepage_personal_page.setText(trainer.getPersonal_page());
-
+                if(trainer.getPersonal_page()!= null) {
+                    trainer_homepage_personal_page.setText(trainer.getPersonal_page());
+                    trainer_homepage_personal_page.setVisibility(View.VISIBLE);
+                }
                 List<String> targets = trainer.getTargets();
                 Map<String, String> my_trainees = trainer.getMy_trainees();
-
                 if(targets != null) {
                     if (!targets.contains("Fitness"))
                         trainer_homepage_fitness.setVisibility(View.GONE);
@@ -143,9 +174,15 @@ public class TrainerHomepageActivity extends AppCompatActivity {
                     if (!targets.contains("Menu Nutrition"))
                         trainer_homepage_menu.setVisibility(View.GONE);
                 }
-                if(my_trainees != null && trainer_flag && my_trainees.containsValue("false")) {
+                if(my_trainees != null && trainer_flag) {
+                    for (String runner : my_trainees.values()) {
+                        if (runner.equals("false")) {
                             trainee_homepage_notification.setVisibility(View.VISIBLE);
+                            break;
+                        }
+                    }
                 }
+                // because trainer see my profile - remove the menu
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
@@ -164,9 +201,12 @@ public class TrainerHomepageActivity extends AppCompatActivity {
         progressDialog.setTitle("Fetching Data");
         progressDialog.setCancelable(false);
         progressDialog.show();
+
+
+        storageReference = FirebaseStorage.getInstance().getReference("images/"+trainer_id);
         try {
             File local_file = File.createTempFile("tempfile", ".jpg" );
-            model.getStorageReference(trainer_id).getFile(local_file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+            storageReference.getFile(local_file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                     if(progressDialog.isShowing()) {
@@ -202,14 +242,28 @@ public class TrainerHomepageActivity extends AppCompatActivity {
         startActivity(move);
     }
 
-    //////**********************************************////////////
+
+
+
+
+
+
+
+//////**********************************************////////////
     public void logout(View v) {
-        model.logout();
+        mAuth.signOut();
         Intent move = new Intent(TrainerHomepageActivity.this , LoginActivity.class);
         move.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(move);
         TrainerHomepageActivity.this.finish();
     }
+
+
+
+
+
+
+
 
 
 //////**********************************************////////////
@@ -242,7 +296,7 @@ public class TrainerHomepageActivity extends AppCompatActivity {
         ok_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String trainee_id = model.getID();
+                String trainee_id = firebaseData.getID();
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                 FirebaseData fd = new FirebaseData();
                 fd.setActivity(TrainerHomepageActivity.this);
@@ -250,9 +304,9 @@ public class TrainerHomepageActivity extends AppCompatActivity {
                 fd.sendPlanRequest(trainee_id, trainer_id);
                 Intent move = new Intent(TrainerHomepageActivity.this, TraineeHomepageActivity.class);
                 move.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                dialog.dismiss();
                 startActivity(move);
                 TrainerHomepageActivity.this.finish();
+                dialog.dismiss();
             }
         });
 
@@ -281,9 +335,10 @@ public class TrainerHomepageActivity extends AppCompatActivity {
         progressDialog.show();
 
 
+        storageReference = FirebaseStorage.getInstance().getReference("images/"+trainer_id);
         try {
             File local_file = File.createTempFile("tempfile", ".jpg" );
-            model.getStorageReference(trainer_id).getFile(local_file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+            storageReference.getFile(local_file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                     if(progressDialog.isShowing()) {
