@@ -1,4 +1,4 @@
-package com.example.easyplan.activities;
+package com.example.easyplan.Controller;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,9 +8,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 
-import com.example.easyplan.data.Trainee;
+import com.example.easyplan.Model.Trainee;
 import com.example.easyplan.R;
-import com.example.easyplan.adapters.TraineeListAdapter;
+import com.example.easyplan.Controller.adapters.TraineeListAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;

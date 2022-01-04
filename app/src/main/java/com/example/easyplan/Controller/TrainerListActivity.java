@@ -1,4 +1,4 @@
-package com.example.easyplan.activities;
+package com.example.easyplan.Controller;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,9 +9,9 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.example.easyplan.data.Trainer;
+import com.example.easyplan.Model.Trainer;
 import com.example.easyplan.R;
-import com.example.easyplan.adapters.TrainerListAdapter;
+import com.example.easyplan.Controller.adapters.TrainerListAdapter;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;

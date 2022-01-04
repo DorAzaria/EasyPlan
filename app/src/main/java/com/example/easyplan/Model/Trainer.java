@@ -1,4 +1,4 @@
-package com.example.easyplan.data;
+package com.example.easyplan.Model;
 
 import java.util.List;
 import java.util.Map;

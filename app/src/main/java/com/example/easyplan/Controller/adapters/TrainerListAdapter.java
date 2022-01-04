@@ -1,4 +1,4 @@
-package com.example.easyplan.adapters;
+package com.example.easyplan.Controller.adapters;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -13,9 +13,9 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.easyplan.data.Trainer;
+import com.example.easyplan.Model.Trainer;
 import com.example.easyplan.R;
-import com.example.easyplan.activities.TrainerHomepageActivity;
+import com.example.easyplan.Controller.TrainerHomepageActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FileDownloadTask;

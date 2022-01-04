@@ -1,4 +1,4 @@
-package com.example.easyplan.activities;
+package com.example.easyplan.Controller;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -53,8 +53,8 @@ public class LoginActivity extends AppCompatActivity  {
     public void login (View v) {
         String email = login_email.getText().toString().trim();
         String password = login_password.getText().toString().trim();
-
         String errors_details = checkInputs();
+
         if(errors_details.isEmpty()) {
             signIn(email, password);
         }

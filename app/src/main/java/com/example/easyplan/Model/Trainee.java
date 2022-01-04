@@ -1,6 +1,4 @@
-package com.example.easyplan.data;
-
-import android.net.Uri;
+package com.example.easyplan.Model;
 
 public class Trainee {
 

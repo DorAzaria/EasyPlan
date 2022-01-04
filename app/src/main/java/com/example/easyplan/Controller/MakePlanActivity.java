@@ -1,4 +1,4 @@
-package com.example.easyplan.activities;
+package com.example.easyplan.Controller;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,7 +10,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -18,10 +17,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.easyplan.data.FcmNotificationsSender;
-import com.example.easyplan.data.FirebaseData;
-import com.example.easyplan.data.Plan;
-import com.example.easyplan.data.Trainee;
+import com.example.easyplan.Model.FcmNotificationsSender;
+import com.example.easyplan.Model.FirebaseData;
+import com.example.easyplan.Model.Plan;
+import com.example.easyplan.Model.Trainee;
 import com.example.easyplan.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -41,9 +40,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Vector;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 

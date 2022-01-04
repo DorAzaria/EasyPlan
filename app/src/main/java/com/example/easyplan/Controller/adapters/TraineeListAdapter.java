@@ -1,4 +1,4 @@
-package com.example.easyplan.adapters;
+package com.example.easyplan.Controller.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,11 +17,9 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.easyplan.activities.TraineeHomepageActivity;
-import com.example.easyplan.data.Trainee;
+import com.example.easyplan.Model.Trainee;
 import com.example.easyplan.R;
-import com.example.easyplan.activities.MakePlanActivity;
-import com.example.easyplan.data.Trainer;
+import com.example.easyplan.Controller.MakePlanActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;

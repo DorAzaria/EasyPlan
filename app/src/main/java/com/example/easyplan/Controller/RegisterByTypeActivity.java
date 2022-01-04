@@ -1,7 +1,6 @@
-package com.example.easyplan.activities;
+package com.example.easyplan.Controller;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
 import android.os.Bundle;
