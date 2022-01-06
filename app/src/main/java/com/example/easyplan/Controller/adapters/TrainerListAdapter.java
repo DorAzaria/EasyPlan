@@ -33,7 +33,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.ViewHolder> {
     private List<Trainer> trainers;
-    private List <String> trainers_ids;
     private FirebaseData model;
 
 
@@ -42,9 +41,8 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
 
 
     /// THIS CONSTRUCTOR GETS ALL TRAINERS AS ARRAYLIST AND ALSO THEIR IDS
-    public TrainerListAdapter(List<Trainer> data , List <String> ids){
+    public TrainerListAdapter(List<Trainer> data ){
        this.trainers = data;
-       this.trainers_ids = ids;
        this.model = new FirebaseData();
     }
 
@@ -70,7 +68,7 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
     @Override
     public void onBindViewHolder(TrainerListAdapter.ViewHolder holder, int position) {
         Trainer trainer = trainers.get(position);
-        holder.trainer_id = trainers_ids.get(position);
+        holder.trainer_id = trainer.getNotifications();
         List<String> targets_to_show = trainer.getTargets();
         if(targets_to_show.contains("Fitness")) holder.trainer_list_fitness.setVisibility(View.VISIBLE);
         if(targets_to_show.contains("Cardio")) holder.trainer_list_cardio.setVisibility(View.VISIBLE);

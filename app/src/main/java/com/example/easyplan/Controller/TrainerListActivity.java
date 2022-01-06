@@ -19,6 +19,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -48,14 +50,14 @@ public class TrainerListActivity extends AppCompatActivity {
         ArrayList<String> trainee_targets = move.getStringArrayListExtra("query types");
 
         trainers = new ArrayList<>();
-        trainers_ids = new ArrayList<>();
+        getTrainers(trainee_targets);
 
         RecyclerView recyclerView = findViewById(R.id.trainer_list_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        trainerListAdapter = new TrainerListAdapter(trainers, trainers_ids);
+        trainerListAdapter = new TrainerListAdapter(trainers);
         recyclerView.setAdapter(trainerListAdapter);
 
-        getTrainers(trainee_targets);
+
     }
 
 
@@ -78,11 +80,13 @@ public class TrainerListActivity extends AppCompatActivity {
 
                 for (DataSnapshot runner : snapshot.getChildren()) {
                     String type = runner.child("type").getValue(String.class);
+
                     if (type.equals("Trainer")) {
                         Trainer trainer = runner.getValue(Trainer.class);
                         if (trainer.getTargets().containsAll(trainee_targets)) {
+                            trainer.setNotifications(runner.getKey());
                             trainers.add(trainer);
-                            trainers_ids.add(runner.getKey());
+                            Collections.sort(trainers, new TrainerComparator());
                         }
                     }
                 }
@@ -98,5 +102,21 @@ public class TrainerListActivity extends AppCompatActivity {
 
 
 
+    class TrainerComparator implements Comparator<Trainer> {
+
+        @Override
+        public int compare(Trainer o1, Trainer o2) {
+
+            if(o1.getRate() > o2.getRate()){
+                return -1;
+            }
+            else if(o1.getRate() < o2.getRate()) {
+                return 1;
+            }
+            else {
+                return 0;
+            }
+        }
+    }
 
 }
