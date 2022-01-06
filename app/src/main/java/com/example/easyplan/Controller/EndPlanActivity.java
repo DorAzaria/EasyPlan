@@ -39,6 +39,21 @@ public class EndPlanActivity extends AppCompatActivity {
         trainee_id = move.getStringExtra("trainee_id");
         trainer_id = move.getStringExtra("trainer_id");
 
+        model.getPlanReference(model.getID()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.getValue() == null) {
+                    startActivity(new Intent(EndPlanActivity.this, TraineeHomepageActivity.class));
+                    finish();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
     }
 
     public void endPlan(View view) {
@@ -81,6 +96,6 @@ public class EndPlanActivity extends AppCompatActivity {
         Intent move = new Intent(EndPlanActivity.this , SplashScreenActivity.class);
         move.putExtra("Flag","true");
         startActivity(move);
-        EndPlanActivity.this.finish();
+        finish();
     }
 }

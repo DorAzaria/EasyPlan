@@ -137,7 +137,6 @@ public class MakePlanActivity extends AppCompatActivity {
                 if(flag.equals("false")){
                    return;
                 }else {
-                    make_plan_submit_btn.setVisibility(View.GONE);
                     show_plan();
                 }
 
@@ -279,9 +278,8 @@ public class MakePlanActivity extends AppCompatActivity {
             sendNotification(view);
 
             Intent move = new Intent(MakePlanActivity.this, TrainerHomepageActivity.class);
-            move.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(move);
-            MakePlanActivity.this.finish();
+            finish();
         }
         else {
             final Dialog dialog = new Dialog(MakePlanActivity.this);
@@ -316,14 +314,12 @@ public class MakePlanActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String trainee_token = snapshot.child("token").getValue().toString();
+
                 model.getUserReference(trainer_id).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         String trainer_name = snapshot.child("name").getValue(String.class).toString();
-                        FirebaseData fd = new FirebaseData();
-                        fd.setActivity(MakePlanActivity.this);
-                        fd.setContext(view.getContext());
-                        FcmNotificationsSender send_notification = new FcmNotificationsSender(trainee_token , "Easy Plan", "You Have got a new plan from " + trainer_name,fd.getContext(),fd.getActivity());
+                        FcmNotificationsSender send_notification = new FcmNotificationsSender(trainee_token , "Easy Plan", "You Have got a new plan from " + trainer_name ,view.getContext(),MakePlanActivity.this);
                         send_notification.SendNotifications();
                     }
 
@@ -539,6 +535,7 @@ public class MakePlanActivity extends AppCompatActivity {
     public void trainee_list_menu (View v) {
         Intent move = new Intent(MakePlanActivity.this , TraineeListActivity.class);
         startActivity(move);
+        finish();
     }
 
 

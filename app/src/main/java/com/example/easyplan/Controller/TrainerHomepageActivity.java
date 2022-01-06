@@ -66,6 +66,13 @@ public class TrainerHomepageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trainer_homepage);
 
+    }
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
         initFields();
 
         Intent move = getIntent();
@@ -84,16 +91,9 @@ public class TrainerHomepageActivity extends AppCompatActivity {
             trainer_flag = true;
         }
         getProfileData();
-
     }
 
-
-
-
-
-
-
-//////**********************************************////////////
+    //////**********************************************////////////
     private void initFields() {
         trainer_homepage_name = (TextView) findViewById(R.id.trainer_homepage_name);
         trainer_homepage_picture = (CircleImageView) findViewById(R.id.trainer_homepage_picture);
@@ -239,9 +239,8 @@ public class TrainerHomepageActivity extends AppCompatActivity {
     public void logout(View v) {
         model.logout();
         Intent move = new Intent(TrainerHomepageActivity.this , LoginActivity.class);
-        move.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(move);
-        TrainerHomepageActivity.this.finish();
+        finish();
     }
 
 
@@ -289,10 +288,9 @@ public class TrainerHomepageActivity extends AppCompatActivity {
                 fd.setContext(v.getContext());
                 fd.sendPlanRequest(trainee_id, trainer_id);
                 Intent move = new Intent(TrainerHomepageActivity.this, TraineeHomepageActivity.class);
-                move.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(move);
-                TrainerHomepageActivity.this.finish();
                 dialog.dismiss();
+                startActivity(move);
+                finish();
             }
         });
 

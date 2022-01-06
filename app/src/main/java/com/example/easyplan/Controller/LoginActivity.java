@@ -121,9 +121,11 @@ public class LoginActivity extends AppCompatActivity  {
                 String username_type = snapshot.child("type").getValue(String.class);
                 if(username_type.equals("Trainee")) {
                     startActivity(new Intent(LoginActivity.this, TraineeHomepageActivity.class));
+                    finish();
                 }
                 else {
                     startActivity(new Intent(LoginActivity.this, TrainerHomepageActivity.class));
+                    finish();
                 }
             }
 

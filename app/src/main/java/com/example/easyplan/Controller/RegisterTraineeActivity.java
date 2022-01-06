@@ -130,9 +130,8 @@ public class RegisterTraineeActivity extends AppCompatActivity {
                                         progressDialog.dismiss();
                                     }
                                     Intent move = new Intent(RegisterTraineeActivity.this, TraineeHomepageActivity.class);
-                                    move.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                     startActivity(move);
-                                    RegisterTraineeActivity.this.finish();
+                                    finish();
                                 }
                             }, 6000);
 

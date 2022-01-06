@@ -64,18 +64,19 @@ public class TraineeHomepageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trainee_homepage);
+    }
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         model = new FirebaseData();
         initFields();
         showProfileHeader();
         checkForPlan();
     }
 
-
-
-
-
-
-//////**********************************************////////////
+    //////**********************************************////////////
     private void initFields() {
         trainee_homepage_picture = (CircleImageView) findViewById(R.id.trainee_homepage_picture);
 
@@ -386,6 +387,7 @@ public class TraineeHomepageActivity extends AppCompatActivity {
 //////**********************************************////////////
     public void startPlanButton(View view) {
         startActivity(new Intent(TraineeHomepageActivity.this, SelectTargetActivity.class));
+        finish();
     }
 
 
@@ -396,9 +398,8 @@ public class TraineeHomepageActivity extends AppCompatActivity {
     public void logout(View v) {
         model.logout();
         Intent move = new Intent(TraineeHomepageActivity.this , LoginActivity.class);
-        move.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(move);
-        TraineeHomepageActivity.this.finish();
+        finish();
     }
 
 
@@ -526,8 +527,8 @@ public class TraineeHomepageActivity extends AppCompatActivity {
                Intent move = new Intent(TraineeHomepageActivity.this , EndPlanActivity.class);
                move.putExtra("trainee_id", model.getID());
                move.putExtra("trainer_id", trainer_id);
-                move.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                startActivity(move);
+               finish();
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {

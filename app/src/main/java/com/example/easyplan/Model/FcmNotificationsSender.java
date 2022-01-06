@@ -17,6 +17,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+// Firebase Cloud Messaging
 public class FcmNotificationsSender  {
 
     String userFcmToken;
@@ -36,8 +37,6 @@ public class FcmNotificationsSender  {
         this.body = body;
         this.mContext = mContext;
         this.mActivity = mActivity;
-
-
     }
 
     public void SendNotifications() {
@@ -50,8 +49,6 @@ public class FcmNotificationsSender  {
             notiObject.put("title", title);
             notiObject.put("body", body);
             notiObject.put("icon", "icon"); // enter icon that exists in drawable only
-
-
 
             mainObj.put("notification", notiObject);
 
@@ -82,6 +79,7 @@ public class FcmNotificationsSender  {
 
                 }
             };
+
             requestQueue.add(request);
 
 

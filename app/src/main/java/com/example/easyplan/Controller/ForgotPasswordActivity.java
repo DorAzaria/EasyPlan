@@ -123,6 +123,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
             public void onClick(View v) {
                 dialog.dismiss();
                 startActivity(new Intent(ForgotPasswordActivity.this, LoginActivity.class));
+                finish();
             }
         });
 

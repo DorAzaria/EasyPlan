@@ -29,10 +29,11 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         super.onMessageReceived(remoteMessage);
 
 
-// playing audio and vibration when user se reques
+        // playing audio and vibration when user send request
         Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
         r.play();
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             r.setLooping(false);
         }
@@ -43,40 +44,24 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         v.vibrate(pattern, -1);
 
 
-        int resourceImage = getResources().getIdentifier(remoteMessage.getNotification().getIcon(), "drawable", getPackageName());
-
-
-
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "CHANNEL_ID");
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//            builder.setSmallIcon(R.drawable.icontrans);
-            builder.setSmallIcon(R.drawable.fitness_logo);
-        } else {
-//            builder.setSmallIcon(R.drawable.icon_kritikar);
-            builder.setSmallIcon(R.drawable.fitness_logo);
-        }
-
-
-
         Intent resultIntent = new Intent(this, SplashScreenActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 1, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-
-        builder.setContentTitle(remoteMessage.getNotification().getTitle());
-        builder.setContentText(remoteMessage.getNotification().getBody());
-        builder.setContentIntent(pendingIntent);
-        builder.setStyle(new NotificationCompat.BigTextStyle().bigText(remoteMessage.getNotification().getBody()));
-        builder.setAutoCancel(true);
-        builder.setPriority(Notification.PRIORITY_MAX);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "CHANNEL_ID");
+        builder.setSmallIcon(R.drawable.fitness_logo); // the logo of the ui notification
+        builder.setContentTitle(remoteMessage.getNotification().getTitle()); // title
+        builder.setContentText(remoteMessage.getNotification().getBody()); // text body (the content)
+        builder.setContentIntent(pendingIntent); // pending token to foreign apps, when click on notification it goes to SplashScreenActivity
+        builder.setStyle(new NotificationCompat.BigTextStyle().bigText(remoteMessage.getNotification().getBody())); // box style
+        builder.setAutoCancel(true); // if user click somewhere in the screen the notification will be gone
+        builder.setPriority(Notification.PRIORITY_MAX); // show the notification at the top of the notifications list of the user
+        builder.setOnlyAlertOnce(true);
 
         mNotificationManager =
                 (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
 
 
-
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-        {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             String channelId = "Your_channel_id";
             NotificationChannel channel = new NotificationChannel(
                     channelId,
@@ -85,7 +70,6 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
             mNotificationManager.createNotificationChannel(channel);
             builder.setChannelId(channelId);
         }
-
 
 
 // notificationId is a unique int for each notification that you must define

@@ -170,9 +170,8 @@ public class RegisterTrainerActivity extends AppCompatActivity {
                                         progressDialog.dismiss();
                                     }
                                     Intent move = new Intent(RegisterTrainerActivity.this, TrainerHomepageActivity.class);
-                                    move.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                     startActivity(move);
-                                    RegisterTrainerActivity.this.finish();
+                                    finish();
                                 }
                             }, 6000);
 

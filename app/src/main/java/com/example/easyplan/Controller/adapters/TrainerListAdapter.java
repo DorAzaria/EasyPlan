@@ -1,5 +1,6 @@
 package com.example.easyplan.Controller.adapters;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -147,6 +148,7 @@ public class TrainerListAdapter extends RecyclerView.Adapter<TrainerListAdapter.
             Intent move = new Intent(view.getContext(), TrainerHomepageActivity.class);
             move.putExtra("trainer id from firebase" , trainer_id);
             view.getContext().startActivity(move);
+            ((Activity) view.getContext()).finish();
         }
     }
 }

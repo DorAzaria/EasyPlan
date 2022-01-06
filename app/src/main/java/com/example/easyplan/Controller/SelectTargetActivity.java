@@ -54,6 +54,7 @@ public class SelectTargetActivity extends AppCompatActivity {
             Intent move = new Intent(SelectTargetActivity.this, TrainerListActivity.class);
             move.putStringArrayListExtra("query types", targets);
             startActivity(move);
+            finish();
         }
 
     }
