@@ -69,8 +69,8 @@ public class SplashScreenActivity extends AppCompatActivity {
     }
 
     //////**********************************************////////////
-////// Checks the user type: Trainer, Trainee or Unsigned.
-//////**********************************************////////////
+    ////// Checks the user type: Trainer, Trainee or Unsigned.
+    //////**********************************************////////////
     private void checkUserType() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         move_type = "";
