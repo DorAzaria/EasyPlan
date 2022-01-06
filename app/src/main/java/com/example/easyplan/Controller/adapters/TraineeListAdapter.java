@@ -181,6 +181,7 @@ public class TraineeListAdapter extends RecyclerView.Adapter<TraineeListAdapter.
             this.trainee_list_image = view.findViewById(R.id.trainee_list_image);
             this.trainee_list_mail = view.findViewById(R.id.trainee_list_mail);
             this.trainee_list_check = view.findViewById(R.id.trainee_list_check);
+            this.trainee_list_check.setVisibility(View.GONE);
             this.trainee_list_phone = view.findViewById(R.id.trainee_list_phone);
             this.plan_date = view.findViewById(R.id.plan_date);
 

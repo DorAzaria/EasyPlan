@@ -42,12 +42,10 @@ public class EndPlanActivity extends AppCompatActivity {
     }
 
     public void endPlan(View view) {
-
         model.getUserReference(model.getID()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 trainer_id = snapshot.child("plan_status").getValue(String.class);
-
                 model.getUserReference(trainer_id).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -70,27 +68,19 @@ public class EndPlanActivity extends AppCompatActivity {
 
                     }
                 });
-
                 model.getUserReference(trainer_id+"/my_trainees").child(trainee_id).setValue(null);
                 model.getPlanReference(trainee_id).setValue(null);
                 model.getUserReference(trainee_id).child("plan_status").setValue("");
-
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
-
         });
-
-
-
         Intent move = new Intent(EndPlanActivity.this , SplashScreenActivity.class);
         move.putExtra("Flag","true");
-        move.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(move);
         EndPlanActivity.this.finish();
-
     }
 }
