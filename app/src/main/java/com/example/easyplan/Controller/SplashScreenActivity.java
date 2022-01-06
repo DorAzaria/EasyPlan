@@ -42,6 +42,14 @@ public class SplashScreenActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
+
+    }
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
         model = new FirebaseData();
 
         ConstraintLayout constraintLayout = findViewById(R.id.splash_layout);

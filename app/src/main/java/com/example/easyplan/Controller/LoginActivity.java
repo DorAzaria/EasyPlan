@@ -165,12 +165,14 @@ public class LoginActivity extends AppCompatActivity  {
 //////**********************************************////////////
     public void forgot_password(View v) {
         startActivity(new Intent(LoginActivity.this , ForgotPasswordActivity.class));
+        finish();
     }
 
 
 //////**********************************************////////////
     public void register(View v) {
         startActivity(new Intent(LoginActivity.this , RegisterActivity.class));
+        finish();
     }
 
 }
