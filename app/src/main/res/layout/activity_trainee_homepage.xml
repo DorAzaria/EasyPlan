@@ -96,7 +96,7 @@
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:onClick="endPlan"
+                    android:onClick="end_plan"
                     android:text="End Plan" />
 
             </LinearLayout>

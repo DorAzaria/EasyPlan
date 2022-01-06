@@ -39,9 +39,7 @@ public class EndPlanActivity extends AppCompatActivity {
     }
 
     public void endPlan(View view) {
-        reference = database.getReference("Users/" + trainer_id);
-
-        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+        database.getReference("Users/" + trainer_id).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 float rating = end_plan_toolbar_ratebar.getRating();
@@ -53,22 +51,10 @@ public class EndPlanActivity extends AppCompatActivity {
                     total = (snapshot.child("total").getValue(Integer.class) + rating);
                     rate = total / counter;
                 }
+                database.getReference("Users/" + trainer_id).child("counter").setValue(counter);
+                database.getReference("Users/" + trainer_id).child("total").setValue(total);
+                database.getReference("Users/" + trainer_id).child("rate").setValue(rate);
 
-                reference = database.getReference("Users/" + trainer_id);
-                reference.child("counter").setValue(counter);
-                reference.child("total").setValue(total);
-                reference.child("rate").setValue(rate);
-                reference = database.getReference("Plans/" + trainee_id);
-                reference.getRef().removeValue();
-                reference = database.getReference("Users/" + trainee_id);
-                reference.child("plan_status").setValue("");
-                reference = database.getReference("Users/" + trainer_id+"/my_trainees");
-                reference.child(trainee_id).getRef().removeValue();
-                Intent move = new Intent(EndPlanActivity.this , TraineeHomepageActivity.class);
-                move.putExtra("Flag","true");
-                move.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(move);
-                EndPlanActivity.this.finish();
             }
 
             @Override
@@ -76,6 +62,14 @@ public class EndPlanActivity extends AppCompatActivity {
 
             }
         });
+//        database.getReference("Users/" + trainer_id+"/my_trainees").child(trainee_id).setValue(null);
+//        database.getReference("Plans/" + trainee_id).setValue(null);
+//        database.getReference("Users/" + trainee_id).child("plan_status").setValue("");
 
+        Intent move = new Intent(EndPlanActivity.this , SplashScreenActivity.class);
+        move.putExtra("Flag","true");
+        move.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(move);
+        EndPlanActivity.this.finish();
     }
 }

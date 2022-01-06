@@ -53,8 +53,6 @@ public class TraineeHomepageActivity extends AppCompatActivity {
     private Button trainee_homepage_btn, trainee_homepage_plan_btn , trainee_homepage_phone_btn , trainee_homepage_end_plan_btn;
     private ConstraintLayout trainee_homepage_menu, trainee_homepage_trains;
     private FirebaseData model;
-    private String Flag;
-
     private ProgressDialog progressDialog;
     private StorageReference storageReference;
 
@@ -67,24 +65,9 @@ public class TraineeHomepageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trainee_homepage);
         model = new FirebaseData();
-
-        Flag = "false";
-        Intent move = getIntent();
-
-        if(move.hasExtra("Flag")){
-            Flag = move.getStringExtra("Flag");
-        }
-
         initFields();
-
         showProfileHeader();
-
-        if(Flag.equals("false")){
-            checkForPlan();
-        }else{
-            traineeWithoutPlan();
-        }
-
+        checkForPlan();
     }
 
 
@@ -212,6 +195,7 @@ public class TraineeHomepageActivity extends AppCompatActivity {
 //////**********************************************////////////
     private void checkForPlan() {
         model.getPlanReference(model.getID()).addListenerForSingleValueEvent(new ValueEventListener() {
+
             @Override
             public void onDataChange(DataSnapshot snapshot) {
 
@@ -304,7 +288,7 @@ public class TraineeHomepageActivity extends AppCompatActivity {
         model.getUserReference(model.getID()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
+                Log.e("ID1",model.getID());
                 String plan_status = snapshot.child("plan_status").getValue(String.class);
                 if(plan_status != null && !plan_status.isEmpty()) {
 
@@ -533,7 +517,7 @@ public class TraineeHomepageActivity extends AppCompatActivity {
 
 
 
-    public void endPlan(View view) {
+    public void end_plan(View view) {
 
         model.getUserReference(model.getID()).addValueEventListener(new ValueEventListener() {
             @Override
@@ -542,6 +526,7 @@ public class TraineeHomepageActivity extends AppCompatActivity {
                Intent move = new Intent(TraineeHomepageActivity.this , EndPlanActivity.class);
                move.putExtra("trainee_id", model.getID());
                move.putExtra("trainer_id", trainer_id);
+                move.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                startActivity(move);
             }
             @Override
