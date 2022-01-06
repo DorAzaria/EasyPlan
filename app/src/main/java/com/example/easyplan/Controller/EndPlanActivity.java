@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RatingBar;
 
+import com.example.easyplan.Model.FirebaseData;
 import com.example.easyplan.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,10 +24,12 @@ public class EndPlanActivity extends AppCompatActivity {
     private RatingBar end_plan_toolbar_ratebar;
     private DatabaseReference reference;
     private FirebaseDatabase database;
+    private FirebaseData model;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        model = new FirebaseData();
         database = FirebaseDatabase.getInstance();
 
         setContentView(R.layout.activity_end_plan);
@@ -39,21 +42,38 @@ public class EndPlanActivity extends AppCompatActivity {
     }
 
     public void endPlan(View view) {
-        database.getReference("Users/" + trainer_id).addListenerForSingleValueEvent(new ValueEventListener() {
+
+        model.getUserReference(model.getID()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                float rating = end_plan_toolbar_ratebar.getRating();
-                int counter = 1;
-                double total = rating;
-                double rate = rating;
-                if(snapshot.child("counter").getValue() !=null){
-                    counter = (snapshot.child("counter").getValue(Integer.class) + 1);
-                    total = (snapshot.child("total").getValue(Integer.class) + rating);
-                    rate = total / counter;
-                }
-                database.getReference("Users/" + trainer_id).child("counter").setValue(counter);
-                database.getReference("Users/" + trainer_id).child("total").setValue(total);
-                database.getReference("Users/" + trainer_id).child("rate").setValue(rate);
+                trainer_id = snapshot.child("plan_status").getValue(String.class);
+
+                model.getUserReference(trainer_id).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        float rating = end_plan_toolbar_ratebar.getRating();
+                        int counter = 1;
+                        double total = rating;
+                        double rate = rating;
+                        if (snapshot.child("counter").getValue() != null) {
+                            counter = (snapshot.child("counter").getValue(Integer.class) + 1);
+                            total = (snapshot.child("total").getValue(Integer.class) + rating);
+                            rate = total / counter;
+                        }
+                        database.getReference("Users/" + trainer_id).child("counter").setValue(counter);
+                        database.getReference("Users/" + trainer_id).child("total").setValue(total);
+                        database.getReference("Users/" + trainer_id).child("rate").setValue(rate);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+                model.getUserReference(trainer_id+"/my_trainees").child(trainee_id).setValue(null);
+                model.getPlanReference(trainee_id).setValue(null);
+                model.getUserReference(trainee_id).child("plan_status").setValue("");
 
             }
 
@@ -61,15 +81,16 @@ public class EndPlanActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
+
         });
-//        database.getReference("Users/" + trainer_id+"/my_trainees").child(trainee_id).setValue(null);
-//        database.getReference("Plans/" + trainee_id).setValue(null);
-//        database.getReference("Users/" + trainee_id).child("plan_status").setValue("");
+
+
 
         Intent move = new Intent(EndPlanActivity.this , SplashScreenActivity.class);
         move.putExtra("Flag","true");
         move.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(move);
         EndPlanActivity.this.finish();
+
     }
 }
