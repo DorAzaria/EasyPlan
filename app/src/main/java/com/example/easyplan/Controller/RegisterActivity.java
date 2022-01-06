@@ -67,6 +67,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 move.putExtra("email",register_email.getText().toString().trim());
                                 move.putExtra("password",register_password.getText().toString().trim());
                                 startActivity(move);
+                                finish();
                             }
                             else {
                                 errorDialog("This user is already in our system.");

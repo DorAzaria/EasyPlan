@@ -19,6 +19,8 @@ import com.example.easyplan.R;
 import com.example.easyplan.Controller.SplashScreenActivity;
 import com.google.firebase.messaging.RemoteMessage;
 
+import java.util.Random;
+
 public class FirebaseMessagingService extends com.google.firebase.messaging.FirebaseMessagingService {
 
      NotificationManager mNotificationManager;
@@ -45,7 +47,8 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
 
 
         Intent resultIntent = new Intent(this, SplashScreenActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 1, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        int requestCode = new Random().nextInt();
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, requestCode, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "CHANNEL_ID");
         builder.setSmallIcon(R.drawable.fitness_logo); // the logo of the ui notification
@@ -72,8 +75,9 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         }
 
 
-// notificationId is a unique int for each notification that you must define
-        mNotificationManager.notify(100, builder.build());
+    // notificationId is a unique int for each notification that you must define
+        requestCode = new Random().nextInt();
+        mNotificationManager.notify(requestCode, builder.build());
     }
 
 }

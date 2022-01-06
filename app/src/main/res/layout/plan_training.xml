@@ -2,12 +2,12 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="520dp"
+    android:layout_height="wrap_content"
     android:id="@+id/trainee_homepage_trains">
 
     <androidx.cardview.widget.CardView
         android:layout_width="350dp"
-        android:layout_height="500dp"
+        android:layout_height="wrap_content"
         app:cardBackgroundColor="#E6E5E5"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -16,7 +16,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:background="@drawable/frame_background">
 
             <ImageView
@@ -33,7 +33,7 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardView14"
                 android:layout_width="300dp"
-                android:layout_height="130dp"
+                android:layout_height="wrap_content"
                 app:cardCornerRadius="20dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -48,6 +48,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:layout_marginTop="10dp"
                         android:id="@+id/trainee_homepage_train_number"
                         android:layout_width="match_parent"
                         android:layout_height="25dp"
@@ -72,6 +73,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="18sp"
                         android:text="Exercises"
+                        android:layout_marginBottom="10dp"
                         />
 
                 </LinearLayout>
@@ -81,7 +83,7 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardView17"
                 android:layout_width="300dp"
-                android:layout_height="130dp"
+                android:layout_height="wrap_content"
                 app:cardCornerRadius="20dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -96,6 +98,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:layout_marginTop="10dp"
                         android:layout_width="match_parent"
                         android:layout_height="25dp"
                         android:gravity="center"
@@ -117,7 +120,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:text="Exercises"
-                        android:textSize="18sp" />
+                        android:textSize="18sp"
+                        android:layout_marginBottom="10dp"/>
 
                 </LinearLayout>
 
@@ -125,7 +129,7 @@
 
             <androidx.cardview.widget.CardView
                 android:layout_width="300dp"
-                android:layout_height="130dp"
+                android:layout_height="wrap_content"
                 app:cardCornerRadius="20dp"
                 android:layout_marginTop="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -141,6 +145,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:layout_marginTop="10dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
@@ -162,7 +167,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:text="Exercises"
-                        android:textSize="18sp" />
+                        android:textSize="18sp"
+                        android:layout_marginBottom="10dp"/>
 
                 </LinearLayout>
 

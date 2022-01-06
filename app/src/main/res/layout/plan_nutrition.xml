@@ -2,13 +2,14 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="490dp"
+    android:layout_marginTop="20dp"
+    android:layout_height="wrap_content"
     android:id="@+id/trainee_homepage_menu"
     >
 
     <androidx.cardview.widget.CardView
         android:layout_width="350dp"
-        android:layout_height="450dp"
+        android:layout_height="wrap_content"
         app:cardBackgroundColor="#E6E5E5"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -33,9 +34,10 @@
 
             <androidx.cardview.widget.CardView
                 android:layout_marginBottom="20dp"
+                android:layout_marginTop="10dp"
                 android:id="@+id/plan_nutrition_card"
                 android:layout_width="300dp"
-                android:layout_height="350dp"
+                android:layout_height="wrap_content"
                 app:cardCornerRadius="20dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -52,7 +54,7 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="35dp" >
+                        android:layout_height="wrap_content" >
 
                         <TextView
                             android:layout_marginLeft="10dp"
@@ -65,15 +67,22 @@
                         <TextView
                             android:id="@+id/trainee_homepage_day_1"
                             android:layout_width="250dp"
-                            android:layout_height="35dp"
+                            android:layout_height="wrap_content"
                             android:textSize="20sp"
                             android:text="Day 1"
                             />
                     </LinearLayout>
 
+                    <View
+                        android:layout_marginTop="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_weight="1"
+                        android:background="?android:attr/listDivider" />
+
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="35dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="10dp">
 
                         <TextView
@@ -88,15 +97,22 @@
                         <TextView
                             android:id="@+id/trainee_homepage_day_2"
                             android:layout_width="250dp"
-                            android:layout_height="35dp"
+                            android:layout_height="wrap_content"
                             android:textSize="20sp"
                             android:text="Day 2"
                             />
                     </LinearLayout>
 
+                    <View
+                        android:layout_marginTop="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_weight="1"
+                        android:background="?android:attr/listDivider" />
+
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="35dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="10dp">
 
                         <TextView
@@ -111,15 +127,22 @@
                         <TextView
                             android:id="@+id/trainee_homepage_day_3"
                             android:layout_width="250dp"
-                            android:layout_height="35dp"
+                            android:layout_height="wrap_content"
                             android:textSize="20sp"
                             android:text="Day 3"
                             />
                     </LinearLayout>
 
+                    <View
+                        android:layout_marginTop="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_weight="1"
+                        android:background="?android:attr/listDivider" />
+
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="35dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="10dp">
 
                         <TextView
@@ -134,15 +157,22 @@
                         <TextView
                             android:id="@+id/trainee_homepage_day_4"
                             android:layout_width="250dp"
-                            android:layout_height="35dp"
+                            android:layout_height="wrap_content"
                             android:textSize="20sp"
                             android:text="Day 4"
                             />
                     </LinearLayout>
 
+                    <View
+                        android:layout_marginTop="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_weight="1"
+                        android:background="?android:attr/listDivider" />
+
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="35dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="10dp">
 
                         <TextView
@@ -157,15 +187,22 @@
                         <TextView
                             android:id="@+id/trainee_homepage_day_5"
                             android:layout_width="250dp"
-                            android:layout_height="35dp"
+                            android:layout_height="wrap_content"
                             android:textSize="20sp"
                             android:text="Day 5"
                             />
                     </LinearLayout>
 
+                    <View
+                        android:layout_marginTop="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_weight="1"
+                        android:background="?android:attr/listDivider" />
+
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="35dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="10dp">
 
                         <TextView
@@ -180,15 +217,22 @@
                         <TextView
                             android:id="@+id/trainee_homepage_day_6"
                             android:layout_width="250dp"
-                            android:layout_height="35dp"
+                            android:layout_height="wrap_content"
                             android:textSize="20sp"
                             android:text="Day 6"
                             />
                     </LinearLayout>
 
+                    <View
+                        android:layout_marginTop="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_weight="1"
+                        android:background="?android:attr/listDivider" />
+
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="35dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         >
 
@@ -203,9 +247,10 @@
                         <TextView
                             android:id="@+id/trainee_homepage_cheat_day"
                             android:layout_width="250dp"
-                            android:layout_height="35dp"
+                            android:layout_height="wrap_content"
                             android:textSize="20sp"
                             android:text="Cheat Day"
+                            android:layout_marginBottom="10dp"
                             />
                     </LinearLayout>
 

@@ -31,6 +31,7 @@ public class RegisterByTypeActivity extends AppCompatActivity {
         move.putExtra("email", email_address);
         move.putExtra("password",password);
         startActivity(move);
+        finish();
     }
 
 
@@ -40,5 +41,6 @@ public class RegisterByTypeActivity extends AppCompatActivity {
         move.putExtra("email", email_address);
         move.putExtra("password",password);
         startActivity(move);
+        finish();
     }
 }

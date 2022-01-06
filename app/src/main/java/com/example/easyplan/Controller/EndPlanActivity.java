@@ -93,8 +93,7 @@ public class EndPlanActivity extends AppCompatActivity {
 
             }
         });
-        Intent move = new Intent(EndPlanActivity.this , SplashScreenActivity.class);
-        move.putExtra("Flag","true");
+        Intent move = new Intent(EndPlanActivity.this , TraineeHomepageActivity.class);
         startActivity(move);
         finish();
     }

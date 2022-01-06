@@ -2,11 +2,12 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="490dp">
+    android:layout_marginTop="20dp"
+    android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
         android:layout_width="350dp"
-        android:layout_height="450dp"
+        android:layout_height="wrap_content"
         app:cardBackgroundColor="#E6E5E5"
 
         app:layout_constraintBottom_toBottomOf="parent"
@@ -14,7 +15,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
+            android:orientation="vertical"
+            android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/frame_background">
@@ -23,18 +26,20 @@
                 android:id="@+id/new_plan_nutrition_image"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:layout_marginTop="10dp"
                 android:src="@drawable/checklist_logo"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.034" />
+                app:layout_constraintVertical_bias="0.034"
+                android:layout_marginBottom="10dp"/>
 
             <androidx.cardview.widget.CardView
                 android:layout_marginBottom="20dp"
                 android:id="@+id/new_plan_nutrition_card"
                 android:layout_width="300dp"
-                android:layout_height="350dp"
+                android:layout_height="wrap_content"
                 app:cardCornerRadius="20dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -45,13 +50,14 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:gravity="center">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="35dp" >
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp">
 
                         <TextView
                             android:layout_marginLeft="10dp"
@@ -63,18 +69,29 @@
 
                         <EditText
                             android:id="@+id/make_plan_day_1"
+                            android:inputType="textMultiLine"
                             android:layout_width="250dp"
-                            android:layout_height="35dp"
+                            android:layout_height="wrap_content"
                             android:windowSoftInputMode="adjustPan"
                             android:textSize="15sp"
                             android:background="@drawable/edit_text_background"
                             android:hint="Day 1"
                             />
+
+
                     </LinearLayout>
+
+
+                    <View
+                        android:layout_marginTop="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_weight="1"
+                        android:background="?android:attr/listDivider" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="35dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="10dp">
 
                         <TextView
@@ -87,8 +104,9 @@
 
                         <EditText
                             android:id="@+id/make_plan_day_2"
+                            android:inputType="textMultiLine"
                             android:layout_width="250dp"
-                            android:layout_height="35dp"
+                            android:layout_height="wrap_content"
                             android:windowSoftInputMode="adjustPan"
                             android:textSize="15sp"
                             android:background="@drawable/edit_text_background"
@@ -96,9 +114,16 @@
                             />
                     </LinearLayout>
 
+                    <View
+                        android:layout_marginTop="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_weight="1"
+                        android:background="?android:attr/listDivider" />
+
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="35dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="10dp">
 
                         <TextView
@@ -113,15 +138,23 @@
                             android:id="@+id/make_plan_day_3"
                             android:layout_width="250dp"
                             android:windowSoftInputMode="adjustPan"
-                            android:layout_height="35dp"
+                            android:layout_height="wrap_content"
+                            android:inputType="textMultiLine"
                             android:background="@drawable/edit_text_background"
                             android:hint="Day 3"
                             android:textSize="15sp" />
                     </LinearLayout>
 
+                    <View
+                        android:layout_marginTop="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_weight="1"
+                        android:background="?android:attr/listDivider" />
+
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="35dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="10dp">
 
                         <TextView
@@ -136,16 +169,24 @@
                             android:id="@+id/make_plan_day_4"
                             android:layout_width="250dp"
                             android:windowSoftInputMode="adjustPan"
-                            android:layout_height="35dp"
+                            android:layout_height="wrap_content"
                             android:textSize="15sp"
+                            android:inputType="textMultiLine"
                             android:background="@drawable/edit_text_background"
                             android:hint="Day 4"
                             />
                     </LinearLayout>
 
+                    <View
+                        android:layout_marginTop="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_weight="1"
+                        android:background="?android:attr/listDivider" />
+
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="35dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="10dp">
 
                         <TextView
@@ -160,16 +201,24 @@
                             android:id="@+id/make_plan_day_5"
                             android:layout_width="250dp"
                             android:windowSoftInputMode="adjustPan"
-                            android:layout_height="35dp"
+                            android:layout_height="wrap_content"
+                            android:inputType="textMultiLine"
                             android:textSize="15sp"
                             android:background="@drawable/edit_text_background"
                             android:hint="Day 5"
                             />
                     </LinearLayout>
 
+                    <View
+                        android:layout_marginTop="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_weight="1"
+                        android:background="?android:attr/listDivider" />
+
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="35dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="10dp">
 
                         <TextView
@@ -183,7 +232,8 @@
                         <EditText
                             android:id="@+id/make_plan_day_6"
                             android:layout_width="250dp"
-                            android:layout_height="35dp"
+                            android:layout_height="wrap_content"
+                            android:inputType="textMultiLine"
                             android:windowSoftInputMode="adjustPan"
                             android:textSize="15sp"
                             android:background="@drawable/edit_text_background"
@@ -191,9 +241,16 @@
                             />
                     </LinearLayout>
 
+                    <View
+                        android:layout_marginTop="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_weight="1"
+                        android:background="?android:attr/listDivider" />
+
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="35dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="10dp">
 
                         <TextView
@@ -205,20 +262,23 @@
                             android:textSize="25sp"/>
                         <EditText
                             android:id="@+id/make_plan_cheat_day"
+                            android:inputType="textMultiLine"
                             android:layout_width="250dp"
                             android:windowSoftInputMode="adjustPan"
-                            android:layout_height="35dp"
+                            android:layout_height="wrap_content"
                             android:textSize="15sp"
                             android:background="@drawable/edit_text_background"
                             android:hint="Cheat Day"
+                            android:layout_marginBottom="10dp"
                             />
                     </LinearLayout>
+
 
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
 
     </androidx.cardview.widget.CardView>
 

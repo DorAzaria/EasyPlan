@@ -23,6 +23,17 @@
         android:theme="@style/Theme.EasyPlan">
 
         <activity
+            android:name=".Controller.SplashScreenActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+
+        <activity
             android:name=".Controller.EndPlanActivity"
             android:exported="false" />
         <activity
@@ -62,16 +73,7 @@
         <activity
             android:name=".Controller.LoginActivity"
             android:exported="false" />
-        <activity
-            android:name=".Controller.SplashScreenActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
-        </activity>
         <service
             android:name=".Model.FirebaseMessagingService"
             android:permission="TODO"

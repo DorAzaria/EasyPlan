@@ -44,14 +44,6 @@ public class SplashScreenActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash_screen);
         model = new FirebaseData();
 
-
-
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
         ConstraintLayout constraintLayout = findViewById(R.id.splash_layout);
         AnimationDrawable animationDrawable = (AnimationDrawable) constraintLayout.getBackground();
         animationDrawable.setEnterFadeDuration(1000);
@@ -65,6 +57,7 @@ public class SplashScreenActivity extends AppCompatActivity {
             }
 
         }, SPLASH_DISPLAY_LENGTH);
+
     }
 
     //////**********************************************////////////
