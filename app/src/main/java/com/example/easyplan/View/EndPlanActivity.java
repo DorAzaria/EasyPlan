@@ -19,7 +19,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class EndPlanActivity extends AppCompatActivity {
 
-    private Button end_plan_btn;
+    private Button end_plan_btn; // btn
     private String trainee_id, trainer_id;
     private RatingBar end_plan_toolbar_ratebar;
     private DatabaseReference reference;
