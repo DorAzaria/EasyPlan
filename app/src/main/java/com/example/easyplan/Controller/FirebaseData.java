@@ -1,4 +1,4 @@
-package com.example.easyplan.Model;
+package com.example.easyplan.Controller;
 
 
 import android.app.Activity;
@@ -7,6 +7,9 @@ import android.net.Uri;
 
 import androidx.annotation.NonNull;
 
+import com.example.easyplan.Model.Plan;
+import com.example.easyplan.Model.Trainee;
+import com.example.easyplan.Model.Trainer;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;

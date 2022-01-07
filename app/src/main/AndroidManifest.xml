@@ -23,7 +23,7 @@
         android:theme="@style/Theme.EasyPlan">
 
         <activity
-            android:name=".Controller.SplashScreenActivity"
+            android:name=".View.SplashScreenActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,48 +34,48 @@
         </activity>
 
         <activity
-            android:name=".Controller.EndPlanActivity"
+            android:name=".View.EndPlanActivity"
             android:exported="false" />
         <activity
-            android:name=".Controller.TraineeHomepageActivity"
+            android:name=".View.TraineeHomepageActivity"
             android:exported="false" />
         <activity
-            android:name=".Controller.MakePlanActivity"
+            android:name=".View.MakePlanActivity"
             android:windowSoftInputMode="stateHidden|adjustPan"
             android:exported="false" />
         <activity
-            android:name=".Controller.ForgotPasswordActivity"
+            android:name=".View.ForgotPasswordActivity"
             android:exported="false" />
         <activity
-            android:name=".Controller.TraineeListActivity"
+            android:name=".View.TraineeListActivity"
             android:exported="false" />
         <activity
-            android:name=".Controller.RegisterTrainerActivity"
+            android:name=".View.RegisterTrainerActivity"
             android:exported="false" />
         <activity
-            android:name=".Controller.RegisterTraineeActivity"
+            android:name=".View.RegisterTraineeActivity"
             android:exported="false" />
         <activity
-            android:name=".Controller.SelectTargetActivity"
+            android:name=".View.SelectTargetActivity"
             android:exported="false" />
         <activity
-            android:name=".Controller.RegisterByTypeActivity"
+            android:name=".View.RegisterByTypeActivity"
             android:exported="false" />
         <activity
-            android:name=".Controller.TrainerHomepageActivity"
+            android:name=".View.TrainerHomepageActivity"
             android:exported="false" />
         <activity
-            android:name=".Controller.TrainerListActivity"
+            android:name=".View.TrainerListActivity"
             android:exported="false" />
         <activity
-            android:name=".Controller.RegisterActivity"
+            android:name=".View.RegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".Controller.LoginActivity"
+            android:name=".View.LoginActivity"
             android:exported="false" />
 
         <service
-            android:name=".Model.FirebaseMessagingService"
+            android:name=".Controller.FirebaseMessagingService"
             android:permission="TODO"
             tools:ignore="ExportedService">
             <intent-filter>

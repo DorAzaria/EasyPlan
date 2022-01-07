@@ -1,4 +1,4 @@
-package com.example.easyplan.Controller.adapters;
+package com.example.easyplan.View.adapters;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -14,15 +14,13 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.easyplan.Model.FirebaseData;
+import com.example.easyplan.Controller.FirebaseData;
 import com.example.easyplan.Model.Trainer;
 import com.example.easyplan.R;
-import com.example.easyplan.Controller.TrainerHomepageActivity;
+import com.example.easyplan.View.TrainerHomepageActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FileDownloadTask;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
 import java.io.IOException;

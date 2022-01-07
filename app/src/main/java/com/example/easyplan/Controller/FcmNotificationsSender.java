@@ -1,4 +1,4 @@
-package com.example.easyplan.Model;
+package com.example.easyplan.Controller;
 
 import android.app.Activity;
 import android.content.Context;

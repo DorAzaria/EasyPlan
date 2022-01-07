@@ -1,4 +1,4 @@
-package com.example.easyplan.Controller;
+package com.example.easyplan.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 

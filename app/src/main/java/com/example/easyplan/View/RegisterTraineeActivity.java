@@ -1,4 +1,4 @@
-package com.example.easyplan.Controller;
+package com.example.easyplan.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -8,7 +8,6 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -22,7 +21,7 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-import com.example.easyplan.Model.FirebaseData;
+import com.example.easyplan.Controller.FirebaseData;
 import com.example.easyplan.Model.Trainee;
 import com.example.easyplan.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -30,12 +29,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-
-import java.io.IOException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 

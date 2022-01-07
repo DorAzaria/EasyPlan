@@ -1,4 +1,4 @@
-package com.example.easyplan.Controller;
+package com.example.easyplan.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,7 +23,7 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-import com.example.easyplan.Model.FirebaseData;
+import com.example.easyplan.Controller.FirebaseData;
 import com.example.easyplan.Model.Trainer;
 import com.example.easyplan.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -31,10 +31,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;

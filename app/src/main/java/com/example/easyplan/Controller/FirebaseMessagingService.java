@@ -1,4 +1,4 @@
-package com.example.easyplan.Model;
+package com.example.easyplan.Controller;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -16,7 +16,7 @@ import androidx.core.app.NotificationCompat;
 
 
 import com.example.easyplan.R;
-import com.example.easyplan.Controller.SplashScreenActivity;
+import com.example.easyplan.View.SplashScreenActivity;
 import com.google.firebase.messaging.RemoteMessage;
 
 import java.util.Random;
